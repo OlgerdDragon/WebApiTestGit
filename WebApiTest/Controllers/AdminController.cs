@@ -7,20 +7,21 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using WebApiTest.Data.Interface;
 using WebApiTest.Models;
+using WebApiTest.Services.AdminService;
 
 namespace WebApiTest.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
-        private readonly IShopsService _allShops;
-        private readonly IProductsService _allProducts;
-        public AdminController(IShopsService iAllShops, IProductsService iAllProducts)
+        private readonly IAdminService _adminService;
+
+        public AdminController(IAdminService adminService)
         {
-            _allShops = iAllShops;
-            _allProducts = iAllProducts;
+            _adminService = adminService;
         }
+       
         [HttpGet]
         public string Get()
         {
@@ -29,63 +30,107 @@ namespace WebApiTest.Controllers
 
         [HttpGet]
         [Route("GetShopsList")]
-        public string GetShopsList()
-        {
-            string shopList = JsonSerializer.Serialize<IEnumerable<Shop>>(_allShops.AllShops);
-            return shopList;
-        }
+        public async Task<ActionResult<IEnumerable<Shop>>> GetShopItems() => await _adminService.GetShopsAsync();
+
         [HttpGet]
         [Route("GetProductList")]
-        public string GetProductsList(int shopID)
-        {
-            string productList = JsonSerializer.Serialize<IEnumerable<Product>>(_allProducts.AllProducts(shopID));
-            return productList;
-        }
-        [HttpGet]
-        [Route("AddProductInBd")]
-        public string AddProduct(int productID, string productName, int price)
-        {
-            _allShops.AddProduct(productID, productName, price);
-            return "I add product in BD!    :)";
-        }
-        [HttpGet]
-        [Route("AddProductInShop")]
-        public string AddProductInShops(int shopID, int productID)
-        {
-            _allShops.AddProductInShop(shopID, productID);
-            return "I add product in shop!    :)";
-        }
-        [HttpGet]
-        [Route("AddShop")]
-        public string AddShop(int shopID, string shopName)
-        {
-            _allShops.AddShop(shopID, shopName);
-            return "I add shop!    :)";
-        }
+        public async Task<ActionResult<IEnumerable<Product>>> GetProductItems() => await _adminService.GetProductsAsync();
 
-        [HttpGet]
-        [Route("RemoveShop")]
-        public string RemoveShop(int shopID)
-        {
-            _allShops.RemoveShop(shopID);
-            return "I removed Shop!    ";
-        }
-
-        [HttpGet]
+        [HttpDelete("{id}")]
         [Route("RemoveProduct")]
-        public string RemoveProduct(int shopID, int productID)
+        public async Task<IActionResult> DeleteProductItem(long id)
         {
-            _allShops.RemoveProduct(productID);
-            return "I removed Product!    ";
-        }
+            var todoItem = await _adminService.FindProductAsync(id);
 
-        [HttpGet]
-        [Route("RemoveProductInShop")]
-        public string RemoveProductInShop(int shopID, int productID)
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            _adminService.RemoveProduct(todoItem);
+            await _adminService.SaveChangesAsync();
+
+            return NoContent();
+        }
+        [HttpDelete("{id}")]
+        [Route("RemoveShop")]
+        public async Task<IActionResult> DeleteShopItem(long id)
         {
-            _allShops.RemoveProductInShop(shopID, productID);
-            return "I removed Product in Shop!    ";
-        }
+            var todoItem = await _adminService.FindShopAsync(id);
 
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            _adminService.RemoveShop(todoItem);
+            await _adminService.SaveChangesAsync();
+
+            return NoContent();
+        }
+        [HttpGet("{id}")]
+        [Route("GetProduct")]
+        public async Task<ActionResult<Product>> GetProductItem(long id)
+        {
+            var todoItem = await _adminService.FindProductAsync(id);
+
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            return todoItem;
+        }
+        [HttpGet("{id}")]
+        [Route("GetProduct")]
+        public async Task<ActionResult<Shop>> GetShopItem(long id)
+        {
+            var todoItem = await _adminService.FindShopAsync(id);
+
+            if (todoItem == null)
+            {
+                return NotFound();
+            }
+
+            return todoItem;
+        }
+        [HttpPost]
+        [Route("PostProduct")]
+        public async Task<ActionResult<Product>> CreateProductItem(Product productItem)
+        {
+            var _productItem = new Product
+            {
+                Id = productItem.Id,
+                Name = productItem.Name,
+                Price = productItem.Price,
+                ShopId = productItem.Price
+            };
+
+            _adminService.AddProduct(_productItem);
+            await _adminService.SaveChangesAsync();
+
+            return CreatedAtAction(
+                nameof(GetProductItem),
+                new { id = _productItem.Id },
+                _productItem);
+        }
+        [HttpPost]
+        [Route("PostShop")]
+        public async Task<ActionResult<Shop>> CreateShopItem(Shop productItem)
+        {
+            var _productItem = new Shop
+            {
+                Id = productItem.Id,
+                Name = productItem.Name,
+            };
+
+            _adminService.AddShop(_productItem);
+            await _adminService.SaveChangesAsync();
+
+            return CreatedAtAction(
+                nameof(GetProductItem),
+                new { id = _productItem.Id },
+                _productItem);
+        }
     }
 }

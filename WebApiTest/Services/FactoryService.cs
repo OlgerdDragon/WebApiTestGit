@@ -6,7 +6,7 @@ using WebApiTest.Models;
 
 namespace WebApiTest
 {
-    public class Factory
+    public class FactoryService
     {
         public static Product Product(int id, string productName, int productPrice)
         {

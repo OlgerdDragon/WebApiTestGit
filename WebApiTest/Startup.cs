@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using WebApiTest.Data.Interface;
-using WebApiTest.Data.Mocks;
 using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
 using WebApiTest.Services.ToDoService;
@@ -24,15 +23,13 @@ namespace WebApiTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IShopsService, MockShop>();
-            services.AddTransient<IProductsService, MockProduct>();
             services.AddScoped<IToDoService,ToDoService>();
             services.AddControllers();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
             
-            services.AddDbContext<TodoContext>(options => options
-                .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
+            //services.AddDbContext<TodoContext>(options => options
+            //    .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
 
             services.AddDbContext<TowerContext>(options => options
                 .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));

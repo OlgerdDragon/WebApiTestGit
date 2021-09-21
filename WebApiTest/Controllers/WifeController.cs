@@ -22,24 +22,8 @@ namespace WebApiTest.Controllers
         [HttpDelete]
         [Route("DeletedProduct")]
         public string GetNededProduct() { return "I done GetNededProduct"; }
-        [HttpGet]
-        [Route("GetBougthList")]
-        public string GetBougthList() 
-        {
-            string test = "";
-            SqlConnection conn = DBUtils.GetDBConnection();
-            conn.Open();
-            string getSQLBougthList = "SELECT TOP (1000) [ProductID],[ProductName],[ProductPrice] FROM[dbo].[Products]";
-            SqlCommand commandBougthList = new SqlCommand(getSQLBougthList,conn);
-            SqlDataReader reader = commandBougthList.ExecuteReader();
-            while (reader.Read())
-            {
-                test += reader[1].ToString();
-                test += " ";
-            }
-
-            return "I done GetBougthList" + test;
-        }
+       
+        
         
     }
 }

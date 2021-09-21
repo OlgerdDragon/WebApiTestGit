@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 using WebApiTest.Data.Interface;
 using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
-using WebApiTest.Services.ToDoService;
+using WebApiTest.Services.AdminService;
 
 namespace WebApiTest
 {
@@ -23,7 +23,7 @@ namespace WebApiTest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IToDoService,ToDoService>();
+            services.AddScoped<IAdminService, AdminService>();
             services.AddControllers();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";

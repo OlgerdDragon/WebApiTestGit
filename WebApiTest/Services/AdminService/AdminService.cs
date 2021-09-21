@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
 using WebApiTest.Models;
-using WebApiTest.Services.ToDoService.Dto;
 
 namespace WebApiTest.Services.AdminService
 {

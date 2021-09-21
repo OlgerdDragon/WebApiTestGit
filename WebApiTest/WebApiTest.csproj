@@ -33,4 +33,9 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="Services\WifeSource\" />
+  </ItemGroup>
+
 </Project>

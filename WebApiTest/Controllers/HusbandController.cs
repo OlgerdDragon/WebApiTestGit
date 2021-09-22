@@ -1,16 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using WebApiTest.Models;
+using WebApiTest.Services.HusbandService;
 
 namespace WebApiTest.Controllers
 {
+    [ApiController]
+    [Route("api/husband/[controller]")]
     public class HusbandController : Controller
     {
+        private readonly IHusbandService _husbandService;
+
+        public HusbandController(IHusbandService husbandService)
+        {
+            _husbandService = husbandService;
+        }
+
+        [HttpGet]
+        public string Get()
+        {
+            return "Hello Husband!";
+        }
+
         [HttpGet]
         [Route("GetNededProduct")]
-        public string GetNededProduct() { return "NededProduct"; }
+        public async Task<ActionResult<IEnumerable<WantedList>>> GetShopItems() => await _husbandService.GetWantedListAsync();
         [HttpGet]
         [Route("GetShopsListForVisited")]
         public string GetShopsListForVisited() { return "ShopsListForVisited"; }

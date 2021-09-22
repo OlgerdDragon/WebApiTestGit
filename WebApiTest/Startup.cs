@@ -4,10 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using WebApiTest.Data.Interface;
 using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
 using WebApiTest.Services.AdminService;
+using WebApiTest.Services.HusbandService;
+using WebApiTest.Services.WifeService;
 
 namespace WebApiTest
 {
@@ -24,6 +25,8 @@ namespace WebApiTest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IHusbandService, HusbandService>();
+            services.AddScoped<IWifeService, WifeService>();
             services.AddControllers();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";

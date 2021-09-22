@@ -1,18 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
-using WebApiTest.Data.Interface;
 using WebApiTest.Models;
 using WebApiTest.Services.AdminService;
 
 namespace WebApiTest.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -40,14 +35,14 @@ namespace WebApiTest.Controllers
         [Route("RemoveProduct")]
         public async Task<IActionResult> DeleteProductItem(long id)
         {
-            var todoItem = await _adminService.FindProductAsync(id);
+            var productItem = await _adminService.FindProductAsync(id);
 
-            if (todoItem == null)
+            if (productItem == null)
             {
                 return NotFound();
             }
 
-            _adminService.RemoveProduct(todoItem);
+            _adminService.RemoveProduct(productItem);
             await _adminService.SaveChangesAsync();
 
             return NoContent();
@@ -56,14 +51,14 @@ namespace WebApiTest.Controllers
         [Route("RemoveShop")]
         public async Task<IActionResult> DeleteShopItem(long id)
         {
-            var todoItem = await _adminService.FindShopAsync(id);
+            var shopItem = await _adminService.FindShopAsync(id);
 
-            if (todoItem == null)
+            if (shopItem == null)
             {
                 return NotFound();
             }
 
-            _adminService.RemoveShop(todoItem);
+            _adminService.RemoveShop(shopItem);
             await _adminService.SaveChangesAsync();
 
             return NoContent();
@@ -72,65 +67,51 @@ namespace WebApiTest.Controllers
         [Route("GetProduct")]
         public async Task<ActionResult<Product>> GetProductItem(long id)
         {
-            var todoItem = await _adminService.FindProductAsync(id);
+            var productItem = await _adminService.FindProductAsync(id);
 
-            if (todoItem == null)
+            if (productItem == null)
             {
                 return NotFound();
             }
 
-            return todoItem;
+            return productItem;
         }
         [HttpGet("{id}")]
         [Route("GetProduct")]
         public async Task<ActionResult<Shop>> GetShopItem(long id)
         {
-            var todoItem = await _adminService.FindShopAsync(id);
+            var shopItem = await _adminService.FindShopAsync(id);
 
-            if (todoItem == null)
+            if (shopItem == null)
             {
                 return NotFound();
             }
 
-            return todoItem;
+            return shopItem;
         }
         [HttpPost]
         [Route("PostProduct")]
         public async Task<ActionResult<Product>> CreateProductItem(Product productItem)
         {
-            var _productItem = new Product
-            {
-                Id = productItem.Id,
-                Name = productItem.Name,
-                Price = productItem.Price,
-                ShopId = productItem.Price
-            };
-
-            _adminService.AddProduct(_productItem);
+            _adminService.AddProduct(productItem);
             await _adminService.SaveChangesAsync();
 
             return CreatedAtAction(
                 nameof(GetProductItem),
-                new { id = _productItem.Id },
-                _productItem);
+                new { id = productItem.Id },
+                productItem);
         }
         [HttpPost]
         [Route("PostShop")]
-        public async Task<ActionResult<Shop>> CreateShopItem(Shop productItem)
+        public async Task<ActionResult<Shop>> CreateShopItem(Shop shopItem)
         {
-            var _productItem = new Shop
-            {
-                Id = productItem.Id,
-                Name = productItem.Name,
-            };
-
-            _adminService.AddShop(_productItem);
+            _adminService.AddShop(shopItem);
             await _adminService.SaveChangesAsync();
 
             return CreatedAtAction(
-                nameof(GetProductItem),
-                new { id = _productItem.Id },
-                _productItem);
+                nameof(GetShopItem),
+                new { id = shopItem.Id },
+                shopItem);
         }
     }
 }

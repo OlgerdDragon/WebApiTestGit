@@ -7,7 +7,7 @@ using WebApiTest.Models;
 
 namespace WebApiTest.Services.HusbandService
 {
-    public class HusbandService
+    public class HusbandService : IHusbandService
     {
 
         private readonly TowerContext _context;

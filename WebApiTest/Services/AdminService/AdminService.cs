@@ -54,13 +54,25 @@ namespace WebApiTest.Services.AdminService
         {
             return await _context.SaveChangesAsync();
         }
-        public void AddProduct(Product todoItem)
+        public void AddProduct(Product productItem)
         {
-            _context.Products.Add(todoItem);
+            var _productItem = new Product
+            {
+                Id = productItem.Id,
+                Name = productItem.Name,
+                Price = productItem.Price,
+                ShopId = productItem.Price
+            };
+            _context.Products.Add(_productItem);
         }
-        public void AddShop(Shop todoItem)
+        public void AddShop(Shop shopItem)
         {
-            _context.Shops.Add(todoItem);
+            var _shopItem = new Shop
+            {
+                Id = shopItem.Id,
+                Name = shopItem.Name,
+            };
+            _context.Shops.Add(_shopItem);
         }
     }
 }

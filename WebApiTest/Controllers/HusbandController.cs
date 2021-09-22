@@ -24,13 +24,14 @@ namespace WebApiTest.Controllers
         }
 
         [HttpGet]
-        [Route("GetNededProduct")]
-        public async Task<ActionResult<IEnumerable<WantedList>>> GetShopItems() => await _husbandService.GetWantedListAsync();
+        [Route("GetNeededProductList")]
+        public async Task<ActionResult<IEnumerable<WantedList>>> GetNeededProductList() => await _husbandService.GetWantedListAsync();
         [HttpGet]
-        [Route("GetShopsListForVisited")]
-        public string GetShopsListForVisited() { return "ShopsListForVisited"; }
-        [HttpGet]
-        [Route("GetProductListForBuy")]
-        public string GetProductListForBuy() { return "ProductListForBuy"; }
+        [Route("GetNeededShopList")]
+        public async Task<ActionResult<IEnumerable<Shop>>> GetNeededShopList() => await _husbandService.GetShopsForVisitAsync();
+
+        [HttpGet("{shopId}")]
+        [Route("GetNededProductListInShop")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetNededProductListInShop(int shopId) => await _husbandService.GetProductsInShopAsync(shopId);
     }
 }

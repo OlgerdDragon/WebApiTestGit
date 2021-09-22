@@ -48,7 +48,7 @@ namespace WebApiTest.Controllers
         }
         
         [HttpGet("{id}")]
-        [Route("GetWantedList")]
+        [Route("GetWantedListProduct")]
         public async Task<ActionResult<WantedList>> GetWantedListItem(long id)
         {
             var wantedListItem = await _wifeService.FindWantedListAsync(id);
@@ -78,7 +78,7 @@ namespace WebApiTest.Controllers
             return NoContent();
         }
         [HttpDelete]
-        [Route("RemoveAllWantedProduct")]
+        [Route("CreateWantedListProduct")]
         public async Task<IActionResult> DeleteAllProductItem()
         {
             _wifeService.RemoveAllWantedList();

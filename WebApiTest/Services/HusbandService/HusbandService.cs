@@ -25,21 +25,37 @@ namespace WebApiTest.Services.HusbandService
                 NameProduct = i.NameProduct
             }).ToListAsync();
         }
-        //public async Task<List<Shop>> GeShopsForVisitAsync()
-        //{
+        public async Task<List<Shop>> GetShopsForVisitAsync()
+        {
 
-        //    var wantedList = GetWantedListAsync();
-        //    wantedList
+            var neededProductList = GetWantedList();
+            var productList = GetProductList();
 
+            var neededShopList = new List<Shop>();
+            foreach (var neededProduct in neededProductList)
+            {
+                var productSearched = await _context.Products.FindAsync(neededProduct.NameProduct);
+                var shopSearched = await _context.Shops.FindAsync(productSearched.ShopId);
+                if (!neededShopList.Contains(shopSearched))
+                {
+                    neededShopList.Add(shopSearched);
+                }
+            }
 
+            return  neededShopList;
+        }
+        public async Task<List<Product>> GetProductsInShopAsync(int ShopId)
+        {
+            var neededProductList = GetWantedList();
 
-        //        return await _context.WantedLists.Select(i => new WantedList
-        //    {
-        //        Id = i.Id,
-        //        BoughtStatus = i.BoughtStatus,
-        //        NameProduct = i.NameProduct
-        //    }).ToListAsync();
-        //}
+            var productsList = new List<Product>();
+            foreach (var neededProduct in neededProductList)
+            {
+                var productSearched = await _context.Products.FindAsync(neededProduct.NameProduct, ShopId);
+            }
+
+            return productsList;
+        }
         public async Task<Shop> FindShopAsync(long id)
         {
             return await _context.Shops.FindAsync(id);
@@ -47,6 +63,25 @@ namespace WebApiTest.Services.HusbandService
         public async Task<Product> FindProductAsync(string name)
         {
             return await _context.Products.FindAsync(name);
+        }
+        List<WantedList> GetWantedList()
+        {
+            return _context.WantedLists.Select(i => new WantedList
+            {
+                Id = i.Id,
+                BoughtStatus = i.BoughtStatus,
+                NameProduct = i.NameProduct
+            }).ToList();
+        }
+        List<Product> GetProductList()
+        {
+            return _context.Products.Select(i => new Product
+            {
+                Id = i.Id,
+                Name = i.Name,
+                Price = i.Price,
+                ShopId = i.ShopId
+            }).ToList();
         }
     }
 }

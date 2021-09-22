@@ -23,6 +23,10 @@ namespace WebApiTest.Controllers
             return "Hello Wife!";
         }
 
+        [HttpGet]
+        [Route("GetStatusWantedList")]
+        public async Task<ActionResult<IEnumerable<WantedList>>> GetShopItems() => await _wifeService.GetWantedListAsync();
+
         [HttpPost]
         [Route("CreatedProductList")]
         public string CreatedProductList() 
@@ -73,5 +77,15 @@ namespace WebApiTest.Controllers
 
             return NoContent();
         }
+        [HttpDelete]
+        [Route("RemoveAllWantedProduct")]
+        public async Task<IActionResult> DeleteAllProductItem()
+        {
+            _wifeService.RemoveAllWantedList();
+            await _wifeService.SaveChangesAsync();
+
+            return NoContent();
+        }
+
     }
 }

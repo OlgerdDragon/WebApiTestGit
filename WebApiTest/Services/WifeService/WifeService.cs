@@ -15,6 +15,15 @@ namespace WebApiTest.Services.WifeService
         {
             _context = context;
         }
+        public async Task<List<WantedList>> GetWantedListAsync()
+        {
+            return await _context.WantedLists.Select(i => new WantedList
+            {
+                Id = i.Id,
+                BoughtStatus = i.BoughtStatus,
+                NameProduct = i.NameProduct
+            }).ToListAsync();
+        }
         public void AddProduct(WantedList wantedListItem)
         {
             var _wantedListItem = new WantedList
@@ -36,6 +45,19 @@ namespace WebApiTest.Services.WifeService
         public void RemoveWantedList(WantedList wantedListItem)
         {
             _context.WantedLists.Remove(wantedListItem);
+        }
+        public void RemoveAllWantedList()
+        {
+            var wantedList = _context.WantedLists.Select(i => new WantedList
+            {
+                Id = i.Id,
+                BoughtStatus = i.BoughtStatus,
+                NameProduct = i.NameProduct
+            }).ToList();
+            foreach (var item in wantedList)
+            {
+                _context.WantedLists.Remove(item);
+            }
         }
     }
 }

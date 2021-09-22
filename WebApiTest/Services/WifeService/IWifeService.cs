@@ -9,7 +9,7 @@ namespace WebApiTest.Services.WifeService
         public void AddProduct(WantedList wantedListItem);
         public Task<int> SaveChangesAsync();
         public Task<WantedList> FindWantedListAsync(long id);
-
+        public void RemoveWantedList(WantedList wantedListItem);
 
     }
 }

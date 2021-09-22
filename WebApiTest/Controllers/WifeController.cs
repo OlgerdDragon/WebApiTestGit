@@ -31,7 +31,7 @@ namespace WebApiTest.Controllers
             return "I done CreatedProductList"; 
         }
         [HttpPost]
-        [Route("AddProduct")]
+        [Route("AddWantedProduct")]
         public async Task<ActionResult<WantedList>> CreateProductItem(WantedList wantedListItem)
         {
             _wifeService.AddProduct(wantedListItem);
@@ -42,10 +42,7 @@ namespace WebApiTest.Controllers
                 new { id = wantedListItem.Id },
                 wantedListItem);
         }
-        [HttpDelete]
-        [Route("DeletedProduct")]
-        public string GetNededProduct() { return "I done GetNededProduct"; }
-
+        
         [HttpGet("{id}")]
         [Route("GetWantedList")]
         public async Task<ActionResult<WantedList>> GetWantedListItem(long id)
@@ -58,6 +55,23 @@ namespace WebApiTest.Controllers
             }
 
             return wantedListItem;
+        }
+
+        [HttpDelete("{id}")]
+        [Route("RemoveWantedProduct")]
+        public async Task<IActionResult> DeleteProductItem(long id)
+        {
+            var productItem = await _wifeService.FindWantedListAsync(id);
+
+            if (productItem == null)
+            {
+                return NotFound();
+            }
+
+            _wifeService.RemoveWantedList(productItem);
+            await _wifeService.SaveChangesAsync();
+
+            return NoContent();
         }
     }
 }

@@ -33,5 +33,9 @@ namespace WebApiTest.Services.WifeService
         {
             return await _context.WantedLists.FindAsync(id);
         }
+        public void RemoveWantedList(WantedList wantedListItem)
+        {
+            _context.WantedLists.Remove(wantedListItem);
+        }
     }
 }

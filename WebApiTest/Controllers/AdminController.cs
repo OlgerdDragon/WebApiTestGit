@@ -23,16 +23,13 @@ namespace WebApiTest.Controllers
             return "Hello Admin!";
         }
 
-        [HttpGet]
-        [Route("GetShopsList")]
+        [HttpGet("ShopsList")]
         public async Task<ActionResult<IEnumerable<Shop>>> GetShopItems() => await _adminService.GetShopsAsync();
 
-        [HttpGet]
-        [Route("GetProductList")]
+        [HttpGet("ProductList")]
         public async Task<ActionResult<IEnumerable<Product>>> GetProductItems() => await _adminService.GetProductsAsync();
 
-        [HttpDelete("{id}")]
-        [Route("RemoveProduct")]
+        [HttpDelete("RemoveProduct/{id}")]
         public async Task<IActionResult> DeleteProductItem(long id)
         {
             var productItem = await _adminService.FindProductAsync(id);
@@ -47,8 +44,7 @@ namespace WebApiTest.Controllers
 
             return NoContent();
         }
-        [HttpDelete("{id}")]
-        [Route("RemoveShop")]
+        [HttpDelete("RemoveShop/{id}")]
         public async Task<IActionResult> DeleteShopItem(long id)
         {
             var shopItem = await _adminService.FindShopAsync(id);
@@ -63,8 +59,7 @@ namespace WebApiTest.Controllers
 
             return NoContent();
         }
-        [HttpGet("{id}")]
-        [Route("GetProduct")]
+        [HttpGet("Product/{id}")]
         public async Task<ActionResult<Product>> GetProductItem(long id)
         {
             var productItem = await _adminService.FindProductAsync(id);
@@ -76,8 +71,7 @@ namespace WebApiTest.Controllers
 
             return productItem;
         }
-        [HttpGet("{id}")]
-        [Route("GetProduct")]
+        [HttpGet("Shop/{id}")]
         public async Task<ActionResult<Shop>> GetShopItem(long id)
         {
             var shopItem = await _adminService.FindShopAsync(id);
@@ -89,8 +83,7 @@ namespace WebApiTest.Controllers
 
             return shopItem;
         }
-        [HttpPost]
-        [Route("PostProduct")]
+        [HttpPost("Product")]
         public async Task<ActionResult<Product>> CreateProductItem(Product productItem)
         {
             _adminService.AddProduct(productItem);
@@ -101,8 +94,7 @@ namespace WebApiTest.Controllers
                 new { id = productItem.Id },
                 productItem);
         }
-        [HttpPost]
-        [Route("PostShop")]
+        [HttpPost("Shop")]
         public async Task<ActionResult<Shop>> CreateShopItem(Shop shopItem)
         {
             _adminService.AddShop(shopItem);

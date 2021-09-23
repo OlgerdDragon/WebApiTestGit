@@ -12,7 +12,25 @@ namespace WebApiTest.Data
         {
 
         }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Models.Product>()
+                .HasOne<Models.Shop>(p => p.Shop)
+                .WithMany(b => b.Products)
+                .HasForeignKey(o => o.ShopId)
+                .IsRequired();
+            modelBuilder.Entity<Models.Husband>()
+                .HasOne<Models.Wife>(p => p.Wife)
+                .WithMany(b => b.Husbands)
+                .HasForeignKey(o => o.WifeId)
+                .IsRequired();
+            modelBuilder.Entity<Models.Wife>()
+                .HasOne<Models.WantedList>(p => p.WantedList)
+                .WithMany(b => b.Wifes)
+                .HasForeignKey(o => o.WantedListId)
+                .IsRequired();
 
+        }
         public DbSet<Admin> Admins { get; set; }
         public DbSet<Husband> Husbands { get; set; }
         public DbSet<Product> Products { get; set; }
@@ -31,4 +49,6 @@ namespace WebApiTest.Data
                 .ConfigureWarnings(b => b.Ignore(RelationalEventId.ConnectionOpening))
                 .LogTo(Console.WriteLine);
     }
+
+    
 }

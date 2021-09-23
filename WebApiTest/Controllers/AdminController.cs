@@ -7,7 +7,7 @@ using WebApiTest.Services.AdminService;
 namespace WebApiTest.Controllers
 {
     [ApiController]
-    [Route("api/admin/[controller]")]
+    [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
@@ -16,8 +16,8 @@ namespace WebApiTest.Controllers
         {
             _adminService = adminService;
         }
-       
-        [HttpGet]
+
+        [HttpGet("Hello")]
         public string Get()
         {
             return "Hello Admin!";

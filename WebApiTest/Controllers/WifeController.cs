@@ -7,7 +7,7 @@ using WebApiTest.Services.WifeService;
 namespace WebApiTest.Controllers
 {
     [ApiController]
-    [Route("api/wife/[controller]")]
+    [Route("api/[controller]")]
     public class WifeController : Controller
     {
         private readonly IWifeService _wifeService;

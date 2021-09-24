@@ -33,7 +33,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductItems() => await _adminService.GetProductsAsync();
 
         [HttpDelete("RemoveProduct/{id}")]
-        public async Task<IActionResult> DeleteProductItem(long id)
+        public async Task<IActionResult> DeleteProductItem(int id)
         {
             var productItem = await _adminService.FindProductAsync(id);
 
@@ -63,7 +63,7 @@ namespace WebApiTest.Controllers
             return NoContent();
         }
         [HttpGet("Product/{id}")]
-        public async Task<ActionResult<ProductDto>> GetProductItem(long id)
+        public async Task<ActionResult<ProductDto>> GetProductItem(int id)
         {
             var productItem = await _adminService.FindProductAsync(id);
 

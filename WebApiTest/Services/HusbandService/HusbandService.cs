@@ -56,7 +56,7 @@ namespace WebApiTest.Services.HusbandService
 
             return productsList;
         }
-        public async Task<Shop> FindShopAsync(long id)
+        public async Task<Shop> FindShopAsync(int id)
         {
             return await _context.Shops.FindAsync(id);
         }

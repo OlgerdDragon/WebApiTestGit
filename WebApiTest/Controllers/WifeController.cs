@@ -39,7 +39,7 @@ namespace WebApiTest.Controllers
         }
         
         [HttpGet("WantedProduct/{id}")]
-        public async Task<ActionResult<WantedList>> GetWantedListItem(long id)
+        public async Task<ActionResult<WantedList>> GetWantedListItem(int id)
         {
             var wantedListItem = await _wifeService.FindWantedListAsync(id);
 
@@ -52,7 +52,7 @@ namespace WebApiTest.Controllers
         }
 
         [HttpDelete("RemoveWantedProduct/{id}")]
-        public async Task<IActionResult> DeleteProductItem(long id)
+        public async Task<IActionResult> DeleteProductItem(int id)
         {
             var productItem = await _wifeService.FindWantedListAsync(id);
 

@@ -38,7 +38,7 @@ namespace WebApiTest.Services.WifeService
         {
             return await _context.SaveChangesAsync();
         }
-        public async Task<WantedList> FindWantedListAsync(long id)
+        public async Task<WantedList> FindWantedListAsync(int id)
         {
             return await _context.WantedLists.FindAsync(id);
         }

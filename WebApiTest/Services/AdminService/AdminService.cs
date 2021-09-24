@@ -40,7 +40,7 @@ namespace WebApiTest.Services.AdminService
         {
             return await _context.Shops.FindAsync(id);
         }
-        public async Task<Product> FindProductAsync(long id)
+        public async Task<Product> FindProductAsync(int id)
         {
             return await _context.Products.FindAsync(id);
         }

@@ -5,6 +5,7 @@ using WebApiTest.Models;
 using WebApiTest.Services.AdminService;
 using WebApiTest.Models.Dto;
 using WebApiTest.Services.FactoryService;
+using System;
 
 namespace WebApiTest.Controllers
 {
@@ -47,7 +48,7 @@ namespace WebApiTest.Controllers
             return NoContent();
         }
         [HttpDelete("RemoveShop/{id}")]
-        public async Task<IActionResult> DeleteShopItem(long id)
+        public async Task<IActionResult> DeleteShopItem(int id)
         {
             var shopItem = await _adminService.FindShopAsync(id);
 
@@ -74,7 +75,7 @@ namespace WebApiTest.Controllers
             return ItemProductDTO(productItem);
         }
         [HttpGet("Shop/{id}")]
-        public async Task<ActionResult<ShopDto>> GetShopItem(long id)
+        public async Task<ActionResult<ShopDto>> GetShopItem(int id)
         {
             var shopItem = await _adminService.FindShopAsync(id);
 
@@ -88,7 +89,9 @@ namespace WebApiTest.Controllers
         [HttpPost("AddProduct")]
         public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productItemDto)
         {
-            var productItem = factory.Product(productItemDto);
+            var shop = _adminService.FindShopAsync(productItemDto.ShopId);
+            var productItem = factory.Product(productItemDto, shop.Result);
+            
             _adminService.AddProduct(productItem);
             await _adminService.SaveChangesAsync();
 

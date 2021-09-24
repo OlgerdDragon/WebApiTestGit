@@ -9,7 +9,7 @@ namespace WebApiTest.Services.AdminService
     {
         public Task<List<ProductDto>> GetProductsAsync();
         public Task<List<ShopDto>> GetShopsAsync();
-        public Task<Shop> FindShopAsync(long id);
+        public Task<Shop> FindShopAsync(int id);
         public Task<Product> FindProductAsync(long id);
         public void RemoveProduct(Product productDtoItem);
         public void RemoveShop(Shop shopDtoItem);

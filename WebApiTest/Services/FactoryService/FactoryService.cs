@@ -5,21 +5,23 @@ namespace WebApiTest.Services.FactoryService
 {
     public class FactoryService : IFactoryService
     {
-        public Product Product (ProductDto productItemDto)
+        public Product Product (ProductDto productItemDto, Shop shop)
         {
             return new Product
             {
-                Id = productItemDto.Id,
+                //Id = productItemDto.Id,
                 Name = productItemDto.Name,
                 Price = productItemDto.Price,
-                ShopId = productItemDto.Price
+                ShopId = productItemDto.Price,
+                Shop = shop
+                
             };
         }
         public Shop Shop (ShopDto productItemDto)
         {
             var r = new Shop
             {
-                Id = productItemDto.Id,
+                //Id = productItemDto.Id,
                 Name = productItemDto.Name
             };
             return r;
@@ -28,7 +30,7 @@ namespace WebApiTest.Services.FactoryService
         {
             return new WantedList
             {
-                Id = productItemDto.Id,
+                //Id = productItemDto.Id,
                 NameProduct = productItemDto.NameProduct,
                 BoughtStatus = productItemDto.BoughtStatus
             };

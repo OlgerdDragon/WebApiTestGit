@@ -36,7 +36,7 @@ namespace WebApiTest.Services.AdminService
                 Name = i.Name
             }).ToListAsync();
         }
-        public async Task<Shop> FindShopAsync(long id)
+        public async Task<Shop> FindShopAsync(int id)
         {
             return await _context.Shops.FindAsync(id);
         }

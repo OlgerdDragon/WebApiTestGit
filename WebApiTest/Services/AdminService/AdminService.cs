@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
 using WebApiTest.Models;
+using WebApiTest.Models.Dto;
+using WebApiTest.Services.FactoryService;
 
 namespace WebApiTest.Services.AdminService
 {
@@ -15,9 +17,9 @@ namespace WebApiTest.Services.AdminService
         {
             _context = context;
         }
-        public async Task<List<Product>> GetProductsAsync()
+        public async Task<List<ProductDto>> GetProductsAsync()
         {
-            return await _context.Products.Select(i => new Product
+            return await _context.Products.Select(i => new ProductDto
             {
                 Id = i.Id,
                 Name = i.Name,
@@ -26,9 +28,9 @@ namespace WebApiTest.Services.AdminService
             }).ToListAsync();
         }
 
-        public async Task<List<Shop>> GetShopsAsync()
+        public async Task<List<ShopDto>> GetShopsAsync()
         {
-            return await _context.Shops.Select(i => new Shop
+            return await _context.Shops.Select(i => new ShopDto
             {
                 Id = i.Id,
                 Name = i.Name
@@ -46,9 +48,9 @@ namespace WebApiTest.Services.AdminService
         {
             _context.Products.Remove(productItem);
         }
-        public void RemoveShop(Shop todoItem)
+        public void RemoveShop(Shop shopItem)
         {
-            _context.Shops.Remove(todoItem);
+            _context.Shops.Remove(shopItem);
         }
         public async Task<int> SaveChangesAsync()
         {
@@ -56,23 +58,17 @@ namespace WebApiTest.Services.AdminService
         }
         public void AddProduct(Product productItem)
         {
-            var _productItem = new Product
-            {
-                Id = productItem.Id,
-                Name = productItem.Name,
-                Price = productItem.Price,
-                ShopId = productItem.Price
-            };
-            _context.Products.Add(_productItem);
+            _context.Products.Add(productItem);
         }
         public void AddShop(Shop shopItem)
         {
-            var _shopItem = new Shop
-            {
-                Id = shopItem.Id,
-                Name = shopItem.Name,
-            };
-            _context.Shops.Add(_shopItem);
+            _context.Shops.Add(shopItem);
         }
+        private static ShopDto ItemToDTO(Shop todoItem) =>
+           new ShopDto
+           {
+               Id = todoItem.Id,
+               Name = todoItem.Name,
+           };
     }
 }

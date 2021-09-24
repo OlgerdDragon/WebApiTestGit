@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApiTest.Models;
 using WebApiTest.Services.AdminService;
+using WebApiTest.Models.Dto;
+using WebApiTest.Services.FactoryService;
 
 namespace WebApiTest.Controllers
 {
@@ -11,7 +13,7 @@ namespace WebApiTest.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
-
+        private IFactoryService factory = new FactoryService();
         public AdminController(IAdminService adminService)
         {
             _adminService = adminService;
@@ -24,10 +26,10 @@ namespace WebApiTest.Controllers
         }
 
         [HttpGet("ShopsList")]
-        public async Task<ActionResult<IEnumerable<Shop>>> GetShopItems() => await _adminService.GetShopsAsync();
+        public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItems() => await _adminService.GetShopsAsync();
 
         [HttpGet("ProductList")]
-        public async Task<ActionResult<IEnumerable<Product>>> GetProductItems() => await _adminService.GetProductsAsync();
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductItems() => await _adminService.GetProductsAsync();
 
         [HttpDelete("RemoveProduct/{id}")]
         public async Task<IActionResult> DeleteProductItem(long id)
@@ -60,7 +62,7 @@ namespace WebApiTest.Controllers
             return NoContent();
         }
         [HttpGet("Product/{id}")]
-        public async Task<ActionResult<Product>> GetProductItem(long id)
+        public async Task<ActionResult<ProductDto>> GetProductItem(long id)
         {
             var productItem = await _adminService.FindProductAsync(id);
 
@@ -69,10 +71,10 @@ namespace WebApiTest.Controllers
                 return NotFound();
             }
 
-            return productItem;
+            return ItemProductDTO(productItem);
         }
         [HttpGet("Shop/{id}")]
-        public async Task<ActionResult<Shop>> GetShopItem(long id)
+        public async Task<ActionResult<ShopDto>> GetShopItem(long id)
         {
             var shopItem = await _adminService.FindShopAsync(id);
 
@@ -81,29 +83,53 @@ namespace WebApiTest.Controllers
                 return NotFound();
             }
 
-            return shopItem;
+            return ItemShopDTO(shopItem);
         }
-        [HttpPost("Product")]
-        public async Task<ActionResult<Product>> CreateProductItem(Product productItem)
+        [HttpPost("AddProduct")]
+        public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productItemDto)
         {
+            var productItem = factory.Product(productItemDto);
             _adminService.AddProduct(productItem);
             await _adminService.SaveChangesAsync();
 
             return CreatedAtAction(
                 nameof(GetProductItem),
                 new { id = productItem.Id },
-                productItem);
+                productItemDto);
         }
-        [HttpPost("Shop")]
-        public async Task<ActionResult<Shop>> CreateShopItem(Shop shopItem)
+        [HttpPost("AddShop")]
+        public async Task<ActionResult<ShopDto>> AddShopItem(ShopDto shopItemDto)
         {
-            _adminService.AddShop(shopItem);
-            await _adminService.SaveChangesAsync();
-
-            return CreatedAtAction(
+            try
+            {
+                var shopItem = factory.Shop(shopItemDto);
+                _adminService.AddShop(shopItem);
+                await _adminService.SaveChangesAsync();
+                return CreatedAtAction(
                 nameof(GetShopItem),
                 new { id = shopItem.Id },
-                shopItem);
+                shopItemDto);
+            }
+            catch (System.Exception e)
+            {
+
+                throw;
+            }
+            
         }
+        private static ShopDto ItemShopDTO(Shop shopItem) =>
+           new ShopDto
+           {
+               Id = shopItem.Id,
+               Name = shopItem.Name
+           };
+        private static ProductDto ItemProductDTO(Product productItem) =>
+           new ProductDto
+           {
+               Id = productItem.Id,
+               Name = productItem.Name,
+               Price = productItem.Price,
+               ShopId = productItem.ShopId
+           };
     }
 }

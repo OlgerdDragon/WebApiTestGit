@@ -66,18 +66,34 @@ namespace WebApiTest.Services.HusbandService
             return null;
         }
         
-        public async Task<List<Product>> GetProductsInShopAsync(int ShopId)
+        public async Task<List<ProductDto>> GetProductsInShopAsync(int ShopId)
         {
             var neededProductList = GetWantedList();
-
-            var productsList = new List<Product>();
-            foreach (var neededProduct in neededProductList)
+            var productList = GetProductList();
+            var productInShop = new List<ProductDto>();
+            foreach (var product in productList)
             {
-                var productSearched = await _context.Products.FindAsync(neededProduct.NameProduct, ShopId);
+                if (product.ShopId == ShopId) 
+                    
+                    foreach (var neededProduct in neededProductList)
+                    {
+                        if (neededProduct.NameProduct==product.Name)
+                        {
+                            var newProduct = new ProductDto
+                            {
+                                Id = product.Id,
+                                Name = product.Name,
+                                Price = product.Price,
+                                ShopId = product.ShopId
+                            };
+                            productInShop?.Add((newProduct));
+                        }
+                    }
             }
-
-            return productsList;
+            return productInShop;
         }
+
+       
         public async Task<Shop> FindShopAsync(int id)
         {
             return await _context.Shops.FindAsync(id);

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
 using WebApiTest.Models;
+using WebApiTest.Models.Dto;
 
 namespace WebApiTest.Services.HusbandService
 {
@@ -11,39 +12,60 @@ namespace WebApiTest.Services.HusbandService
     {
 
         private readonly TowerContext _context;
+       
 
         public HusbandService(TowerContext context)
         {
             _context = context;
         }
-        public async Task<List<WantedList>> GetWantedListAsync()
+        public async Task<List<WantedListDto>> GetWantedListAsync()
         {
-            return await _context.WantedLists.Select(i => new WantedList
+            return await _context.WantedLists.Select(i => new WantedListDto
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
                 NameProduct = i.NameProduct
             }).ToListAsync();
         }
-        public async Task<List<Shop>> GetShopsForVisitAsync()
+        public async Task<List<ShopDto>> GetShopsForVisitAsync()
         {
-
+            
             var neededProductList = GetWantedList();
             var productList = GetProductList();
-
-            var neededShopList = new List<Shop>();
+            
+            var neededShopList = new List<ShopDto>();
             foreach (var neededProduct in neededProductList)
             {
-                var productSearched = await _context.Products.FindAsync(neededProduct.NameProduct);
-                var shopSearched = await _context.Shops.FindAsync(productSearched.ShopId);
-                if (!neededShopList.Contains(shopSearched))
+                var shopSearched = SearchShop(productList, neededProduct);
+                if (shopSearched == null) break;
+                
+                var shopSearchedDto = new ShopDto
                 {
-                    neededShopList.Add(shopSearched);
+                    Id = shopSearched.Id,
+                    Name = shopSearched.Name
+                };
+
+                if (!neededShopList.Contains(shopSearchedDto))
+                {
+                    neededShopList.Add(shopSearchedDto);
                 }
             }
 
-            return  neededShopList;
+            return neededShopList;
         }
+        Shop SearchShop(List<ProductDto> productList, WantedListDto neededProduct)
+        {
+            foreach (var product in productList)
+            {
+                if (product.Name == neededProduct.NameProduct)
+                {
+                    var productSearched = product;
+                    return _context.Shops.FindAsync(product.ShopId).Result;
+                }
+            }
+            return null;
+        }
+        
         public async Task<List<Product>> GetProductsInShopAsync(int ShopId)
         {
             var neededProductList = GetWantedList();
@@ -64,18 +86,18 @@ namespace WebApiTest.Services.HusbandService
         {
             return await _context.Products.FindAsync(name);
         }
-        List<WantedList> GetWantedList()
+        List<WantedListDto> GetWantedList()
         {
-            return _context.WantedLists.Select(i => new WantedList
+            return _context.WantedLists.Select(i => new WantedListDto
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
                 NameProduct = i.NameProduct
             }).ToList();
         }
-        List<Product> GetProductList()
+        List<ProductDto> GetProductList()
         {
-            return _context.Products.Select(i => new Product
+            return _context.Products.Select(i => new ProductDto
             {
                 Id = i.Id,
                 Name = i.Name,

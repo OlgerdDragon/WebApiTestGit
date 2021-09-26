@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApiTest.Models;
+using WebApiTest.Models.Dto;
 using WebApiTest.Services.HusbandService;
 
 namespace WebApiTest.Controllers
@@ -23,12 +24,12 @@ namespace WebApiTest.Controllers
             return "Hello Husband!";
         }
 
-        [HttpGet("NeededProductList")]
-        public async Task<ActionResult<IEnumerable<WantedList>>> GetNeededProductList() => await _husbandService.GetWantedListAsync();
-        [HttpGet("NeededShopList")]
-        public async Task<ActionResult<IEnumerable<Shop>>> GetNeededShopList() => await _husbandService.GetShopsForVisitAsync();
+        [HttpGet("ProductList")]
+        public async Task<ActionResult<IEnumerable<WantedListDto>>> GetNeededProductList() => await _husbandService.GetWantedListAsync();
+        [HttpGet("ShopList")]
+        public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList() => await _husbandService.GetShopsForVisitAsync();
 
-        [HttpGet("NededProductListInShop/{shopId}")]
+        [HttpGet("ProductListInShop/{shopId}")]
         public async Task<ActionResult<IEnumerable<Product>>> GetNededProductListInShop(int shopId) => await _husbandService.GetProductsInShopAsync(shopId);
     }
 }

@@ -23,10 +23,10 @@ namespace WebApiTest.Controllers
             return "Hello Wife!";
         }
 
-        [HttpGet("WantedList")]
+        [HttpGet("products")]
         public async Task<ActionResult<IEnumerable<WantedList>>> GetWantedList() => await _wifeService.GetWantedListAsync();
 
-        [HttpPost("AddWantedProduct")]
+        [HttpPost("product")]
         public async Task<ActionResult<WantedList>> CreateProductItem(WantedList wantedListItem)
         {
             _wifeService.AddProduct(wantedListItem);
@@ -38,7 +38,7 @@ namespace WebApiTest.Controllers
                 wantedListItem);
         }
         
-        [HttpGet("WantedProduct/{id}")]
+        [HttpGet("product/{id}")]
         public async Task<ActionResult<WantedList>> GetWantedListItem(int id)
         {
             var wantedListItem = await _wifeService.FindWantedListAsync(id);
@@ -51,8 +51,8 @@ namespace WebApiTest.Controllers
             return wantedListItem;
         }
 
-        [HttpDelete("RemoveWantedProduct/{id}")]
-        public async Task<IActionResult> DeleteProductItem(int id)
+        [HttpDelete("product/{id}")]
+        public async Task<IActionResult> DeleteWantedListItem(int id)
         {
             var productItem = await _wifeService.FindWantedListAsync(id);
 
@@ -66,7 +66,7 @@ namespace WebApiTest.Controllers
 
             return NoContent();
         }
-        [HttpDelete("CreateWantedList")]
+        [HttpDelete("products")]
         public async Task<IActionResult> DeleteAllProductItem()
         {
             _wifeService.RemoveAllWantedList();

@@ -24,12 +24,12 @@ namespace WebApiTest.Controllers
             return "Hello Husband!";
         }
 
-        [HttpGet("ProductList")]
+        [HttpGet("products")]
         public async Task<ActionResult<IEnumerable<WantedListDto>>> GetNeededProductList() => await _husbandService.GetWantedListAsync();
-        [HttpGet("ShopList")]
+        [HttpGet("shops")]
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList() => await _husbandService.GetShopsForVisitAsync();
 
-        [HttpGet("ProductListInShop/{shopId}")]
+        [HttpGet("products-in-shop/{shopId}")]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetNededProductListInShop(int shopId) => await _husbandService.GetProductsInShopAsync(shopId);
     }
 }

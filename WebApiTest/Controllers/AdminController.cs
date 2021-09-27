@@ -26,13 +26,13 @@ namespace WebApiTest.Controllers
             return "Hello Admin!";
         }
 
-        [HttpGet("ShopsList")]
+        [HttpGet("shops")]
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItems() => await _adminService.GetShopsAsync();
 
-        [HttpGet("ProductList")]
+        [HttpGet("products")]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductItems() => await _adminService.GetProductsAsync();
 
-        [HttpDelete("RemoveProduct/{id}")]
+        [HttpDelete("product/{id}")]
         public async Task<IActionResult> DeleteProductItem(int id)
         {
             var productItem = await _adminService.FindProductAsync(id);
@@ -47,7 +47,7 @@ namespace WebApiTest.Controllers
 
             return NoContent();
         }
-        [HttpDelete("RemoveShop/{id}")]
+        [HttpDelete("shop/{id}")]
         public async Task<IActionResult> DeleteShopItem(int id)
         {
             var shopItem = await _adminService.FindShopAsync(id);
@@ -62,7 +62,7 @@ namespace WebApiTest.Controllers
 
             return NoContent();
         }
-        [HttpGet("Product/{id}")]
+        [HttpGet("product/{id}")]
         public async Task<ActionResult<ProductDto>> GetProductItem(int id)
         {
             var productItem = await _adminService.FindProductAsync(id);
@@ -74,7 +74,7 @@ namespace WebApiTest.Controllers
 
             return ItemProductDTO(productItem);
         }
-        [HttpGet("Shop/{id}")]
+        [HttpGet("shop/{id}")]
         public async Task<ActionResult<ShopDto>> GetShopItem(int id)
         {
             var shopItem = await _adminService.FindShopAsync(id);
@@ -86,7 +86,7 @@ namespace WebApiTest.Controllers
 
             return ItemShopDTO(shopItem);
         }
-        [HttpPost("AddProduct")]
+        [HttpPost("product")]
         public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productItemDto)
         {
             var shop = _adminService.FindShopAsync(productItemDto.ShopId);
@@ -100,7 +100,7 @@ namespace WebApiTest.Controllers
                 new { id = productItem.Id },
                 productItemDto);
         }
-        [HttpPost("AddShop")]
+        [HttpPost("shop")]
         public async Task<ActionResult<ShopDto>> AddShopItem(ShopDto shopItemDto)
         {
             try

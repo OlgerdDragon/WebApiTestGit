@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApiTest.Models;
+using WebApiTest.Models.Dto;
 
 namespace WebApiTest.Services.WifeService
 {
     public interface IWifeService
     {
-        public Task<List<WantedList>> GetWantedListAsync(); 
-        public void AddProduct(WantedList wantedListItem);
+        public Task<List<WantedProduct>> GetWantedProductsAsync(); 
+        public void AddProduct(WantedProductDto wantedListItem);
         public Task<int> SaveChangesAsync();
-        public Task<WantedList> FindWantedListAsync(int id);
-        public void RemoveWantedList(WantedList wantedListItem);
-        public void RemoveAllWantedList();
+        public Task<WantedProduct> FindWantedProductAsync(int id);
+        public void RemoveWantedProduct(WantedProduct wantedListItem);
+        public void RemoveAllWantedProducts();
     }
 }

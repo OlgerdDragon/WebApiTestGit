@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace WebApiTest.Models
 {
-    public class WantedList
+    public class WantedProduct
     {
         public int Id { get; set; }
         public string NameProduct { get; set; }

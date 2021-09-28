@@ -91,7 +91,7 @@ namespace WebApiTest.Migrations
                     b.ToTable("Shops");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.WantedList", b =>
+            modelBuilder.Entity("WebApiTest.Models.WantedProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -106,7 +106,7 @@ namespace WebApiTest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WantedLists");
+                    b.ToTable("WantedProducts");
                 });
 
             modelBuilder.Entity("WebApiTest.Models.Wife", b =>
@@ -119,12 +119,12 @@ namespace WebApiTest.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WantedListId")
+                    b.Property<int>("WantedProductId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WantedListId");
+                    b.HasIndex("WantedProductId");
 
                     b.ToTable("Wifes");
                 });
@@ -153,13 +153,13 @@ namespace WebApiTest.Migrations
 
             modelBuilder.Entity("WebApiTest.Models.Wife", b =>
                 {
-                    b.HasOne("WebApiTest.Models.WantedList", "WantedList")
+                    b.HasOne("WebApiTest.Models.WantedProduct", "WantedProduct")
                         .WithMany("Wifes")
-                        .HasForeignKey("WantedListId")
+                        .HasForeignKey("WantedProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("WantedList");
+                    b.Navigation("WantedProduct");
                 });
 
             modelBuilder.Entity("WebApiTest.Models.Shop", b =>
@@ -167,7 +167,7 @@ namespace WebApiTest.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.WantedList", b =>
+            modelBuilder.Entity("WebApiTest.Models.WantedProduct", b =>
                 {
                     b.Navigation("Wifes");
                 });

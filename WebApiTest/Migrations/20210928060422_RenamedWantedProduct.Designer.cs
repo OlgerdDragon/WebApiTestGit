@@ -9,8 +9,8 @@ using WebApiTest.Data;
 namespace WebApiTest.Migrations
 {
     [DbContext(typeof(TowerContext))]
-    [Migration("20210924092632_typeIsLong")]
-    partial class typeIsLong
+    [Migration("20210928060422_RenamedWantedProduct")]
+    partial class RenamedWantedProduct
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,9 +22,9 @@ namespace WebApiTest.Migrations
 
             modelBuilder.Entity("WebApiTest.Models.Admin", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
@@ -37,16 +37,16 @@ namespace WebApiTest.Migrations
 
             modelBuilder.Entity("WebApiTest.Models.Husband", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("WifeId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("WifeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -57,19 +57,19 @@ namespace WebApiTest.Migrations
 
             modelBuilder.Entity("WebApiTest.Models.Product", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("Price")
-                        .HasColumnType("bigint");
+                    b.Property<int>("Price")
+                        .HasColumnType("int");
 
-                    b.Property<long>("ShopId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("ShopId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -80,9 +80,9 @@ namespace WebApiTest.Migrations
 
             modelBuilder.Entity("WebApiTest.Models.Shop", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
@@ -93,11 +93,11 @@ namespace WebApiTest.Migrations
                     b.ToTable("Shops");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.WantedList", b =>
+            modelBuilder.Entity("WebApiTest.Models.WantedProduct", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("BoughtStatus")
@@ -108,25 +108,25 @@ namespace WebApiTest.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("WantedLists");
+                    b.ToTable("WantedProducts");
                 });
 
             modelBuilder.Entity("WebApiTest.Models.Wife", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("WantedListId")
-                        .HasColumnType("bigint");
+                    b.Property<int>("WantedProductId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WantedListId");
+                    b.HasIndex("WantedProductId");
 
                     b.ToTable("Wifes");
                 });
@@ -155,13 +155,13 @@ namespace WebApiTest.Migrations
 
             modelBuilder.Entity("WebApiTest.Models.Wife", b =>
                 {
-                    b.HasOne("WebApiTest.Models.WantedList", "WantedList")
+                    b.HasOne("WebApiTest.Models.WantedProduct", "WantedProduct")
                         .WithMany("Wifes")
-                        .HasForeignKey("WantedListId")
+                        .HasForeignKey("WantedProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("WantedList");
+                    b.Navigation("WantedProduct");
                 });
 
             modelBuilder.Entity("WebApiTest.Models.Shop", b =>
@@ -169,7 +169,7 @@ namespace WebApiTest.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.WantedList", b =>
+            modelBuilder.Entity("WebApiTest.Models.WantedProduct", b =>
                 {
                     b.Navigation("Wifes");
                 });

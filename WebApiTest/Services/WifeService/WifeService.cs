@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
 using WebApiTest.Models;
+using WebApiTest.Models.Dto;
 
 namespace WebApiTest.Services.WifeService
 {
@@ -15,48 +16,48 @@ namespace WebApiTest.Services.WifeService
         {
             _context = context;
         }
-        public async Task<List<WantedList>> GetWantedListAsync()
+        public async Task<List<WantedProduct>> GetWantedProductsAsync()
         {
-            return await _context.WantedLists.Select(i => new WantedList
+            return await _context.WantedProducts.Select(i => new WantedProduct
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
                 NameProduct = i.NameProduct
             }).ToListAsync();
         }
-        public void AddProduct(WantedList wantedListItem)
+        public void AddProduct(WantedProductDto wantedProductItem)
         {
-            var _wantedListItem = new WantedList
+            var _wantedProductItem = new WantedProduct
             {
-                Id = wantedListItem.Id,
-                NameProduct = wantedListItem.NameProduct,
-                BoughtStatus = wantedListItem.BoughtStatus
+                Id = wantedProductItem.Id,
+                NameProduct = wantedProductItem.NameProduct,
+                BoughtStatus = wantedProductItem.BoughtStatus
             };
-            _context.WantedLists.Add(_wantedListItem);
+            _context.WantedProducts.Add(_wantedProductItem);
         }
         public async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }
-        public async Task<WantedList> FindWantedListAsync(int id)
+        public async Task<WantedProduct> FindWantedProductAsync(int id)
         {
-            return await _context.WantedLists.FindAsync(id);
+            return await _context.WantedProducts.FindAsync(id);
         }
-        public void RemoveWantedList(WantedList wantedListItem)
+        public void RemoveWantedProduct(WantedProduct wantedProductItem)
         {
-            _context.WantedLists.Remove(wantedListItem);
+            _context.WantedProducts.Remove(wantedProductItem);
         }
-        public void RemoveAllWantedList()
+        public void RemoveAllWantedProducts()
         {
-            var wantedList = _context.WantedLists.Select(i => new WantedList
+            var wantedProductList = _context.WantedProducts.Select(i => new WantedProduct
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
                 NameProduct = i.NameProduct
             }).ToList();
-            foreach (var item in wantedList)
+            foreach (var item in wantedProductList)
             {
-                _context.WantedLists.Remove(item);
+                _context.WantedProducts.Remove(item);
             }
         }
     }

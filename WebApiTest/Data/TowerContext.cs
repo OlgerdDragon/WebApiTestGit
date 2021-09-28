@@ -25,9 +25,9 @@ namespace WebApiTest.Data
                 .HasForeignKey(o => o.WifeId)
                 .IsRequired();
             modelBuilder.Entity<Models.Wife>()
-                .HasOne<Models.WantedList>(p => p.WantedList)
+                .HasOne<Models.WantedProduct>(p => p.WantedProduct)
                 .WithMany(b => b.Wifes)
-                .HasForeignKey(o => o.WantedListId)
+                .HasForeignKey(o => o.WantedProductId)
                 .IsRequired();
 
         }
@@ -35,7 +35,7 @@ namespace WebApiTest.Data
         public DbSet<Husband> Husbands { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Shop> Shops { get; set; }
-        public DbSet<WantedList> WantedLists { get; set; }
+        public DbSet<WantedProduct> WantedProducts { get; set; }
         public DbSet<Wife> Wifes { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder

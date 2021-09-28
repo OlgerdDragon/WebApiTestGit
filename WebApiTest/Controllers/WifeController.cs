@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApiTest.Models;
+using WebApiTest.Models.Dto;
 using WebApiTest.Services.WifeService;
 
 namespace WebApiTest.Controllers
@@ -24,10 +25,10 @@ namespace WebApiTest.Controllers
         }
 
         [HttpGet("products")]
-        public async Task<ActionResult<IEnumerable<WantedList>>> GetWantedList() => await _wifeService.GetWantedListAsync();
+        public async Task<ActionResult<IEnumerable<WantedProduct>>> GetWantedList() => await _wifeService.GetWantedProductsAsync();
 
         [HttpPost("product")]
-        public async Task<ActionResult<WantedList>> CreateProductItem(WantedList wantedListItem)
+        public async Task<ActionResult<WantedProductDto>> CreateProductItem(WantedProductDto wantedListItem)
         {
             _wifeService.AddProduct(wantedListItem);
             await _wifeService.SaveChangesAsync();
@@ -39,9 +40,9 @@ namespace WebApiTest.Controllers
         }
         
         [HttpGet("product/{id}")]
-        public async Task<ActionResult<WantedList>> GetWantedListItem(int id)
+        public async Task<ActionResult<WantedProduct>> GetWantedListItem(int id)
         {
-            var wantedListItem = await _wifeService.FindWantedListAsync(id);
+            var wantedListItem = await _wifeService.FindWantedProductAsync(id);
 
             if (wantedListItem == null)
             {
@@ -54,14 +55,14 @@ namespace WebApiTest.Controllers
         [HttpDelete("product/{id}")]
         public async Task<IActionResult> DeleteWantedListItem(int id)
         {
-            var productItem = await _wifeService.FindWantedListAsync(id);
+            var productItem = await _wifeService.FindWantedProductAsync(id);
 
             if (productItem == null)
             {
                 return NotFound();
             }
 
-            _wifeService.RemoveWantedList(productItem);
+            _wifeService.RemoveWantedProduct(productItem);
             await _wifeService.SaveChangesAsync();
 
             return NoContent();
@@ -69,7 +70,7 @@ namespace WebApiTest.Controllers
         [HttpDelete("products")]
         public async Task<IActionResult> DeleteAllProductItem()
         {
-            _wifeService.RemoveAllWantedList();
+            _wifeService.RemoveAllWantedProducts();
             await _wifeService.SaveChangesAsync();
 
             return NoContent();

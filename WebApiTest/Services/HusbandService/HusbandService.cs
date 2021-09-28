@@ -18,9 +18,9 @@ namespace WebApiTest.Services.HusbandService
         {
             _context = context;
         }
-        public async Task<List<WantedListDto>> GetWantedListAsync()
+        public async Task<List<WantedProductDto>> GetWantedProductsAsync()
         {
-            return await _context.WantedLists.Select(i => new WantedListDto
+            return await _context.WantedProducts.Select(i => new WantedProductDto
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
@@ -30,30 +30,31 @@ namespace WebApiTest.Services.HusbandService
         public async Task<List<ShopDto>> GetShopsForVisitAsync()
         {
             
-            var neededProductList = GetWantedList();
+            var neededProductList = GetWantedProducts();
             var productList = GetProductList();
             
             var neededShopList = new List<ShopDto>();
             foreach (var neededProduct in neededProductList)
             {
                 var shopSearched = SearchShop(productList, neededProduct);
-                if (shopSearched == null) break;
-                
-                var shopSearchedDto = new ShopDto
+                if (shopSearched != null)
                 {
-                    Id = shopSearched.Id,
-                    Name = shopSearched.Name
-                };
+                    var shopSearchedDto = new ShopDto
+                    {
+                        Id = shopSearched.Id,
+                        Name = shopSearched.Name
+                    };
 
-                if (!neededShopList.Contains(shopSearchedDto))
-                {
-                    neededShopList.Add(shopSearchedDto);
+                    if (!neededShopList.Contains(shopSearchedDto))
+                    {
+                        neededShopList.Add(shopSearchedDto);
+                    }
                 }
             }
 
             return neededShopList;
         }
-        Shop SearchShop(List<ProductDto> productList, WantedListDto neededProduct)
+        Shop SearchShop(List<ProductDto> productList, WantedProductDto neededProduct)
         {
             foreach (var product in productList)
             {
@@ -68,7 +69,7 @@ namespace WebApiTest.Services.HusbandService
         
         public async Task<List<ProductDto>> GetProductsInShopAsync(int ShopId)
         {
-            var neededProductList = GetWantedList();
+            var neededProductList = GetWantedProducts();
             var productList = GetProductList();
             var productInShop = new List<ProductDto>();
             foreach (var product in productList)
@@ -102,9 +103,9 @@ namespace WebApiTest.Services.HusbandService
         {
             return await _context.Products.FindAsync(name);
         }
-        List<WantedListDto> GetWantedList()
+        List<WantedProductDto> GetWantedProducts()
         {
-            return _context.WantedLists.Select(i => new WantedListDto
+            return _context.WantedProducts.Select(i => new WantedProductDto
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,

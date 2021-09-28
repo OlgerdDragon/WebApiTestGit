@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using WebApiTest.Data;
 using WebApiTest.Models;
 using WebApiTest.Models.Dto;
-
 namespace WebApiTest.Services.WifeService
 {
     public class WifeService : IWifeService

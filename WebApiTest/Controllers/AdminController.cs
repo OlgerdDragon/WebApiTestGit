@@ -5,7 +5,6 @@ using WebApiTest.Models;
 using WebApiTest.Services.AdminService;
 using WebApiTest.Models.Dto;
 using WebApiTest.Services.FactoryService;
-using System;
 
 namespace WebApiTest.Controllers
 {
@@ -74,6 +73,26 @@ namespace WebApiTest.Controllers
 
             return ItemProductDTO(productItem);
         }
+        [HttpPut("shop")]
+        public async Task<ActionResult<ShopDto>> PutShopItem(ShopDto shopItemDto)
+        {
+            await _adminService.UpdateShopAsync(shopItemDto);
+
+            return CreatedAtAction(
+            nameof(GetShopItem),
+            new { id = shopItemDto.Id },
+            shopItemDto);
+        }
+        [HttpPut("product")]
+        public async Task<ActionResult<ProductDto>> PutProductItem(ProductDto productItemDto)
+        {
+            await _adminService.UpdateProductAsync(productItemDto);
+
+            return CreatedAtAction(
+            nameof(GetShopItem),
+            new { id = productItemDto.Id },
+            productItemDto);
+        }
         [HttpGet("shop/{id}")]
         public async Task<ActionResult<ShopDto>> GetShopItem(int id)
         {
@@ -102,23 +121,16 @@ namespace WebApiTest.Controllers
         }
         [HttpPost("shop")]
         public async Task<ActionResult<ShopDto>> AddShopItem(ShopDto shopItemDto)
-        {
-            try
-            {
-                var shopItem = factory.Shop(shopItemDto);
-                _adminService.AddShop(shopItem);
-                await _adminService.SaveChangesAsync();
-                return CreatedAtAction(
-                nameof(GetShopItem),
-                new { id = shopItem.Id },
-                shopItemDto);
-            }
-            catch (System.Exception e)
-            {
+        { 
+            var shopItem = factory.Shop(shopItemDto);
 
-                throw;
-            }
-            
+            _adminService.AddShop(shopItem);
+            await _adminService.SaveChangesAsync();
+
+            return CreatedAtAction(
+            nameof(GetShopItem),
+            new { id = shopItem.Id },
+            shopItemDto);
         }
         private static ShopDto ItemShopDTO(Shop shopItem) =>
            new ShopDto

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApiTest.Models;
 using WebApiTest.Models.Dto;
 using WebApiTest.Services.HusbandService;
 

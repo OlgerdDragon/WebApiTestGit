@@ -36,6 +36,29 @@ namespace WebApiTest.Services.AdminService
                 Name = i.Name
             }).ToListAsync();
         }
+        public async Task<ShopDto> UpdateShopAsync(ShopDto newShop)
+        {
+            var shop = _context.Shops
+                .Where(i => i.Id == newShop.Id)
+                .FirstOrDefault();
+
+            shop.Name = newShop.Name;
+            await SaveChangesAsync();
+            return newShop;
+        }
+        public async Task<ProductDto> UpdateProductAsync(ProductDto newProduct)
+        {
+            var product = _context.Products
+                .Where(i => i.Id == newProduct.Id)
+                .FirstOrDefault();
+
+            product.Name = newProduct.Name;
+            product.Price = newProduct.Price;
+            product.ShopId = newProduct.ShopId;
+
+            await SaveChangesAsync();
+            return newProduct;
+        }
         public async Task<Shop> FindShopAsync(int id)
         {
             return await _context.Shops.FindAsync(id);

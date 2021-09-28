@@ -26,7 +26,7 @@ namespace WebApiTest.Services.FactoryService
             };
             return r;
         }
-        public WantedProduct WantedList (WantedProductDto productItemDto)
+        public WantedProduct WantedProduct (WantedProductDto productItemDto)
         {
             return new WantedProduct
             {

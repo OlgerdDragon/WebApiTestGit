@@ -8,6 +8,6 @@ namespace WebApiTest.Services.FactoryService
         public Product Product(ProductDto productItemDto, Shop shop);
         
         public Shop Shop(ShopDto productItemDto);
-        public WantedProduct WantedList(WantedProductDto productItemDto);
+        public WantedProduct WantedProduct(WantedProductDto productItemDto);
     }
 }

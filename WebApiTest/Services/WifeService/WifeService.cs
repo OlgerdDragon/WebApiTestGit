@@ -24,7 +24,7 @@ namespace WebApiTest.Services.WifeService
                 NameProduct = i.NameProduct
             }).ToListAsync();
         }
-        public void AddProduct(WantedProductDto wantedProductItem)
+        public async Task AddProduct(WantedProductDto wantedProductItem)
         {
             var _wantedProductItem = new WantedProduct
             {
@@ -33,8 +33,9 @@ namespace WebApiTest.Services.WifeService
                 BoughtStatus = wantedProductItem.BoughtStatus
             };
             _context.WantedProducts.Add(_wantedProductItem);
+            await SaveChangesAsync();
         }
-        public async Task<int> SaveChangesAsync()
+        async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }
@@ -42,11 +43,12 @@ namespace WebApiTest.Services.WifeService
         {
             return await _context.WantedProducts.FindAsync(id);
         }
-        public void RemoveWantedProduct(WantedProduct wantedProductItem)
+        public async Task RemoveWantedProduct(WantedProduct wantedProductItem)
         {
             _context.WantedProducts.Remove(wantedProductItem);
+            await SaveChangesAsync();
         }
-        public void RemoveAllWantedProducts()
+        public async Task RemoveAllWantedProducts()
         {
             var wantedProductList = _context.WantedProducts.Select(i => new WantedProduct
             {
@@ -58,6 +60,7 @@ namespace WebApiTest.Services.WifeService
             {
                 _context.WantedProducts.Remove(item);
             }
+            await SaveChangesAsync();
         }
     }
 }

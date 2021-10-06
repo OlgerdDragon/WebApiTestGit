@@ -16,6 +16,12 @@ namespace WebApiTest.Models.Dto
                 Name = this.Name
             };
         }
+        public static ShopDto ItemShopDTO(Shop shopItem) =>
+           new ShopDto
+           {
+               Id = shopItem.Id,
+               Name = shopItem.Name
+           };
 
     }
 }

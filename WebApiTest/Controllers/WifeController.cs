@@ -32,8 +32,7 @@ namespace WebApiTest.Controllers
         [HttpPost("product")]
         public async Task<ActionResult<WantedProductDto>> CreateProductItem(WantedProductDto wantedProductItem)
         {
-            _wifeService.AddProduct(wantedProductItem);
-            await _wifeService.SaveChangesAsync();
+            await _wifeService.AddProduct(wantedProductItem);
 
             return CreatedAtAction(
                 nameof(GetWantedProductItem),
@@ -64,16 +63,16 @@ namespace WebApiTest.Controllers
                 return NotFound();
             }
 
-            _wifeService.RemoveWantedProduct(productItem);
-            await _wifeService.SaveChangesAsync();
+            
+            await _wifeService.RemoveWantedProduct(productItem);
 
             return NoContent();
         }
         [HttpDelete("products")]
         public async Task<IActionResult> DeleteAllProductItem()
         {
-            _wifeService.RemoveAllWantedProducts();
-            await _wifeService.SaveChangesAsync();
+            
+            await _wifeService.RemoveAllWantedProducts();  
 
             return NoContent();
         }

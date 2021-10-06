@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
 using WebApiTest.Models;
 using WebApiTest.Models.Dto;
+
 
 namespace WebApiTest.Services.AdminService
 {
@@ -65,31 +68,33 @@ namespace WebApiTest.Services.AdminService
         {
             return await _context.Products.FindAsync(id);
         }
-        public void RemoveProduct(Product productItem)
+        public async void RemoveProduct(Product productItem)
         {
             _context.Products.Remove(productItem);
+            await SaveChangesAsync();
+            
         }
-        public void RemoveShop(Shop shopItem)
+
+        public async void RemoveShop(Shop shopItem)
         {
             _context.Shops.Remove(shopItem);
+            await SaveChangesAsync();
+            
         }
-        public async Task<int> SaveChangesAsync()
+        public async void AddProduct(Product productItem)
+        {
+            _context.Products.Add(productItem);
+            await SaveChangesAsync();
+        }
+        public async void AddShop(Shop shopItem)
+        {
+            var shopDto = _context.Shops.Add(shopItem);
+            await SaveChangesAsync();
+            
+        }
+        async Task<int> SaveChangesAsync()
         {
             return await _context.SaveChangesAsync();
         }
-        public void AddProduct(Product productItem)
-        {
-            _context.Products.Add(productItem);
-        }
-        public void AddShop(Shop shopItem)
-        {
-            _context.Shops.Add(shopItem);
-        }
-        private static ShopDto ItemToDTO(Shop todoItem) =>
-           new ShopDto
-           {
-               Id = todoItem.Id,
-               Name = todoItem.Name,
-           };
     }
 }

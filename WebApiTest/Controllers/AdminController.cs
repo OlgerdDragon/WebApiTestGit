@@ -41,10 +41,7 @@ namespace WebApiTest.Controllers
             {
                 return NotFound();
             }
-
             _adminService.RemoveProduct(productItem);
-            await _adminService.SaveChangesAsync();
-
             return NoContent();
         }
         [HttpDelete("shop/{id}")]
@@ -56,10 +53,7 @@ namespace WebApiTest.Controllers
             {
                 return NotFound();
             }
-
             _adminService.RemoveShop(shopItem);
-            await _adminService.SaveChangesAsync();
-
             return NoContent();
         }
         [HttpGet("product/{id}")]
@@ -72,7 +66,7 @@ namespace WebApiTest.Controllers
                 return NotFound();
             }
 
-            return ItemProductDTO(productItem);
+            return ProductDto.ItemProductDTO(productItem);
         }
         [HttpPut("shop")]
         public async Task<ActionResult<ShopDto>> PutShopItem(ShopDto shopItemDto)
@@ -104,7 +98,7 @@ namespace WebApiTest.Controllers
                 return NotFound();
             }
 
-            return ItemShopDTO(shopItem);
+            return ShopDto.ItemShopDTO(shopItem);
         }
         [HttpPost("product")]
         public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productItemDto)
@@ -112,8 +106,7 @@ namespace WebApiTest.Controllers
             var shop = _adminService.FindShopAsync(productItemDto.ShopId);
             var productItem = productItemDto.Product(shop.Result);
             
-            _adminService.AddProduct(productItem);
-            await _adminService.SaveChangesAsync();
+             _adminService.AddProduct(productItem);
 
             return CreatedAtAction(
                 nameof(GetProductItem),
@@ -124,28 +117,15 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ShopDto>> AddShopItem(ShopDto shopItemDto)
         { 
             var shopItem = shopItemDto.Shop();
-
-            _adminService.AddShop(shopItem);
-            await _adminService.SaveChangesAsync();
+            
+             _adminService.AddShop(shopItem);
 
             return CreatedAtAction(
             nameof(GetShopItem),
             new { id = shopItem.Id },
             shopItemDto);
         }
-        private static ShopDto ItemShopDTO(Shop shopItem) =>
-           new ShopDto
-           {
-               Id = shopItem.Id,
-               Name = shopItem.Name
-           };
-        private static ProductDto ItemProductDTO(Product productItem) =>
-           new ProductDto
-           {
-               Id = productItem.Id,
-               Name = productItem.Name,
-               Price = productItem.Price,
-               ShopId = productItem.ShopId
-           };
+        
+        
     }
 }

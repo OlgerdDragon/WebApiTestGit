@@ -8,40 +8,27 @@ using System.Security.Claims;
 using WebApiTest.Models; // класс Person
 using WebApiTest;
 using WebApiTest.Data;
+using WebApiTest.Services.ValuesService;
 
 namespace WebApiTest.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly TowerContext _context;
-
-        public AccountController(TowerContext context)
+        private readonly IValuesService _valuesService;
+        public AccountController(IValuesService valuesService)
         {
-            _context = context;
+            _valuesService = valuesService;
         }
-        // тестовые данные вместо использования базы данных
-        private List<Person> people = new List<Person>
-        {
-            new Person {Login="admin@gmail.com", Password="1", Role = "admin" },
-            new Person {Login="husband@gmail.com", Password="1", Role = "husband" },
-            new Person {Login="wife@gmail.com", Password="1", Role = "wife" },
-            new Person { Login="qwerty@gmail.com", Password="5", Role = "user" }
-        };
 
         [HttpPost("/token")]
         public IActionResult Token(string username, string password)
-        //public IActionResult Token(Person person)
         {
-            //string username = person.Login;
-            //string password = person.Password;
-            var identity = GetIdentity(username, password);
+            var identity = _valuesService.GetIdentity(username, password);
             if (identity == null)
             {
                 return BadRequest(new { errorText = "Invalid username or password." });
             }
-
             var now = DateTime.UtcNow;
-            // создаем JWT-токен
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
                     audience: AuthOptions.AUDIENCE,
@@ -60,27 +47,6 @@ namespace WebApiTest.Controllers
             return Json(response);
         }
 
-        private ClaimsIdentity GetIdentity(string username, string password)
-        {
-            //Person person = people.FirstOrDefault(x => x.Login == username && x.Password == password);
-            Person person = _context.Persons
-                .Where(x => x.Login == username && x.Password == password)
-                .FirstOrDefault();
-            if (person != null)
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role)
-                };
-                ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                    ClaimsIdentity.DefaultRoleClaimType);
-                return claimsIdentity;
-            }
-
-            // если пользователя не найдено
-            return null;
-        }
+        
     }
 }

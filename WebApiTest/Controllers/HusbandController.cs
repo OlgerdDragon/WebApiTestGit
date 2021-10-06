@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApiTest.Models.Dto;
@@ -7,6 +8,7 @@ using WebApiTest.Services.HusbandService;
 namespace WebApiTest.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "husband")]
     [Route("api/[controller]")]
     public class HusbandController : Controller
     {

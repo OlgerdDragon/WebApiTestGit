@@ -5,10 +5,12 @@ using WebApiTest.Models;
 using WebApiTest.Services.AdminService;
 using WebApiTest.Models.Dto;
 using WebApiTest.Services.FactoryService;
+using Microsoft.AspNetCore.Authorization;
 
 namespace WebApiTest.Controllers
 {
     [ApiController]
+    [Authorize(Roles = "admin")]
     [Route("api/[controller]")]
     public class AdminController : ControllerBase
     {
@@ -18,7 +20,7 @@ namespace WebApiTest.Controllers
         {
             _adminService = adminService;
         }
-
+        
         [HttpGet("Hello")]
         public string Get()
         {

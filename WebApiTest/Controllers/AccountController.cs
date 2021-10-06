@@ -15,13 +15,15 @@ namespace WebApiTest.Controllers
         // тестовые данные вместо использования базы данных
         private List<Person> people = new List<Person>
         {
-            new Person {Login="admin@gmail.com", Password="12345", Role = "admin" },
-            new Person { Login="qwerty@gmail.com", Password="55555", Role = "user" }
+            new Person {Login="admin@gmail.com", Password="1", Role = "admin" },
+            new Person { Login="qwerty@gmail.com", Password="5", Role = "user" }
         };
 
         [HttpPost("/token")]
-        public IActionResult Token(string username, string password)
+        public IActionResult Token(Person person)
         {
+            string username = person.Login;
+            string password = person.Password;
             var identity = GetIdentity(username, password);
             if (identity == null)
             {

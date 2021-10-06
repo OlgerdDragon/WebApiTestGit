@@ -37,6 +37,7 @@ namespace WebApiTest.Data
         public DbSet<Shop> Shops { get; set; }
         public DbSet<WantedProduct> WantedProducts { get; set; }
         public DbSet<Wife> Wifes { get; set; }
+        public DbSet<Person> Persons { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .ConfigureWarnings(b => b.Ignore(CoreEventId.StartedTracking))

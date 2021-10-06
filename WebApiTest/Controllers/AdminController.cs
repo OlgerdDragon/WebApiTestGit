@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using WebApiTest.Models;
 using WebApiTest.Services.AdminService;
 using WebApiTest.Models.Dto;
-using WebApiTest.Services.FactoryService;
+
 using Microsoft.AspNetCore.Authorization;
 
 namespace WebApiTest.Controllers
@@ -15,7 +15,6 @@ namespace WebApiTest.Controllers
     public class AdminController : ControllerBase
     {
         private readonly IAdminService _adminService;
-        private IFactoryService factory = new FactoryService();
         public AdminController(IAdminService adminService)
         {
             _adminService = adminService;
@@ -111,7 +110,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productItemDto)
         {
             var shop = _adminService.FindShopAsync(productItemDto.ShopId);
-            var productItem = factory.Product(productItemDto, shop.Result);
+            var productItem = productItemDto.Product(shop.Result);
             
             _adminService.AddProduct(productItem);
             await _adminService.SaveChangesAsync();
@@ -124,7 +123,7 @@ namespace WebApiTest.Controllers
         [HttpPost("shop")]
         public async Task<ActionResult<ShopDto>> AddShopItem(ShopDto shopItemDto)
         { 
-            var shopItem = factory.Shop(shopItemDto);
+            var shopItem = shopItemDto.Shop();
 
             _adminService.AddShop(shopItem);
             await _adminService.SaveChangesAsync();

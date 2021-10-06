@@ -12,5 +12,15 @@ namespace WebApiTest.Models.Dto
         public int Price { get; set; }
         public int ShopId { get; set; }
 
+        public Product Product(Shop shop)
+        {
+            return new Product
+            {
+                Name = this.Name,
+                Price = this.Price,
+                ShopId = this.Price,
+                Shop = shop
+            };
+        }
     }
 }

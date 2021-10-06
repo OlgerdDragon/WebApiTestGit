@@ -5,14 +5,12 @@ using Microsoft.EntityFrameworkCore;
 using WebApiTest.Data;
 using WebApiTest.Models;
 using WebApiTest.Models.Dto;
-using WebApiTest.Services.FactoryService;
 
 namespace WebApiTest.Services.AdminService
 {
     public class AdminService: IAdminService
     {
         private readonly TowerContext _context;
-
         public AdminService(TowerContext context)
         {
             _context = context;

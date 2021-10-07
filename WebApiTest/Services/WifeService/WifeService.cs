@@ -1,20 +1,27 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using WebApiTest.Data;
 using WebApiTest.Models;
 using WebApiTest.Models.Dto;
+
 namespace WebApiTest.Services.WifeService
 {
     public class WifeService : IWifeService
     {
-        private readonly TowerContext _context;
+        private readonly TownContext _context;
 
-        public WifeService(TowerContext context)
+        public WifeService(TownContext context)
         {
             _context = context;
         }
+        //public async Task<IActionResult> Test(int id)
+        //{
+        //    return NotFound();
+        //}
+        
         public async Task<List<WantedProduct>> GetWantedProductsAsync()
         {
             return await _context.WantedProducts.Select(i => new WantedProduct

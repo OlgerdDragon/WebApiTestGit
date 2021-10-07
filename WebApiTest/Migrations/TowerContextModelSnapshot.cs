@@ -7,7 +7,7 @@ using WebApiTest.Data;
 
 namespace WebApiTest.Migrations
 {
-    [DbContext(typeof(TowerContext))]
+    [DbContext(typeof(TownContext))]
     partial class TowerContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

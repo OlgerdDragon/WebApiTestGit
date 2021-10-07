@@ -12,8 +12,8 @@ namespace WebApiTest.Services.AdminService
 {
     public class AdminService: IAdminService
     {
-        private readonly TowerContext _context;
-        public AdminService(TowerContext context)
+        private readonly TownContext _context;
+        public AdminService(TownContext context)
         {
             _context = context;
         }

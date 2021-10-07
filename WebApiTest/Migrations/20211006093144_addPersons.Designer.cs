@@ -8,7 +8,7 @@ using WebApiTest.Data;
 
 namespace WebApiTest.Migrations
 {
-    [DbContext(typeof(TowerContext))]
+    [DbContext(typeof(TownContext))]
     [Migration("20211006093144_addPersons")]
     partial class addPersons
     {

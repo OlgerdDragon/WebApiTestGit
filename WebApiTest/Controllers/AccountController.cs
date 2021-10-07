@@ -5,17 +5,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using WebApiTest.Models; // класс Person
-using WebApiTest;
+using WebApiTest.Models; 
 using WebApiTest.Data;
 
 namespace WebApiTest.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly TowerContext _context;
+        private readonly TownContext _context;
 
-        public AccountController(TowerContext context)
+        public AccountController(TownContext context)
         {
             _context = context;
         }
@@ -30,7 +29,6 @@ namespace WebApiTest.Controllers
             }
 
             var now = DateTime.UtcNow;
-            // создаем JWT-токен
             var jwt = new JwtSecurityToken(
                     issuer: AuthOptions.ISSUER,
                     audience: AuthOptions.AUDIENCE,

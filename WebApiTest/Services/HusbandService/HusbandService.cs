@@ -11,10 +11,10 @@ namespace WebApiTest.Services.HusbandService
     public class HusbandService : IHusbandService
     {
 
-        private readonly TowerContext _context;
+        private readonly TownContext _context;
        
 
-        public HusbandService(TowerContext context)
+        public HusbandService(TownContext context)
         {
             _context = context;
         }

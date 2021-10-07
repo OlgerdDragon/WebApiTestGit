@@ -5,13 +5,22 @@ using WebApiTest.Models;
 
 namespace WebApiTest.Data
 {
-    public class TowerContext : DbContext
+    public class TownContext : DbContext
     {
-        public TowerContext(DbContextOptions<TowerContext> options)
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Husband> Husbands { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Shop> Shops { get; set; }
+        public DbSet<WantedProduct> WantedProducts { get; set; }
+        public DbSet<Wife> Wifes { get; set; }
+        public DbSet<Person> Persons { get; set; }
+
+        public TownContext(DbContextOptions<TownContext> options)
             : base(options)
         {
 
         }
+       
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.Product>()
@@ -31,13 +40,7 @@ namespace WebApiTest.Data
                 .IsRequired();
 
         }
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<Husband> Husbands { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Shop> Shops { get; set; }
-        public DbSet<WantedProduct> WantedProducts { get; set; }
-        public DbSet<Wife> Wifes { get; set; }
-        public DbSet<Person> Persons { get; set; }
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
             => optionsBuilder
                 .ConfigureWarnings(b => b.Ignore(CoreEventId.StartedTracking))

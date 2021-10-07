@@ -30,10 +30,7 @@ namespace WebApiTest
             services.AddControllers();
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
 
-            //services.AddDbContext<TodoContext>(options => options
-            //    .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
-
-            services.AddDbContext<TowerContext>(options => options
+            services.AddDbContext<TownContext>(options => options
                 .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
 
             services.AddSwaggerGen(c =>
@@ -41,31 +38,17 @@ namespace WebApiTest
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiTest", Version = "v1" });
             });
 
-
-
-
-
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
                     {
                         options.RequireHttpsMetadata = false;
                         options.TokenValidationParameters = new TokenValidationParameters
                         {
-                            // укзывает, будет ли валидироваться издатель при валидации токена
                             ValidateIssuer = true,
-                            // строка, представляющая издателя
                             ValidIssuer = AuthOptions.ISSUER,
-
-                            // будет ли валидироваться потребитель токена
                             ValidateAudience = true,
-                            // установка потребителя токена
                             ValidAudience = AuthOptions.AUDIENCE,
-                            // будет ли валидироваться время существования
                             ValidateLifetime = true,
-
-                            // установка ключа безопасности
-                            IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
-                            // валидация ключа безопасности
                             ValidateIssuerSigningKey = true,
                         };
                     });

@@ -17,7 +17,7 @@ namespace WebApiTest.Services.WifeService
         {
             _context = context;
         }
-        //public async Task<IActionResult> Test(int id)
+        //public async Task<IActionResult> Test()
         //{
         //    return NotFound();
         //}

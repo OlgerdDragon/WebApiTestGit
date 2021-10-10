@@ -7,10 +7,10 @@ using WebApiTest.Services.HusbandService;
 
 namespace WebApiTest.Controllers
 {
-    [ApiController]
+    
     [Authorize(Roles = "husband")]
-    [Route("api/[controller]")]
-    public class HusbandController : Controller
+    
+    public class HusbandController : APIControllerBase
     {
         private readonly IHusbandService _husbandService;
 

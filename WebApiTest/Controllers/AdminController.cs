@@ -9,10 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace WebApiTest.Controllers
 {
-    [ApiController]
     [Authorize(Roles = "admin")]
-    [Route("api/[controller]")]
-    public class AdminController : ControllerBase
+
+    public class AdminController : APIControllerBase
     {
         private readonly IAdminService _adminService;
         public AdminController(IAdminService adminService)

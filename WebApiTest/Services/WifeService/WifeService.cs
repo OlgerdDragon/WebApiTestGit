@@ -9,7 +9,7 @@ namespace WebApiTest.Services.WifeService
 {
     public class WifeService : IWifeService
     {
-        private readonly TowerContext _context;
+        private readonly TownContext _context;
 
         public WifeService(TowerContext context)
         {

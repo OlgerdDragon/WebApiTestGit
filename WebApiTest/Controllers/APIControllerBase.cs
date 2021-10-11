@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace WebApiTest.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("Api/[controller]")]
     public abstract class APIControllerBase : Controller
     {
 

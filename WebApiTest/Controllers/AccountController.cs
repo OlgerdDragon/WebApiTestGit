@@ -19,7 +19,7 @@ namespace WebApiTest.Controllers
             _context = context;
         }
 
-        [HttpPost("/token")]
+        [HttpPost("/Token")]
         public IActionResult Token(string username, string password)
         {
             var identity = GetIdentity(username, password);

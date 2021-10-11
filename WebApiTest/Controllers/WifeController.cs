@@ -27,6 +27,9 @@ namespace WebApiTest.Controllers
         [HttpGet("Products")]
         public async Task<ActionResult<IEnumerable<WantedProduct>>> GetWantedProducts() => await _wifeService.GetWantedProductsAsync();
 
+        [HttpGet("Product/{id}")]
+        public async Task<ActionResult<WantedProductDto>> GetWantedProductItem(int id) => await _wifeService.GetWantedProductItemAsync(id) ?? NotFound();
+
         [HttpPost("Product")]
         public async Task<ActionResult<WantedProductDto>> CreateProductItem(WantedProductDto wantedProductItem)
         {
@@ -37,41 +40,21 @@ namespace WebApiTest.Controllers
                 new { id = wantedProductItem.Id },
                 wantedProductItem);
         }
-        
-        [HttpGet("Product/{id}")]
-        public async Task<ActionResult<WantedProduct>> GetWantedProductItem(int id)
-        {
-            var wantedProductItem = await _wifeService.FindWantedProductAsync(id);
-
-            if (wantedProductItem == null)
-            {
-                return NotFound();
-            }
-
-            return wantedProductItem;
-        }
 
         [HttpDelete("Product/{id}")]
         public async Task<IActionResult> DeleteWantedProductItem(int id)
         {
-            var productItem = await _wifeService.FindWantedProductAsync(id);
-
-            if (productItem == null)
+            if (await _wifeService.RemoveWantedProduct(id))
             {
-                return NotFound();
+                return NoContent(); 
             }
-
-            
-            await _wifeService.RemoveWantedProduct(productItem);
-
-            return NoContent();
+            return NotFound();
         }
+
         [HttpDelete("Products")]
         public async Task<IActionResult> DeleteAllProductItem()
         {
-            
             await _wifeService.RemoveAllWantedProducts();  
-
             return NoContent();
         }
 

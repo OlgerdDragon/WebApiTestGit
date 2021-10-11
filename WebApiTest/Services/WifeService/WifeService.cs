@@ -21,7 +21,7 @@ namespace WebApiTest.Services.WifeService
         //{
         //    return NotFound();
         //}
-        
+
         public async Task<List<WantedProduct>> GetWantedProductsAsync()
         {
             return await _context.WantedProducts.Select(i => new WantedProduct
@@ -50,10 +50,29 @@ namespace WebApiTest.Services.WifeService
         {
             return await _context.WantedProducts.FindAsync(id);
         }
-        public async Task RemoveWantedProduct(WantedProduct wantedProductItem)
+        public async Task<ActionResult<WantedProductDto>> GetWantedProductItemAsync(int id)
         {
+            var wantedProductItem = await FindWantedProductAsync(id);
+
+            if (wantedProductItem == null)
+            {
+                return null;
+            }
+
+            return WantedProductDto.ItemWantedProductDTO(wantedProductItem);
+        }
+        public async Task<bool> RemoveWantedProduct(int id)
+        {
+            var wantedProductItem = await FindWantedProductAsync(id);
+
+            if (wantedProductItem == null)
+            {
+                return false;
+            }
+
             _context.WantedProducts.Remove(wantedProductItem);
             await SaveChangesAsync();
+            return true;
         }
         public async Task RemoveAllWantedProducts()
         {

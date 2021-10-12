@@ -1,4 +1,5 @@
-﻿
+﻿using System.Collections.Generic;
+
 namespace WebApiTest.Models
 {
     public class Product
@@ -7,7 +8,8 @@ namespace WebApiTest.Models
         public string Name { get; set; }
         public int Price { get; set; }
         public int ShopId { get; set; }
-        public virtual Shop Shop { get; set; }
+        public virtual Shop Shops { get; set; }
+        public virtual ICollection<WantedProduct> WantedProducts { get; set; }
 
     }
 }

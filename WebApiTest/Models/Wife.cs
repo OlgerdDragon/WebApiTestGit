@@ -6,8 +6,9 @@ namespace WebApiTest.Models
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int WantedProductId { get; set; }
-        public virtual WantedProduct WantedProduct { get; set; }
-        public virtual ICollection<Husband> Husbands { get; set; }
+        public virtual ICollection<WantedProduct> WantedProducts { get; set; }
+        public virtual Husband Husbands { get; set; }
+        public int PersonId { get; set; }
+        public virtual Person Persons { get; set; }
     }
 }

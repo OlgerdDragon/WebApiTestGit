@@ -9,8 +9,8 @@ using WebApiTest.Data;
 namespace WebApiTest.Migrations
 {
     [DbContext(typeof(TownContext))]
-    [Migration("20211006093144_addPersons")]
-    partial class addPersons
+    [Migration("20211011174731_RealBD")]
+    partial class RealBD
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,7 +30,13 @@ namespace WebApiTest.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("Admins");
                 });
@@ -45,12 +51,19 @@ namespace WebApiTest.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("PersonId")
+                        .HasColumnType("int");
+
                     b.Property<int>("WifeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WifeId");
+                    b.HasIndex("PersonId")
+                        .IsUnique();
+
+                    b.HasIndex("WifeId")
+                        .IsUnique();
 
                     b.ToTable("Husbands");
                 });
@@ -124,10 +137,17 @@ namespace WebApiTest.Migrations
                     b.Property<bool>("BoughtStatus")
                         .HasColumnType("bit");
 
-                    b.Property<string>("NameProduct")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WifeId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("WifeId");
 
                     b.ToTable("WantedProducts");
                 });
@@ -142,47 +162,100 @@ namespace WebApiTest.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("WantedProductId")
+                    b.Property<int>("PersonId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WantedProductId");
+                    b.HasIndex("PersonId")
+                        .IsUnique();
 
                     b.ToTable("Wifes");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Husband", b =>
+            modelBuilder.Entity("WebApiTest.Models.Admin", b =>
                 {
-                    b.HasOne("WebApiTest.Models.Wife", "Wife")
-                        .WithMany("Husbands")
-                        .HasForeignKey("WifeId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("WebApiTest.Models.Person", "Persons")
+                        .WithOne("Admins")
+                        .HasForeignKey("WebApiTest.Models.Admin", "PersonId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Wife");
+                    b.Navigation("Persons");
+                });
+
+            modelBuilder.Entity("WebApiTest.Models.Husband", b =>
+                {
+                    b.HasOne("WebApiTest.Models.Person", "Persons")
+                        .WithOne("Husbands")
+                        .HasForeignKey("WebApiTest.Models.Husband", "PersonId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApiTest.Models.Wife", "Wifes")
+                        .WithOne("Husbands")
+                        .HasForeignKey("WebApiTest.Models.Husband", "WifeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Persons");
+
+                    b.Navigation("Wifes");
                 });
 
             modelBuilder.Entity("WebApiTest.Models.Product", b =>
                 {
-                    b.HasOne("WebApiTest.Models.Shop", "Shop")
+                    b.HasOne("WebApiTest.Models.Shop", "Shops")
                         .WithMany("Products")
                         .HasForeignKey("ShopId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Shop");
+                    b.Navigation("Shops");
+                });
+
+            modelBuilder.Entity("WebApiTest.Models.WantedProduct", b =>
+                {
+                    b.HasOne("WebApiTest.Models.Product", "Products")
+                        .WithMany("WantedProducts")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("WebApiTest.Models.Wife", "Wifes")
+                        .WithMany("WantedProducts")
+                        .HasForeignKey("WifeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Products");
+
+                    b.Navigation("Wifes");
                 });
 
             modelBuilder.Entity("WebApiTest.Models.Wife", b =>
                 {
-                    b.HasOne("WebApiTest.Models.WantedProduct", "WantedProduct")
-                        .WithMany("Wifes")
-                        .HasForeignKey("WantedProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                    b.HasOne("WebApiTest.Models.Person", "Persons")
+                        .WithOne("Wifes")
+                        .HasForeignKey("WebApiTest.Models.Wife", "PersonId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("WantedProduct");
+                    b.Navigation("Persons");
+                });
+
+            modelBuilder.Entity("WebApiTest.Models.Person", b =>
+                {
+                    b.Navigation("Admins");
+
+                    b.Navigation("Husbands");
+
+                    b.Navigation("Wifes");
+                });
+
+            modelBuilder.Entity("WebApiTest.Models.Product", b =>
+                {
+                    b.Navigation("WantedProducts");
                 });
 
             modelBuilder.Entity("WebApiTest.Models.Shop", b =>
@@ -190,14 +263,11 @@ namespace WebApiTest.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.WantedProduct", b =>
-                {
-                    b.Navigation("Wifes");
-                });
-
             modelBuilder.Entity("WebApiTest.Models.Wife", b =>
                 {
                     b.Navigation("Husbands");
+
+                    b.Navigation("WantedProducts");
                 });
 #pragma warning restore 612, 618
         }

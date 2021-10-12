@@ -1,12 +1,14 @@
-﻿using System.Collections.Generic;
-
+﻿
 namespace WebApiTest.Models
 {
     public class WantedProduct
     {
         public int Id { get; set; }
-        public string NameProduct { get; set; }
         public bool BoughtStatus { get; set; }
-        public virtual ICollection<Wife> Wifes { get; set; }
+        public int ProductId { get; set; }
+        public virtual Product Products { get; set; }
+        public int WifeId { get; set; }
+        public virtual Wife Wifes { get; set; }
+        
     }
 }

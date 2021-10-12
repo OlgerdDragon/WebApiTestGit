@@ -15,7 +15,7 @@ namespace WebApiTest.Models.Dto
                 Name = this.Name,
                 Price = this.Price,
                 ShopId = this.Price,
-                Shop = shop
+                Shops = shop
             };
         }
         public static ProductDto ItemProductDTO(Product productItem) =>

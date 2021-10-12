@@ -4,13 +4,24 @@ namespace WebApiTest.Models.Dto
     public class WantedProductDto
     {
         public int Id { get; set; }
-        public string NameProduct { get; set; }
         public bool BoughtStatus { get; set; }
+        public int ProductId { get; set; }
+        public WantedProduct WantedProduct() => new WantedProduct
+        {
+            Id = this.Id,
+            BoughtStatus = this.BoughtStatus,
+            ProductId = this.ProductId
+            
+        };
         public static WantedProductDto ItemWantedProductDTO(WantedProduct wantedProductItem) => new WantedProductDto
         {
             Id = wantedProductItem.Id,
-            NameProduct = wantedProductItem.NameProduct,
-            BoughtStatus = wantedProductItem.BoughtStatus
+            BoughtStatus = wantedProductItem.BoughtStatus,
+            ProductId = wantedProductItem.ProductId
+        };
+        public static WantedProduct ConvertProductInWantedProduct(Product productItem) => new WantedProduct
+        {
+            ProductId = productItem.Id
         };
     }
     

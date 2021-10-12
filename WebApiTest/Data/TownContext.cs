@@ -24,21 +24,51 @@ namespace WebApiTest.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.Product>()
-                .HasOne<Models.Shop>(p => p.Shop)
+                .HasOne<Models.Shop>(p => p.Shops)
                 .WithMany(b => b.Products)
                 .HasForeignKey(o => o.ShopId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
-            modelBuilder.Entity<Models.Husband>()
-                .HasOne<Models.Wife>(p => p.Wife)
-                .WithMany(b => b.Husbands)
+            modelBuilder.Entity<Models.WantedProduct>()
+                .HasOne<Models.Product>(p => p.Products)
+                .WithMany(b => b.WantedProducts)
+                .HasForeignKey(o => o.ProductId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+            modelBuilder.Entity<Models.WantedProduct>()
+                .HasOne<Models.Wife>(p => p.Wifes)
+                .WithMany(b => b.WantedProducts)
                 .HasForeignKey(o => o.WifeId)
-                .IsRequired();
-            modelBuilder.Entity<Models.Wife>()
-                .HasOne<Models.WantedProduct>(p => p.WantedProduct)
-                .WithMany(b => b.Wifes)
-                .HasForeignKey(o => o.WantedProductId)
+                .OnDelete(DeleteBehavior.Restrict)
                 .IsRequired();
 
+
+            modelBuilder.Entity<Models.Wife>()
+                .HasOne<Models.Husband>(p => p.Husbands)
+                .WithOne(b => b.Wifes)
+                .HasForeignKey<Models.Husband>(o => o.WifeId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+                
+
+            modelBuilder.Entity<Models.Person>()
+                .HasOne<Models.Admin>(p => p.Admins)
+                .WithOne(b => b.Persons)
+                .HasForeignKey<Models.Admin>(o => o.PersonId)
+                .OnDelete(DeleteBehavior.Restrict)
+                .IsRequired();
+            modelBuilder.Entity<Models.Person>()
+               .HasOne<Models.Husband>(p => p.Husbands)
+               .WithOne(b => b.Persons)
+               .HasForeignKey<Models.Husband>(o => o.PersonId)
+               .OnDelete(DeleteBehavior.Restrict)
+               .IsRequired();
+            modelBuilder.Entity<Models.Person>()
+               .HasOne<Models.Wife>(p => p.Wifes)
+               .WithOne(b => b.Persons)
+               .HasForeignKey<Models.Wife>(o => o.PersonId)
+               .OnDelete(DeleteBehavior.Restrict)
+               .IsRequired();
         }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

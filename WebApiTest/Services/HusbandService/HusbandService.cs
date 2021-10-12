@@ -24,7 +24,7 @@ namespace WebApiTest.Services.HusbandService
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
-                NameProduct = i.NameProduct
+                ProductId = i.ProductId
             }).ToListAsync();
         }
         public async Task<List<ShopDto>> GetShopsForVisitAsync()
@@ -58,7 +58,7 @@ namespace WebApiTest.Services.HusbandService
         {
             foreach (var product in productList)
             {
-                if (product.Name == neededProduct.NameProduct)
+                if (product.Id == neededProduct.ProductId)
                 {
                     var productSearched = product;
                     return _context.Shops.FindAsync(product.ShopId).Result;
@@ -78,7 +78,7 @@ namespace WebApiTest.Services.HusbandService
                     
                     foreach (var neededProduct in neededProductList)
                     {
-                        if (neededProduct.NameProduct==product.Name)
+                        if (neededProduct.ProductId==product.Id)
                         {
                             var newProduct = new ProductDto
                             {
@@ -109,7 +109,7 @@ namespace WebApiTest.Services.HusbandService
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
-                NameProduct = i.NameProduct
+                ProductId = i.ProductId
             }).ToList();
         }
         List<ProductDto> GetProductList()

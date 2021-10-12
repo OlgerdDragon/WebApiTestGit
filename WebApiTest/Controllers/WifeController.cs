@@ -26,20 +26,14 @@ namespace WebApiTest.Controllers
 
         [HttpGet("Products")]
         public async Task<ActionResult<IEnumerable<WantedProduct>>> GetWantedProducts() => await _wifeService.GetWantedProductsAsync();
+        [HttpGet("Products")]
+        public async Task<ActionResult<string>> GetTotalAmountWantedProducts() => await _wifeService.GetTotalAmountWantedProductsAsync();
 
         [HttpGet("Product/{id}")]
         public async Task<ActionResult<WantedProductDto>> GetWantedProductItem(int id) => await _wifeService.GetWantedProductItemAsync(id) ?? NotFound();
 
         [HttpPost("Product")]
-        public async Task<ActionResult<WantedProductDto>> CreateProductItem(WantedProductDto wantedProductItem)
-        {
-            await _wifeService.AddProduct(wantedProductItem);
-
-            return CreatedAtAction(
-                nameof(GetWantedProductItem),
-                new { id = wantedProductItem.Id },
-                wantedProductItem);
-        }
+        public async Task<ActionResult<WantedProductDto>> CreateProductItem(int id) => await _wifeService.AddProduct(id);
 
         [HttpDelete("Product/{id}")]
         public async Task<IActionResult> DeleteWantedProductItem(int id)

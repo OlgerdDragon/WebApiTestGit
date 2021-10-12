@@ -9,7 +9,7 @@ using WebApiTest.Data;
 using WebApiTest.Services.AdminService;
 using WebApiTest.Services.HusbandService;
 using WebApiTest.Services.WifeService;
-
+using WebApiTest.Services.AccountService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -27,6 +27,7 @@ namespace WebApiTest
             services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IHusbandService, HusbandService>();
             services.AddScoped<IWifeService, WifeService>();
+            services.AddScoped<IAccountService, AccountService>();
             services.AddControllers();
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
 

@@ -18,7 +18,8 @@ namespace WebApiTest.Models.Dto
         {
             Id = wantedProductItem.Id,
             BoughtStatus = wantedProductItem.BoughtStatus,
-            ProductId = wantedProductItem.ProductId
+            ProductId = wantedProductItem.ProductId,
+            WifeId = wantedProductItem.WifeId
         };
         public static WantedProduct ConvertProductInWantedProduct(Product productItem) => new WantedProduct
         {

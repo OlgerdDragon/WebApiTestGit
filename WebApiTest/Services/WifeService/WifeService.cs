@@ -24,6 +24,7 @@ namespace WebApiTest.Services.WifeService
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
+                ProductId = i.ProductId
             }).ToListAsync();
         }
         public async Task<string> GetTotalAmountWantedProductsAsync()

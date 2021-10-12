@@ -21,6 +21,7 @@ namespace WebApiTest.Models.Dto
         };
         public static WantedProduct ConvertProductInWantedProduct(Product productItem) => new WantedProduct
         {
+            BoughtStatus = false,
             ProductId = productItem.Id
         };
     }

@@ -30,7 +30,7 @@ namespace WebApiTest.Controllers
         [HttpGet("Shops")]
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList() => await _husbandService.GetShopsForVisitAsync();
 
-        [HttpGet("Products-in-shop/{shopId}")]
+        [HttpGet("ProductsInShop/{shopId}")]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetNededProductListInShop(int shopId) => await _husbandService.GetProductsInShopAsync(shopId);
     }
 }

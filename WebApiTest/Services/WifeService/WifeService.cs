@@ -18,13 +18,15 @@ namespace WebApiTest.Services.WifeService
             _context = context;
         }
         
-        public async Task<List<WantedProduct>> GetWantedProductsAsync()
+        public async Task<List<WantedProductDto>> GetWantedProductsAsync()
         {
-            return await _context.WantedProducts.Select(i => new WantedProduct
+            return await _context.WantedProducts.Select(i => new WantedProductDto
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
-                ProductId = i.ProductId
+                ProductId = i.ProductId,
+                WifeId = i.WifeId
+                
             }).ToListAsync();
         }
         public async Task<string> GetTotalAmountWantedProductsAsync()
@@ -33,6 +35,9 @@ namespace WebApiTest.Services.WifeService
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
+                ProductId = i.ProductId,
+                WifeId = i.WifeId
+
             }).ToListAsync();
             int _totalAmount = 0;
             foreach (var item in _wantedProductsList)

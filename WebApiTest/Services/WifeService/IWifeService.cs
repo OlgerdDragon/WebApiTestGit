@@ -8,7 +8,7 @@ namespace WebApiTest.Services.WifeService
 {
     public interface IWifeService
     {
-        public Task<List<WantedProduct>> GetWantedProductsAsync();
+        public Task<List<WantedProductDto>> GetWantedProductsAsync();
         public Task<string> GetTotalAmountWantedProductsAsync();
         public Task<WantedProductDto> AddProduct(int id);
         public Task<WantedProduct> FindWantedProductAsync(int id);

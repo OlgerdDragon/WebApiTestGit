@@ -6,6 +6,7 @@ namespace WebApiTest.Models.Dto
         public int Id { get; set; }
         public bool BoughtStatus { get; set; }
         public int ProductId { get; set; }
+        public int WifeId { get; set; }
         public WantedProduct WantedProduct() => new WantedProduct
         {
             Id = this.Id,
@@ -22,7 +23,9 @@ namespace WebApiTest.Models.Dto
         public static WantedProduct ConvertProductInWantedProduct(Product productItem) => new WantedProduct
         {
             BoughtStatus = false,
-            ProductId = productItem.Id
+            ProductId = productItem.Id,
+            WifeId = 1
+            
         };
     }
     

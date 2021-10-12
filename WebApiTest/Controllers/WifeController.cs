@@ -25,7 +25,7 @@ namespace WebApiTest.Controllers
         }
 
         [HttpGet("Products")]
-        public async Task<ActionResult<IEnumerable<WantedProduct>>> GetWantedProducts() => await _wifeService.GetWantedProductsAsync();
+        public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetWantedProducts() => await _wifeService.GetWantedProductsAsync();
         [HttpGet("Products/TotalAmount")]
         public async Task<ActionResult<string>> GetTotalAmountWantedProducts() => await _wifeService.GetTotalAmountWantedProductsAsync();
 

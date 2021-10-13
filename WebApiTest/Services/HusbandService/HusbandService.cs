@@ -24,7 +24,8 @@ namespace WebApiTest.Services.HusbandService
             {
                 Id = i.Id,
                 BoughtStatus = i.BoughtStatus,
-                ProductId = i.ProductId
+                ProductId = i.ProductId,
+                WifeId = i.WifeId
             }).ToListAsync();
         }
         public async Task<List<ShopDto>> GetShopsForVisitAsync()
@@ -36,16 +37,12 @@ namespace WebApiTest.Services.HusbandService
             var neededShopList = new List<ShopDto>();
             foreach (var neededProduct in neededProductList)
             {
-                var shopSearched = SearchShop(productList, neededProduct);
+                var shopSearched = await SearchShop(productList, neededProduct);
                 if (shopSearched != null)
                 {
-                    var shopSearchedDto = new ShopDto
-                    {
-                        Id = shopSearched.Id,
-                        Name = shopSearched.Name
-                    };
+                    var shopSearchedDto = ShopDto.ItemShopDTO(shopSearched);
 
-                    if (!neededShopList.Contains(shopSearchedDto))
+                    if (!neededShopList.Exists(o => o.Id == shopSearchedDto.Id))
                     {
                         neededShopList.Add(shopSearchedDto);
                     }
@@ -54,14 +51,14 @@ namespace WebApiTest.Services.HusbandService
 
             return neededShopList;
         }
-        Shop SearchShop(List<ProductDto> productList, WantedProductDto neededProduct)
+        async Task<Shop> SearchShop(List<ProductDto> productList, WantedProductDto neededProduct)
         {
             foreach (var product in productList)
             {
                 if (product.Id == neededProduct.ProductId)
                 {
                     var productSearched = product;
-                    return _context.Shops.FindAsync(product.ShopId).Result;
+                    return await _context.Shops.FindAsync(product.ShopId);
                 }
             }
             return null;
@@ -80,14 +77,7 @@ namespace WebApiTest.Services.HusbandService
                     {
                         if (neededProduct.ProductId==product.Id)
                         {
-                            var newProduct = new ProductDto
-                            {
-                                Id = product.Id,
-                                Name = product.Name,
-                                Price = product.Price,
-                                ShopId = product.ShopId
-                            };
-                            productInShop?.Add((newProduct));
+                            productInShop?.Add(product);
                         }
                     }
             }

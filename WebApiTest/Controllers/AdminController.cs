@@ -57,24 +57,24 @@ namespace WebApiTest.Controllers
         }
         
         [HttpPut("Shop")]
-        public async Task<ActionResult<ShopDto>> PutShopItem(ShopDto shopItemDto)
+        public async Task<ActionResult<ShopDto>> PutShopItem(ShopDto shopDtoItem)
         {
-            await _adminService.UpdateShopAsync(shopItemDto);
+            await _adminService.UpdateShopAsync(shopDtoItem);
 
             return CreatedAtAction(
             nameof(GetShopItem),
-            new { id = shopItemDto.Id },
-            shopItemDto);
+            new { id = shopDtoItem.Id },
+            shopDtoItem);
         }
         [HttpPut("Product")]
-        public async Task<ActionResult<ProductDto>> PutProductItem(ProductDto productItemDto)
+        public async Task<ActionResult<ProductDto>> PutProductItem(ProductDto productDtoItem)
         {
-            await _adminService.UpdateProductAsync(productItemDto);
+            await _adminService.UpdateProductAsync(productDtoItem);
 
             return CreatedAtAction(
             nameof(GetShopItem),
-            new { id = productItemDto.Id },
-            productItemDto);
+            new { id = productDtoItem.Id },
+            productDtoItem);
         }
 
         [HttpPost("Product")]

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using WebApiTest.Services.AccountService;
 
 namespace WebApiTest.Controllers
@@ -14,12 +15,13 @@ namespace WebApiTest.Controllers
 
         [HttpPost("/Token")]
         public IActionResult Token(string username, string password)
-        {
-            var identity = _accountService?.Token(username, password);
-            if (identity == null)
-                    return BadRequest(new { errorText = "Invalid username or password." });
-
-            return Json(identity);
+        {            
+            var identity = _accountService?.Token(username, password);               
+            if (identity == null)                  
+                return BadRequest(new { errorText = "Invalid username or password." });    
+            
+            return Json(identity);           
+            
         }
     }
 }

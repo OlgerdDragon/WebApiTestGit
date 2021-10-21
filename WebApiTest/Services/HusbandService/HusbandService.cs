@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -20,97 +21,152 @@ namespace WebApiTest.Services.HusbandService
         }
         public async Task<List<WantedProductDto>> GetWantedProductsAsync()
         {
-            return await _context.WantedProducts.Select(i => new WantedProductDto
+            try
             {
-                Id = i.Id,
-                BoughtStatus = i.BoughtStatus,
-                ProductId = i.ProductId,
-                WifeId = i.WifeId
-            }).ToListAsync();
+                return await _context.WantedProducts.Select(i => new WantedProductDto
+                {
+                    Id = i.Id,
+                    BoughtStatus = i.BoughtStatus,
+                    ProductId = i.ProductId,
+                    WifeId = i.WifeId
+                }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetWantedProductsAsync method:" + ex.Message);
+            }
+            
         }
         public async Task<List<ShopDto>> GetShopsForVisitAsync()
         {
-            
-            var neededProductList = GetWantedProducts();
-            var productList = GetProductList();
-            
-            var neededShopList = new List<ShopDto>();
-            foreach (var neededProduct in neededProductList)
+            try
             {
-                var shopSearched = await SearchShop(productList, neededProduct);
-                if (shopSearched != null)
-                {
-                    var shopSearchedDto = ShopDto.ItemShopDTO(shopSearched);
+                var neededProductList = GetWantedProducts();
+                var productList = GetProductList();
 
-                    if (!neededShopList.Exists(o => o.Id == shopSearchedDto.Id))
+                var neededShopList = new List<ShopDto>();
+                foreach (var neededProduct in neededProductList)
+                {
+                    var shopSearched = await SearchShop(productList, neededProduct);
+                    if (shopSearched != null)
                     {
-                        neededShopList.Add(shopSearchedDto);
+                        var shopSearchedDto = ShopDto.ItemShopDTO(shopSearched);
+
+                        if (!neededShopList.Exists(o => o.Id == shopSearchedDto.Id))
+                        {
+                            neededShopList.Add(shopSearchedDto);
+                        }
                     }
                 }
+                return neededShopList;
             }
-
-            return neededShopList;
+            catch (Exception ex)
+            {
+                throw new Exception("GetShopsForVisitAsync method:" + ex.Message);
+            }
         }
         async Task<Shop> SearchShop(List<ProductDto> productList, WantedProductDto neededProduct)
         {
-            foreach (var product in productList)
+            try
             {
-                if (product.Id == neededProduct.ProductId)
+                foreach (var product in productList)
                 {
-                    var productSearched = product;
-                    return await _context.Shops.FindAsync(product.ShopId);
+                    if (product.Id == neededProduct.ProductId)
+                    {
+                        var productSearched = product;
+                        return await _context.Shops.FindAsync(product.ShopId);
+                    }
                 }
+                return null;
             }
-            return null;
+            catch (Exception ex)
+            {
+                throw new Exception("SearchShop method:" + ex.Message);
+            }
         }
         
         public async Task<List<ProductDto>> GetProductsInShopAsync(int ShopId)
         {
-            var neededProductList = GetWantedProducts();
-            var productList = GetProductList();
-            var productInShop = new List<ProductDto>();
-            foreach (var product in productList)
+            try
             {
-                if (product.ShopId == ShopId) 
-                    
-                    foreach (var neededProduct in neededProductList)
-                    {
-                        if (neededProduct.ProductId==product.Id)
+                var neededProductList = GetWantedProducts();
+                var productList = GetProductList();
+                var productInShop = new List<ProductDto>();
+                foreach (var product in productList)
+                {
+                    if (product.ShopId == ShopId)
+
+                        foreach (var neededProduct in neededProductList)
                         {
-                            productInShop?.Add(product);
+                            if (neededProduct.ProductId == product.Id)
+                            {
+                                productInShop?.Add(product);
+                            }
                         }
-                    }
+                }
+                return productInShop;
             }
-            return productInShop;
+            catch (Exception ex)
+            {
+                throw new Exception("GetProductsInShopAsync method:" + ex.Message);
+            }
         }
 
        
         public async Task<Shop> FindShopAsync(int id)
         {
-            return await _context.Shops.FindAsync(id);
+            try
+            {
+                return await _context.Shops.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FindShopAsync method:" + ex.Message);
+            }
         }
         public async Task<Product> FindProductAsync(string name)
         {
-            return await _context.Products.FindAsync(name);
+            try
+            {
+                return await _context.Products.FindAsync(name);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FindProductAsync method:" + ex.Message);
+            }
         }
         List<WantedProductDto> GetWantedProducts()
         {
-            return _context.WantedProducts.Select(i => new WantedProductDto
+            try
             {
-                Id = i.Id,
-                BoughtStatus = i.BoughtStatus,
-                ProductId = i.ProductId
-            }).ToList();
+                return _context.WantedProducts.Select(i => new WantedProductDto
+                {
+                    Id = i.Id,
+                    BoughtStatus = i.BoughtStatus,
+                    ProductId = i.ProductId
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetWantedProducts method:" + ex.Message);
+            }
         }
         List<ProductDto> GetProductList()
         {
-            return _context.Products.Select(i => new ProductDto
+            try
             {
-                Id = i.Id,
-                Name = i.Name,
-                Price = i.Price,
-                ShopId = i.ShopId
-            }).ToList();
+                return _context.Products.Select(i => new ProductDto
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Price = i.Price,
+                    ShopId = i.ShopId
+                }).ToList();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetProductList method:" + ex.Message);
+            }
         }
     }
 }

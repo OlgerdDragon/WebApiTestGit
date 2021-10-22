@@ -20,16 +20,16 @@ namespace WebApiTest
         }
         public static void Main(string[] args)
         {
-            var levelSwitch = new LoggingLevelSwitch();
-            levelSwitch.MinimumLevel = LogEventLevel.Verbose;
+            //var levelSwitch = new LoggingLevelSwitch();
+            //levelSwitch.MinimumLevel = LogEventLevel.Verbose;
 
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .MinimumLevel.ControlledBy(levelSwitch)
-                .CreateLogger();
+            //var configuration = new ConfigurationBuilder()
+            //    .AddJsonFile("appsettings.json")
+            //    .Build();
+            //Log.Logger = new LoggerConfiguration()
+            //    .ReadFrom.Configuration(configuration)
+            //    .MinimumLevel.ControlledBy(levelSwitch)
+            //    .CreateLogger();
             
             Log.Information("Application starting up !!!");
             CreateHostBuilder(args).Build().Run();

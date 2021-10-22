@@ -4,6 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 using WebApiTest.Data;
 using WebApiTest.Models;
 using WebApiTest.Models.Dto;
@@ -14,9 +19,22 @@ namespace WebApiTest.Services.AdminService
     public class AdminService: IAdminService
     {
         private readonly TownContext _context;
-        public AdminService(TownContext context)
+        private readonly ILogger<AdminService> _logger;
+        public AdminService(TownContext context, ILogger<AdminService> logger)
         {
+            var levelSwitch = new LoggingLevelSwitch();
+            levelSwitch.MinimumLevel = LogEventLevel.Verbose;
+
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .MinimumLevel.ControlledBy(levelSwitch)
+                .CreateLogger();
+
             _context = context;
+            _logger = logger;
         }
         public async Task<List<ProductDto>> GetProductsAsync()
         {

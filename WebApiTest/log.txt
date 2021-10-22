@@ -1,2 +1,10 @@
 2021-10-22 16:48:51.521 +03:00 [INF] Application starting up !!!
 2021-10-22 16:48:54.021 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 193.3484 ms
+2021-10-22 17:30:53.877 +03:00 [INF] Application starting up !!!
+2021-10-22 17:30:55.646 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 213.5461 ms
+2021-10-22 17:36:03.950 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 9187.6979 ms
+2021-10-22 17:54:56.444 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 3685.5765 ms
+2021-10-22 18:09:19.864 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 4432.9839 ms
+2021-10-22 18:09:23.136 +03:00 [INF] HTTP GET /api/wife/products responded 401 in 507.3402 ms
+2021-10-22 18:09:24.767 +03:00 [INF] HTTP GET /api/admin/shops responded 401 in 2.3757 ms
+2021-10-22 18:09:27.397 +03:00 [INF] HTTP GET /api/husband/products responded 401 in 2.1087 ms

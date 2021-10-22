@@ -1,5 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
+using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,10 +17,22 @@ namespace WebApiTest.Services.WifeService
     public class WifeService : IWifeService
     {
         private readonly TownContext _context;
-
-        public WifeService(TownContext context)
+        private readonly ILogger<WifeService> _logger;
+        public WifeService(TownContext context, ILogger<WifeService> logger)
         {
+            var levelSwitch = new LoggingLevelSwitch();
+            levelSwitch.MinimumLevel = LogEventLevel.Verbose;
+
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .MinimumLevel.ControlledBy(levelSwitch)
+                .CreateLogger();
+
             _context = context;
+            _logger = logger;
         }
         
         public async Task<List<WantedProductDto>> GetWantedProductsAsync()

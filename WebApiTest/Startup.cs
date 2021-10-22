@@ -12,6 +12,7 @@ using WebApiTest.Services.WifeService;
 using WebApiTest.Services.AccountService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Serilog;
 
 namespace WebApiTest
 {
@@ -66,6 +67,7 @@ namespace WebApiTest
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
+            app.UseSerilogRequestLogging();
 
             app.UseRouting();
 

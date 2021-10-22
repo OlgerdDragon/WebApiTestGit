@@ -10,16 +10,21 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApiTest.Data;
 using WebApiTest.Models;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace WebApiTest.Services.AccountService
 {
     public class AccountService : IAccountService
     {
         private readonly TownContext _context;
+        private readonly ILogger<AccountService> _logger;
 
-        public AccountService(TownContext context)
+
+        public AccountService(TownContext context, ILogger<AccountService> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         public object Token(string username, string password)

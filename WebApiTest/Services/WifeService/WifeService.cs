@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -37,89 +38,155 @@ namespace WebApiTest.Services.WifeService
         
         public async Task<List<WantedProductDto>> GetWantedProductsAsync()
         {
-            return await _context.WantedProducts.Select(i => new WantedProductDto
+            try
             {
-                Id = i.Id,
-                BoughtStatus = i.BoughtStatus,
-                ProductId = i.ProductId,
-                WifeId = i.WifeId
-                
-            }).ToListAsync();
+                return await _context.WantedProducts.Select(i => new WantedProductDto
+                {
+                    Id = i.Id,
+                    BoughtStatus = i.BoughtStatus,
+                    ProductId = i.ProductId,
+                    WifeId = i.WifeId
+
+                }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetWantedProductsAsync method:" + ex.Message);
+            }
         }
         public async Task<string> GetTotalAmountWantedProductsAsync()
         {
-            var _wantedProductsList = await _context.WantedProducts.Select(i => new WantedProduct
+            try
             {
-                Id = i.Id,
-                BoughtStatus = i.BoughtStatus,
-                ProductId = i.ProductId,
-                WifeId = i.WifeId
+                var _wantedProductsList = await _context.WantedProducts.Select(i => new WantedProduct
+                {
+                    Id = i.Id,
+                    BoughtStatus = i.BoughtStatus,
+                    ProductId = i.ProductId,
+                    WifeId = i.WifeId
 
-            }).ToListAsync();
-            int _totalAmount = 0;
-            foreach (var item in _wantedProductsList)
-            {
-                var product = await FindProductAsync(item.ProductId);
-                _totalAmount += product.Price;
+                }).ToListAsync();
+                int _totalAmount = 0;
+                foreach (var item in _wantedProductsList)
+                {
+                    var product = await FindProductAsync(item.ProductId);
+                    _totalAmount += product.Price;
+                }
+                return $"Total Amount: {_totalAmount}";
             }
-            return $"Total Amount: {_totalAmount}";
+            catch (Exception ex)
+            {
+                throw new Exception("GetTotalAmountWantedProductsAsync method:" + ex.Message);
+            }
+            
         }
         public async Task<WantedProductDto> AddProduct(int id)
         {
-            var _productItem = await FindProductAsync(id);
-            var _wantedProductItem = WantedProductDto.ConvertProductInWantedProduct(_productItem);
-            _context.WantedProducts.Add(_wantedProductItem);
-            await SaveChangesAsync();
-            return WantedProductDto.ItemWantedProductDTO(_wantedProductItem);
+            try
+            {
+                var _productItem = await FindProductAsync(id);
+                var _wantedProductItem = WantedProductDto.ConvertProductInWantedProduct(_productItem);
+                _context.WantedProducts.Add(_wantedProductItem);
+                await SaveChangesAsync();
+                return WantedProductDto.ItemWantedProductDTO(_wantedProductItem);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("AddProduct method:" + ex.Message);
+            }
         }
         async Task<int> SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync();
+            try
+            {
+                return await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SaveChangesAsync method:" + ex.Message);
+            }
         }
         public async Task<Product> FindProductAsync(int id)
         {
-            return await _context.Products.FindAsync(id);
+            try
+            {
+                return await _context.Products.FindAsync(id);
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FindProductAsync method:" + ex.Message);
+            }
+
         }
         public async Task<WantedProduct> FindWantedProductAsync(int id)
         {
-            return await _context.WantedProducts.FindAsync(id);
+            try
+            {
+                return await _context.WantedProducts.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FindWantedProductAsync method:" + ex.Message);
+            }
         }
         public async Task<ActionResult<WantedProductDto>> GetWantedProductItemAsync(int id)
         {
-            var wantedProductItem = await FindWantedProductAsync(id);
-
-            if (wantedProductItem == null)
+            try
             {
-                return null;
-            }
+                var wantedProductItem = await FindWantedProductAsync(id);
 
-            return WantedProductDto.ItemWantedProductDTO(wantedProductItem);
+                if (wantedProductItem == null)
+                {
+                    return null;
+                }
+
+                return WantedProductDto.ItemWantedProductDTO(wantedProductItem);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetWantedProductItemAsync method:" + ex.Message);
+            }
         }
         public async Task<bool> RemoveWantedProduct(int id)
         {
-            var _wantedProductItem = await FindWantedProductAsync(id);
-
-            if (_wantedProductItem == null)
+            try
             {
-                return false;
-            }
+                var _wantedProductItem = await FindWantedProductAsync(id);
 
-            _context.WantedProducts.Remove(_wantedProductItem);
-            await SaveChangesAsync();
-            return true;
+                if (_wantedProductItem == null)
+                {
+                    return false;
+                }
+
+                _context.WantedProducts.Remove(_wantedProductItem);
+                await SaveChangesAsync();
+                return true;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("RemoveWantedProduct method:" + ex.Message);
+            }
         }
         public async Task RemoveAllWantedProducts()
         {
-            var _wantedProductList = _context.WantedProducts.Select(i => new WantedProduct
+            try
             {
-                Id = i.Id,
-                BoughtStatus = i.BoughtStatus,
-            }).ToList();
-            foreach (var item in _wantedProductList)
-            {
-                _context.WantedProducts.Remove(item);
+                var _wantedProductList = _context.WantedProducts.Select(i => new WantedProduct
+                {
+                    Id = i.Id,
+                    BoughtStatus = i.BoughtStatus,
+                }).ToList();
+                foreach (var item in _wantedProductList)
+                {
+                    _context.WantedProducts.Remove(item);
+                }
+                await SaveChangesAsync();
             }
-            await SaveChangesAsync();
+            catch (Exception ex)
+            {
+                throw new Exception("RemoveAllWantedProducts method:" + ex.Message);
+            }
         }
     }
 }

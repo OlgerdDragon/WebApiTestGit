@@ -38,114 +38,207 @@ namespace WebApiTest.Services.AdminService
         }
         public async Task<List<ProductDto>> GetProductsAsync()
         {
-            return await _context.Products.Select(i => new ProductDto
+            try
             {
-                Id = i.Id,
-                Name = i.Name,
-                Price = i.Price,
-                ShopId = i.ShopId
-            }).ToListAsync();
+                return await _context.Products.Select(i => new ProductDto
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Price = i.Price,
+                    ShopId = i.ShopId
+                }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetProductsAsync method:" + ex.Message);
+            }
         }
 
         public async Task<List<ShopDto>> GetShopsAsync()
         {
-            return await _context.Shops.Select(i => new ShopDto
+            try
             {
-                Id = i.Id,
-                Name = i.Name
-            }).ToListAsync();
+                return await _context.Shops.Select(i => new ShopDto
+                {
+                    Id = i.Id,
+                    Name = i.Name
+                }).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetShopsAsync method:" + ex.Message);
+            }
         }
         public async Task<ShopDto> UpdateShopAsync(ShopDto newShop)
         {
-            var shop = _context.Shops
+            try
+            {
+                var shop = _context.Shops
                 .Where(i => i.Id == newShop.Id)
                 .FirstOrDefault();
 
-            shop.Name = newShop.Name;
-            await SaveChangesAsync();
-            return newShop;
+                shop.Name = newShop.Name;
+                await SaveChangesAsync();
+                return newShop;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UpdateShopAsync method:" + ex.Message);
+            }
         }
         public async Task<ProductDto> UpdateProductAsync(ProductDto newProduct)
         {
-            var product = _context.Products
+            try
+            {
+                var product = _context.Products
                 .Where(i => i.Id == newProduct.Id)
                 .FirstOrDefault();
 
-            product.Name = newProduct.Name;
-            product.Price = newProduct.Price;
-            product.ShopId = newProduct.ShopId;
+                product.Name = newProduct.Name;
+                product.Price = newProduct.Price;
+                product.ShopId = newProduct.ShopId;
 
-            await SaveChangesAsync();
-            return newProduct;
+                await SaveChangesAsync();
+                return newProduct;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("UpdateProductAsync method:" + ex.Message);
+            }
         }
         public async Task<Shop> FindShopAsync(int id)
         {
-            return await _context.Shops.FindAsync(id);
+            try
+            {
+                return await _context.Shops.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FindShopAsync method:" + ex.Message);
+            }
         }
+
         public async Task<Product> FindProductAsync(int id)
         {
-            return await _context.Products.FindAsync(id);
+            try
+            {
+                return await _context.Products.FindAsync(id);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("FindProductAsync method:" + ex.Message);
+            }
         }
         public async Task<ActionResult<ShopDto>> GetShopAsync(int id)
         {
-            var shopItem = await FindShopAsync(id);
-            if (shopItem == null)
+            try
             {
-                return null;
+                var shopItem = await FindShopAsync(id);
+                if (shopItem == null)
+                {
+                    return null;
+                }
+                return ShopDto.ItemShopDTO(shopItem);
             }
-            return ShopDto.ItemShopDTO(shopItem);
+            catch (Exception ex)
+            {
+                throw new Exception("GetShopAsync method:" + ex.Message);
+            }
+            
         }
         public async Task<ActionResult<ProductDto>> GetProductAsync(int id)
         {
-            var productItem = await FindProductAsync(id);
-
-            if (productItem == null)
+            try
             {
-                return null;
-            }
+                var productItem = await FindProductAsync(id);
 
-            return ProductDto.ItemProductDTO(productItem);
+                if (productItem == null)
+                {
+                    return null;
+                }
+
+                return ProductDto.ItemProductDTO(productItem);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("GetProductAsync method:" + ex.Message);
+            }
         }
         public async Task<bool> RemoveProduct(int id)
         {
-            var productItem = await FindProductAsync(id);
-            if (productItem == null)
+            try
             {
-                return false;
+                var productItem = await FindProductAsync(id);
+                if (productItem == null)
+                {
+                    return false;
+                }
+                _context.Products.Remove(productItem);
+                await SaveChangesAsync();
+                return true;
             }
-            _context.Products.Remove(productItem);
-            await SaveChangesAsync();
-            return true;
+            catch (Exception ex)
+            {
+                throw new Exception("RemoveProduct method:" + ex.Message);
+            }
         }
 
         public async Task<bool> RemoveShop(int id)
         {
-            var shopItem = await FindShopAsync(id);
-            if (shopItem == null)
+            try
             {
-                return false;
+                var shopItem = await FindShopAsync(id);
+                if (shopItem == null)
+                {
+                    return false;
+                }
+                _context.Shops.Remove(shopItem);
+                await SaveChangesAsync();
+                return true;
             }
-            _context.Shops.Remove(shopItem);
-            await SaveChangesAsync();
-            return true;
+            catch (Exception ex)
+            {
+                throw new Exception("RemoveShop method:" + ex.Message);
+            }
         }
         public async Task AddProduct(ProductDto productDtoItem)
         {
-            var shop = FindShopAsync(productDtoItem.ShopId);
-            var productItem = productDtoItem.Product(shop.Result);
+            try
+            {
+                var shop = FindShopAsync(productDtoItem.ShopId);
+                var productItem = productDtoItem.Product(shop.Result);
 
-            _context.Products.Add(productItem);
-            await SaveChangesAsync();
+                _context.Products.Add(productItem);
+                await SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("AddProduct method:" + ex.Message);
+            }
         }
         public async Task AddShop(ShopDto shopDtoItem)
         {
-            var shop = _context.Shops.Add(shopDtoItem.Shop());
-            await SaveChangesAsync();
-            
+            try
+            {
+                var shop = _context.Shops.Add(shopDtoItem.Shop());
+                await SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("AddShop method:" + ex.Message);
+            }
         }
         async Task<int> SaveChangesAsync()
         {
-            return await _context.SaveChangesAsync();
+            try
+            {
+                return await _context.SaveChangesAsync();
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("SaveChangesAsync method:" + ex.Message);
+            }
         }
     }
 }

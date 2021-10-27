@@ -10,9 +10,12 @@ using WebApiTest.Services.AdminService;
 using WebApiTest.Services.HusbandService;
 using WebApiTest.Services.WifeService;
 using WebApiTest.Services.AccountService;
+using WebApiTest.Services.UtilsService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using Serilog.Core;
+using Serilog.Events;
 
 namespace WebApiTest
 {
@@ -29,6 +32,7 @@ namespace WebApiTest
             services.AddScoped<IHusbandService, HusbandService>();
             services.AddScoped<IWifeService, WifeService>();
             services.AddScoped<IAccountService, AccountService>();
+            services.AddScoped<IUtilsService, UtilsService>();
             services.AddControllers();
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
 
@@ -57,9 +61,23 @@ namespace WebApiTest
                     });
             services.AddControllersWithViews();
         }
+        private void LoggingConfiguration()
+        {
+            var levelSwitch = new LoggingLevelSwitch();
+            levelSwitch.MinimumLevel = LogEventLevel.Verbose;
 
+            var configuration = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json")
+                .Build();
+            Log.Logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .MinimumLevel.ControlledBy(levelSwitch)
+                .CreateLogger();
+        }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            LoggingConfiguration();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

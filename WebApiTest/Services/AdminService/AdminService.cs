@@ -22,31 +22,20 @@ namespace WebApiTest.Services.AdminService
         private readonly ILogger<AdminService> _logger;
         public AdminService(TownContext context, ILogger<AdminService> logger)
         {
-            var levelSwitch = new LoggingLevelSwitch();
-            levelSwitch.MinimumLevel = LogEventLevel.Verbose;
-
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .MinimumLevel.ControlledBy(levelSwitch)
-                .CreateLogger();
-
             _context = context;
             _logger = logger;
         }
-        public async Task<List<ProductDto>> GetProductsAsync()
+        public async Task<Result<List<ProductDto>>> GetProductsAsync()
         {
             try
             {
-                return await _context.Products.Select(i => new ProductDto
+                return new Result<List<ProductDto>>(await _context.Products.Select(i => new ProductDto
                 {
                     Id = i.Id,
                     Name = i.Name,
                     Price = i.Price,
                     ShopId = i.ShopId
-                }).ToListAsync();
+                }).ToListAsync());
             }
             catch (Exception ex)
             {
@@ -54,22 +43,22 @@ namespace WebApiTest.Services.AdminService
             }
         }
 
-        public async Task<List<ShopDto>> GetShopsAsync()
+        public async Task<Result<List<ShopDto>>> GetShopsAsync()
         {
             try
             {
-                return await _context.Shops.Select(i => new ShopDto
+                return new Result<List<ShopDto>>(await _context.Shops.Select(i => new ShopDto
                 {
                     Id = i.Id,
                     Name = i.Name
-                }).ToListAsync();
+                }).ToListAsync());
             }
             catch (Exception ex)
             {
                 throw new Exception("GetShopsAsync method:" + ex.Message);
             }
         }
-        public async Task<ShopDto> UpdateShopAsync(ShopDto newShop)
+        public async Task<Result<ShopDto>> UpdateShopAsync(ShopDto newShop)
         {
             try
             {
@@ -79,14 +68,14 @@ namespace WebApiTest.Services.AdminService
 
                 shop.Name = newShop.Name;
                 await SaveChangesAsync();
-                return newShop;
+                return new Result<ShopDto>(newShop);
             }
             catch (Exception ex)
             {
                 throw new Exception("UpdateShopAsync method:" + ex.Message);
             }
         }
-        public async Task<ProductDto> UpdateProductAsync(ProductDto newProduct)
+        public async Task<Result<ProductDto>> UpdateProductAsync(ProductDto newProduct)
         {
             try
             {
@@ -99,18 +88,18 @@ namespace WebApiTest.Services.AdminService
                 product.ShopId = newProduct.ShopId;
 
                 await SaveChangesAsync();
-                return newProduct;
+                return new Result<ProductDto>(newProduct);
             }
             catch (Exception ex)
             {
                 throw new Exception("UpdateProductAsync method:" + ex.Message);
             }
         }
-        public async Task<Shop> FindShopAsync(int id)
+        public async Task<Result<Shop>> FindShopAsync(int id)
         {
             try
             {
-                return await _context.Shops.FindAsync(id);
+                return new Result<Shop>(await _context.Shops.FindAsync(id));
             }
             catch (Exception ex)
             {
@@ -118,27 +107,27 @@ namespace WebApiTest.Services.AdminService
             }
         }
 
-        public async Task<Product> FindProductAsync(int id)
+        public async Task<Result<Product>> FindProductAsync(int id)
         {
             try
             {
-                return await _context.Products.FindAsync(id);
+                return new Result<Product>(await _context.Products.FindAsync(id));
             }
             catch (Exception ex)
             {
                 throw new Exception("FindProductAsync method:" + ex.Message);
             }
         }
-        public async Task<ActionResult<ShopDto>> GetShopAsync(int id)
+        public async Task<Result<ActionResult<ShopDto>>> GetShopAsync(int id)
         {
             try
             {
                 var shopItem = await FindShopAsync(id);
-                if (shopItem == null)
+                if (shopItem.Element == null)
                 {
                     return null;
                 }
-                return ShopDto.ItemShopDTO(shopItem);
+                return new Result<ActionResult<ShopDto>>(ShopDto.ItemShopDTO(shopItem.Element));
             }
             catch (Exception ex)
             {
@@ -146,36 +135,36 @@ namespace WebApiTest.Services.AdminService
             }
             
         }
-        public async Task<ActionResult<ProductDto>> GetProductAsync(int id)
+        public async Task<Result<ActionResult<ProductDto>>> GetProductAsync(int id)
         {
             try
             {
                 var productItem = await FindProductAsync(id);
 
-                if (productItem == null)
+                if (productItem.Element == null)
                 {
                     return null;
                 }
 
-                return ProductDto.ItemProductDTO(productItem);
+                return new Result<ActionResult<ProductDto>>(ProductDto.ItemProductDTO(productItem.Element));
             }
             catch (Exception ex)
             {
                 throw new Exception("GetProductAsync method:" + ex.Message);
             }
         }
-        public async Task<bool> RemoveProduct(int id)
+        public async Task<Result<bool>> RemoveProduct(int id)
         {
             try
             {
+                var status = true;
                 var productItem = await FindProductAsync(id);
                 if (productItem == null)
-                {
-                    return false;
-                }
-                _context.Products.Remove(productItem);
+                    status = false;
+
+                _context.Products.Remove(productItem.Element);
                 await SaveChangesAsync();
-                return true;
+                return new Result<bool>(status);
             }
             catch (Exception ex)
             {
@@ -183,45 +172,47 @@ namespace WebApiTest.Services.AdminService
             }
         }
 
-        public async Task<bool> RemoveShop(int id)
+        public async Task<Result<bool>> RemoveShop(int id)
         {
             try
             {
+                var status = true;
                 var shopItem = await FindShopAsync(id);
                 if (shopItem == null)
-                {
-                    return false;
-                }
-                _context.Shops.Remove(shopItem);
+                    status = false;
+
+                _context.Shops.Remove(shopItem.Element);
                 await SaveChangesAsync();
-                return true;
+                return new Result<bool>(status);
             }
             catch (Exception ex)
             {
                 throw new Exception("RemoveShop method:" + ex.Message);
             }
         }
-        public async Task AddProduct(ProductDto productDtoItem)
+        public async Task<Result<bool>> AddProduct(ProductDto productDtoItem)
         {
             try
             {
                 var shop = FindShopAsync(productDtoItem.ShopId);
-                var productItem = productDtoItem.Product(shop.Result);
+                var productItem = productDtoItem.Product(shop.Result.Element);
 
                 _context.Products.Add(productItem);
                 await SaveChangesAsync();
+                return new Result<bool>(true);
             }
             catch (Exception ex)
             {
                 throw new Exception("AddProduct method:" + ex.Message);
             }
         }
-        public async Task AddShop(ShopDto shopDtoItem)
+        public async Task<Result<bool>> AddShop(ShopDto shopDtoItem)
         {
             try
             {
                 var shop = _context.Shops.Add(shopDtoItem.Shop());
                 await SaveChangesAsync();
+                return new Result<bool>(true);
             }
             catch (Exception ex)
             {

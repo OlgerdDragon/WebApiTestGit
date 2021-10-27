@@ -8,3 +8,64 @@
 2021-10-22 18:09:23.136 +03:00 [INF] HTTP GET /api/wife/products responded 401 in 507.3402 ms
 2021-10-22 18:09:24.767 +03:00 [INF] HTTP GET /api/admin/shops responded 401 in 2.3757 ms
 2021-10-22 18:09:27.397 +03:00 [INF] HTTP GET /api/husband/products responded 401 in 2.1087 ms
+2021-10-26 17:52:12.843 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 1388.5172 ms
+2021-10-26 17:52:14.520 +03:00 [INF] HTTP GET /api/husband/products responded 401 in 3071.4343 ms
+2021-10-26 17:53:23.285 +03:00 [ERR] HTTP POST /api/account/Token responded 500 in 63717.7331 ms
+System.Exception: Token method:GetIdentity method:GetHash method:Object reference not set to an instance of an object.
+   at WebApiTest.Services.AccountService.AccountService.Token(String username, String password) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Services\AccountService\AccountService.cs:line 65
+   at WebApiTest.Controllers.AccountController.Token(EntryAccountDto account) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\AccountController.cs:line 21
+   at lambda_method4(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-10-26 17:53:23.958 +03:00 [ERR] An unhandled exception has occurred while executing the request.
+System.Exception: Token method:GetIdentity method:GetHash method:Object reference not set to an instance of an object.
+   at WebApiTest.Services.AccountService.AccountService.Token(String username, String password) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Services\AccountService\AccountService.cs:line 65
+   at WebApiTest.Controllers.AccountController.Token(EntryAccountDto account) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\AccountController.cs:line 21
+   at lambda_method4(Closure , Object , Object[] )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.SyncObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeActionMethodAsync()
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeNextActionFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-10-26 17:53:45.610 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 486.7834 ms
+2021-10-26 17:53:56.464 +03:00 [INF] GetWantedProductsAsync: 
+2021-10-26 17:53:56.530 +03:00 [INF] HTTP GET /api/husband/products responded 200 in 344.3159 ms
+2021-10-27 03:24:10.679 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 722.3949 ms
+2021-10-27 03:27:44.039 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 6483.1668 ms
+2021-10-27 03:27:57.608 +03:00 [INF] HTTP GET /api/admin/shops responded 200 in 685.3415 ms
+2021-10-27 03:28:08.064 +03:00 [INF] HTTP GET /api/admin/shop/1 responded 200 in 192.2341 ms
+2021-10-27 05:16:20.094 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 391.2517 ms
+2021-10-27 05:16:48.760 +03:00 [INF] HTTP GET /api/Utils/Logging/1 responded 405 in 329.6722 ms
+2021-10-27 05:18:34.533 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 440.3746 ms

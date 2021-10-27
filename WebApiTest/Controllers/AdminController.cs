@@ -25,21 +25,38 @@ namespace WebApiTest.Controllers
         }
 
         [HttpGet("Shops")]
-        public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItems() => await _adminService.GetShopsAsync();
+        public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItems()
+        {
+            var shopItems = await _adminService.GetShopsAsync();
+            return shopItems.Element;
+        } 
 
         [HttpGet("Products")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductItems() => await _adminService.GetProductsAsync();
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductItems() 
+        {
+            var productItems = await _adminService.GetProductsAsync();
+            return productItems.Element;
+        }
 
         [HttpGet("Shop/{id}")]
-        public async Task<ActionResult<ShopDto>> GetShopItem(int id) => await _adminService.GetShopAsync(id) ?? NotFound();
+        public async Task<ActionResult<ShopDto>> GetShopItem(int id)
+        {
+            var shopItem = await _adminService.GetShopAsync(id);
+            return shopItem.Element ?? NotFound();
+        }
 
         [HttpGet("Product/{id}")]
-        public async Task<ActionResult<ProductDto>> GetProductItem(int id) => await _adminService.GetProductAsync(id) ?? NotFound();
+        public async Task<ActionResult<ProductDto>> GetProductItem(int id)
+        {
+            var productItem = await _adminService.GetProductAsync(id);
+            return productItem.Element ?? NotFound();
+        }
 
         [HttpDelete("Shop/{id}")]
         public async Task<IActionResult> DeleteShopItem(int id)
         {
-            if (await _adminService.RemoveShop(id))
+            var shopItem = await _adminService.RemoveShop(id);
+            if (shopItem.Element)
             {
                 return NoContent();
             }
@@ -49,7 +66,8 @@ namespace WebApiTest.Controllers
         [HttpDelete("Product/{id}")]
         public async Task<IActionResult> DeleteProductItem(int id)
         {
-            if (await _adminService.RemoveProduct(id))
+            var productItem = await _adminService.RemoveProduct(id);
+            if (productItem.Element)
             {
                 return  NoContent();
             }
@@ -59,7 +77,7 @@ namespace WebApiTest.Controllers
         [HttpPut("Shop")]
         public async Task<ActionResult<ShopDto>> PutShopItem(ShopDto shopDtoItem)
         {
-            await _adminService.UpdateShopAsync(shopDtoItem);
+            var shopItem = await _adminService.UpdateShopAsync(shopDtoItem);
 
             return CreatedAtAction(
             nameof(GetShopItem),
@@ -69,7 +87,7 @@ namespace WebApiTest.Controllers
         [HttpPut("Product")]
         public async Task<ActionResult<ProductDto>> PutProductItem(ProductDto productDtoItem)
         {
-            await _adminService.UpdateProductAsync(productDtoItem);
+            var productItem = await _adminService.UpdateProductAsync(productDtoItem);
 
             return CreatedAtAction(
             nameof(GetShopItem),
@@ -80,7 +98,7 @@ namespace WebApiTest.Controllers
         [HttpPost("Product")]
         public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productDtoItem)
         {
-            await _adminService.AddProduct(productDtoItem);
+            var product = await _adminService.AddProduct(productDtoItem);
 
             return CreatedAtAction(
                 nameof(GetProductItem),
@@ -90,7 +108,7 @@ namespace WebApiTest.Controllers
         [HttpPost("Shop")]
         public async Task<ActionResult<ShopDto>> AddShopItem(ShopDto shopDtoItem)
         { 
-            await _adminService.AddShop(shopDtoItem);
+            var shop = await _adminService.AddShop(shopDtoItem);
 
             return CreatedAtAction(
             nameof(GetShopItem),

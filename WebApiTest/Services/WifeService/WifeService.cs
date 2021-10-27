@@ -21,26 +21,15 @@ namespace WebApiTest.Services.WifeService
         private readonly ILogger<WifeService> _logger;
         public WifeService(TownContext context, ILogger<WifeService> logger)
         {
-            var levelSwitch = new LoggingLevelSwitch();
-            levelSwitch.MinimumLevel = LogEventLevel.Verbose;
-
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .MinimumLevel.ControlledBy(levelSwitch)
-                .CreateLogger();
-
             _context = context;
             _logger = logger;
         }
         
-        public async Task<List<WantedProductDto>> GetWantedProductsAsync()
+        public async Task<Result<List<WantedProductDto>>> GetWantedProductsAsync()
         {
             try
             {
-                return await _context.WantedProducts.Select(i => new WantedProductDto
+                var wantedProducts = await _context.WantedProducts.Select(i => new WantedProductDto
                 {
                     Id = i.Id,
                     BoughtStatus = i.BoughtStatus,
@@ -48,13 +37,14 @@ namespace WebApiTest.Services.WifeService
                     WifeId = i.WifeId
 
                 }).ToListAsync();
+                return new Result<List<WantedProductDto>>(wantedProducts);
             }
             catch (Exception ex)
             {
                 throw new Exception("GetWantedProductsAsync method:" + ex.Message);
             }
         }
-        public async Task<string> GetTotalAmountWantedProductsAsync()
+        public async Task<Result<string>> GetTotalAmountWantedProductsAsync()
         {
             try
             {
@@ -70,9 +60,9 @@ namespace WebApiTest.Services.WifeService
                 foreach (var item in _wantedProductsList)
                 {
                     var product = await FindProductAsync(item.ProductId);
-                    _totalAmount += product.Price;
+                    _totalAmount += product.Element.Price;
                 }
-                return $"Total Amount: {_totalAmount}";
+                return new Result<string>($"Total Amount: {_totalAmount}");
             }
             catch (Exception ex)
             {
@@ -80,15 +70,17 @@ namespace WebApiTest.Services.WifeService
             }
             
         }
-        public async Task<WantedProductDto> AddProduct(int id)
+        public async Task<Result<WantedProductDto>> AddProduct(int id)
         {
             try
             {
                 var _productItem = await FindProductAsync(id);
-                var _wantedProductItem = WantedProductDto.ConvertProductInWantedProduct(_productItem);
+                var _wantedProductItem = WantedProductDto.ConvertProductInWantedProduct(_productItem.Element);
                 _context.WantedProducts.Add(_wantedProductItem);
                 await SaveChangesAsync();
-                return WantedProductDto.ItemWantedProductDTO(_wantedProductItem);
+
+                var wantedProductDTO = WantedProductDto.ItemWantedProductDTO(_wantedProductItem);
+                return new Result<WantedProductDto>(wantedProductDTO);
             }
             catch (Exception ex)
             {
@@ -106,11 +98,12 @@ namespace WebApiTest.Services.WifeService
                 throw new Exception("SaveChangesAsync method:" + ex.Message);
             }
         }
-        public async Task<Product> FindProductAsync(int id)
+        public async Task<Result<Product>> FindProductAsync(int id)
         {
             try
             {
-                return await _context.Products.FindAsync(id);
+                var product = await _context.Products.FindAsync(id);
+                return new Result<Product>(product);
 
             }
             catch (Exception ex)
@@ -119,18 +112,19 @@ namespace WebApiTest.Services.WifeService
             }
 
         }
-        public async Task<WantedProduct> FindWantedProductAsync(int id)
+        public async Task<Result<WantedProduct>> FindWantedProductAsync(int id)
         {
             try
             {
-                return await _context.WantedProducts.FindAsync(id);
+                var wantedProduct = await _context.WantedProducts.FindAsync(id);
+                return new Result<WantedProduct>(wantedProduct);
             }
             catch (Exception ex)
             {
                 throw new Exception("FindWantedProductAsync method:" + ex.Message);
             }
         }
-        public async Task<ActionResult<WantedProductDto>> GetWantedProductItemAsync(int id)
+        public async Task<Result<ActionResult<WantedProductDto>>> GetWantedProductItemAsync(int id)
         {
             try
             {
@@ -141,37 +135,39 @@ namespace WebApiTest.Services.WifeService
                     return null;
                 }
 
-                return WantedProductDto.ItemWantedProductDTO(wantedProductItem);
+                var wantedProductDTO = WantedProductDto.ItemWantedProductDTO(wantedProductItem.Element);
+                return new Result<ActionResult<WantedProductDto>>(wantedProductDTO);
             }
             catch (Exception ex)
             {
                 throw new Exception("GetWantedProductItemAsync method:" + ex.Message);
             }
         }
-        public async Task<bool> RemoveWantedProduct(int id)
+        public async Task<Result<bool>> RemoveWantedProduct(int id)
         {
             try
             {
+                var status = true;
                 var _wantedProductItem = await FindWantedProductAsync(id);
 
                 if (_wantedProductItem == null)
-                {
-                    return false;
-                }
+                    status = false;
 
-                _context.WantedProducts.Remove(_wantedProductItem);
+                _context.WantedProducts.Remove(_wantedProductItem.Element);
                 await SaveChangesAsync();
-                return true;
+
+                return new Result<bool>(status);
             }
             catch (Exception ex)
             {
                 throw new Exception("RemoveWantedProduct method:" + ex.Message);
             }
         }
-        public async Task RemoveAllWantedProducts()
+        public async Task<Result<bool>> RemoveAllWantedProducts()
         {
             try
             {
+                var status = true;
                 var _wantedProductList = _context.WantedProducts.Select(i => new WantedProduct
                 {
                     Id = i.Id,
@@ -182,6 +178,8 @@ namespace WebApiTest.Services.WifeService
                     _context.WantedProducts.Remove(item);
                 }
                 await SaveChangesAsync();
+
+                return new Result<bool>(status);
             }
             catch (Exception ex)
             {

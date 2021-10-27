@@ -25,17 +25,30 @@ namespace WebApiTest.Controllers
         }
 
         [HttpGet("Products")]
-        public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetWantedProducts() => await _wifeService.GetWantedProductsAsync();
+        public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetWantedProducts()
+        {
+            var wantedProducts = await _wifeService.GetWantedProductsAsync();
+            return wantedProducts.Element;
+        }
         [HttpGet("Products/TotalAmount")]
-        public async Task<ActionResult<string>> GetTotalAmountWantedProducts() => await _wifeService.GetTotalAmountWantedProductsAsync();
+        public async Task<ActionResult<string>> GetTotalAmountWantedProducts()
+        {
+            var totalAmount = await _wifeService.GetTotalAmountWantedProductsAsync();
+            return totalAmount.Element;
+        }
 
         [HttpGet("Product/{id}")]
-        public async Task<ActionResult<WantedProductDto>> GetWantedProductItem(int id) => await _wifeService.GetWantedProductItemAsync(id) ?? NotFound();
+        public async Task<ActionResult<WantedProductDto>> GetWantedProductItem(int id)
+        {
+            var wantedProduct = await _wifeService.GetWantedProductItemAsync(id);
+            return wantedProduct.Element ?? NotFound();
+        }
 
         [HttpPost("Product/{id}")]
         public async Task<ActionResult<WantedProductDto>> CreateWantedProductItem(int id)
         { 
-            var wantedProductDtoItem =  await _wifeService.AddProduct(id);
+            var product = await _wifeService.AddProduct(id);
+            var wantedProductDtoItem = product.Element;
 
             return CreatedAtAction(
                 nameof(GetWantedProductItem),
@@ -46,7 +59,8 @@ namespace WebApiTest.Controllers
         [HttpDelete("Product/{id}")]
         public async Task<IActionResult> DeleteWantedProductItem(int id)
         {
-            if (await _wifeService.RemoveWantedProduct(id))
+            var wantedProduct = await _wifeService.RemoveWantedProduct(id);
+            if (wantedProduct.Element)
             {
                 return NoContent(); 
             }

@@ -26,11 +26,23 @@ namespace WebApiTest.Controllers
         }
 
         [HttpGet("Products")]
-        public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetNeededProductList() => await _husbandService.GetWantedProductsAsync();
+        public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetNeededProductList()
+        {
+            var neededProductList = await _husbandService.GetWantedProductsAsync();
+            return neededProductList.Element;
+        }
         [HttpGet("Shops")]
-        public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList() => await _husbandService.GetShopsForVisitAsync();
+        public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList()
+        {
+            var neededShopList = await _husbandService.GetShopsForVisitAsync();
+            return neededShopList.Element;
+        }
 
         [HttpGet("ProductsInShop/{shopId}")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetNededProductListInShop(int shopId) => await _husbandService.GetProductsInShopAsync(shopId);
-    }
+        public async Task<ActionResult<IEnumerable<ProductDto>>> GetNededProductListInShop(int shopId)
+        {
+            var nededProductListInShop = await _husbandService.GetProductsInShopAsync(shopId);
+            return nededProductListInShop.Element;
+        }
+}
 }

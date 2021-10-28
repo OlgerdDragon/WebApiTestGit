@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using WebApiTest.Data;
 
 namespace WebApiTest.Services.AccountService
 {
     public interface IAccountService
     {
-        public object Token(string username, string password);
+        public Task<Result<object>> Token(string username, string password);
     }
 }

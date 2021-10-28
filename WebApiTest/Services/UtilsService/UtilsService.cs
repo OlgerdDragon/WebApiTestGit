@@ -14,17 +14,25 @@ namespace WebApiTest.Services.UtilsService
     {
         public async Task<Result<bool>> ChangeLogLevel(int level)
         {
-            var levelSwitch = new LoggingLevelSwitch();
-            levelSwitch.MinimumLevel = (LogEventLevel)level;
+            try
+            {
+                var levelSwitch = new LoggingLevelSwitch();
+                levelSwitch.MinimumLevel = (LogEventLevel)level;
 
-            var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-            Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .MinimumLevel.ControlledBy(levelSwitch)
-                .CreateLogger();
-            return new Result<bool>(true);
+                var configuration = new ConfigurationBuilder()
+                    .AddJsonFile("appsettings.json")
+                    .Build();
+                Log.Logger = new LoggerConfiguration()
+                    .ReadFrom.Configuration(configuration)
+                    .MinimumLevel.ControlledBy(levelSwitch)
+                    .CreateLogger();
+                return new Result<bool>(true);
+            }
+            catch (Exception ex)
+            {
+                return new Result<bool>();
+            }
+            
         }
     }
 }

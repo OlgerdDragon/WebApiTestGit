@@ -28,12 +28,14 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetWantedProducts()
         {
             var wantedProducts = await _wifeService.GetWantedProductsAsync();
+            if (!wantedProducts.Successfully) return BadRequest();
             return wantedProducts.Element;
         }
         [HttpGet("Products/TotalAmount")]
         public async Task<ActionResult<string>> GetTotalAmountWantedProducts()
         {
             var totalAmount = await _wifeService.GetTotalAmountWantedProductsAsync();
+            if (!totalAmount.Successfully) return BadRequest();
             return totalAmount.Element;
         }
 
@@ -41,6 +43,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<WantedProductDto>> GetWantedProductItem(int id)
         {
             var wantedProduct = await _wifeService.GetWantedProductItemAsync(id);
+            if (!wantedProduct.Successfully) return BadRequest();
             return wantedProduct.Element ?? NotFound();
         }
 
@@ -48,6 +51,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<WantedProductDto>> CreateWantedProductItem(int id)
         { 
             var product = await _wifeService.AddProduct(id);
+            if (!product.Successfully) return BadRequest();
             var wantedProductDtoItem = product.Element;
 
             return CreatedAtAction(
@@ -60,6 +64,8 @@ namespace WebApiTest.Controllers
         public async Task<IActionResult> DeleteWantedProductItem(int id)
         {
             var wantedProduct = await _wifeService.RemoveWantedProduct(id);
+            if (!wantedProduct.Successfully) return BadRequest();
+
             if (wantedProduct.Element)
             {
                 return NoContent(); 
@@ -70,7 +76,9 @@ namespace WebApiTest.Controllers
         [HttpDelete("Products")]
         public async Task<IActionResult> DeleteAllProductItem()
         {
-            await _wifeService.RemoveAllWantedProducts();  
+            var result = await _wifeService.RemoveAllWantedProducts();
+            if (!result.Successfully) return BadRequest();
+
             return NoContent();
         }
 

@@ -41,7 +41,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetWantedProductsAsync method:" + ex.Message);
+                return new Result<List<WantedProductDto>>();
             }
             
         }
@@ -70,7 +70,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetShopsForVisitAsync method:" + ex.Message);
+                return new Result<List<ShopDto>>();
             }
         }
         async Task<Result<Shop>> SearchShop(List<ProductDto> productList, WantedProductDto neededProduct)
@@ -90,7 +90,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                throw new Exception("SearchShop method:" + ex.Message);
+                return new Result<Shop>();
             }
         }
         
@@ -117,7 +117,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetProductsInShopAsync method:" + ex.Message);
+                return new Result<List<ProductDto>>();
             }
         }
 
@@ -131,7 +131,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                throw new Exception("FindShopAsync method:" + ex.Message);
+                return new Result<Shop>();
             }
         }
         public async Task<Result<Product>> FindProductAsync(string name)
@@ -143,7 +143,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                throw new Exception("FindProductAsync method:" + ex.Message);
+                return new Result<Product>();
             }
         }
         List<WantedProductDto> GetWantedProducts()
@@ -159,7 +159,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetWantedProducts method:" + ex.Message);
+                throw ex;
             }
         }
         List<ProductDto> GetProductList()
@@ -176,7 +176,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetProductList method:" + ex.Message);
+                throw ex; 
             }
         }
     }

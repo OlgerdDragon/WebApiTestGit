@@ -29,12 +29,14 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetNeededProductList()
         {
             var neededProductList = await _husbandService.GetWantedProductsAsync();
+            if (!neededProductList.Successfully) return BadRequest();
             return neededProductList.Element;
         }
         [HttpGet("Shops")]
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList()
         {
             var neededShopList = await _husbandService.GetShopsForVisitAsync();
+            if (!neededShopList.Successfully) return BadRequest();
             return neededShopList.Element;
         }
 
@@ -42,6 +44,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetNededProductListInShop(int shopId)
         {
             var nededProductListInShop = await _husbandService.GetProductsInShopAsync(shopId);
+            if (!nededProductListInShop.Successfully) return BadRequest();
             return nededProductListInShop.Element;
         }
 }

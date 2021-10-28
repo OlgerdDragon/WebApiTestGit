@@ -69,3 +69,38 @@ System.Exception: Token method:GetIdentity method:GetHash method:Object referenc
 2021-10-27 05:16:20.094 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 391.2517 ms
 2021-10-27 05:16:48.760 +03:00 [INF] HTTP GET /api/Utils/Logging/1 responded 405 in 329.6722 ms
 2021-10-27 05:18:34.533 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 440.3746 ms
+2021-10-28 02:54:01.160 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 3935.1798 ms
+2021-10-28 02:54:41.271 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 288.7375 ms
+2021-10-28 02:55:07.946 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 02:55:08.100 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 5273.9348 ms
+2021-10-28 02:56:18.934 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 638.2393 ms
+2021-10-28 02:56:22.751 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 02:57:04.907 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 45994.0603 ms
+2021-10-28 02:57:20.705 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 02:57:20.709 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 9628.9749 ms
+2021-10-28 03:01:52.883 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:03:33.525 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 225.6642 ms
+2021-10-28 03:05:08.265 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:07:51.935 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 248683.1965 ms
+2021-10-28 03:08:03.713 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:08:03.715 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 6349.5190 ms
+2021-10-28 03:08:56.852 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:08:56.856 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 25779.1514 ms
+2021-10-28 03:08:59.747 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:08:59.748 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 50.2678 ms
+2021-10-28 03:09:02.137 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:09:02.139 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 44.3769 ms
+2021-10-28 03:09:13.040 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:09:13.041 +03:00 [INF] HTTP POST /api/account/Token responded 400 in 43.8047 ms
+2021-10-28 03:09:43.245 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 225.8698 ms
+2021-10-28 03:09:56.671 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:09:57.119 +03:00 [INF] username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzUzNzk3OTYsImV4cCI6MTYzNTM4MDM5NiwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.IKQYAEpKXjkmjXovgmjKMpkOlwu1LW4bfDhmCP0UaB0 
+2021-10-28 03:09:57.173 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 3399.2983 ms
+2021-10-28 03:11:09.559 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 224.1482 ms
+2021-10-28 03:11:31.785 +03:00 [INF] claimsIdentity: System.Security.Claims.ClaimsIdentity 
+2021-10-28 03:11:32.086 +03:00 [INF] username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzUzNzk4OTEsImV4cCI6MTYzNTM4MDQ5MSwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.twr7ETS6PyKWotPEypty-lFBC1puB27hNioBD5Oexp0 
+2021-10-28 03:11:32.147 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 5160.2111 ms
+2021-10-28 03:13:26.470 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 381.2704 ms
+2021-10-28 03:59:16.894 +03:00 [INF] HTTP GET /api/todoitems responded 404 in 258.1412 ms
+2021-10-28 03:59:25.726 +03:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzUzODI3NjUsImV4cCI6MTYzNTM4MzM2NSwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.AUTetcNUS_w4hRaM_UKukCBMjx_op4E55L_vohe5nFE 
+2021-10-28 03:59:25.756 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 3349.1737 ms

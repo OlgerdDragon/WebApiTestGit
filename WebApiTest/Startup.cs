@@ -64,7 +64,7 @@ namespace WebApiTest
         private void LoggingConfiguration()
         {
             var levelSwitch = new LoggingLevelSwitch();
-            levelSwitch.MinimumLevel = LogEventLevel.Verbose;
+            levelSwitch.MinimumLevel = LogEventLevel.Information;
 
             var configuration = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")

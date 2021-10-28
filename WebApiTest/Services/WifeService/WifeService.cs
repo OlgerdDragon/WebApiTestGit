@@ -41,7 +41,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetWantedProductsAsync method:" + ex.Message);
+                return new Result<List<WantedProductDto>>();
             }
         }
         public async Task<Result<string>> GetTotalAmountWantedProductsAsync()
@@ -66,9 +66,9 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetTotalAmountWantedProductsAsync method:" + ex.Message);
+                return new Result<string>();
             }
-            
+
         }
         public async Task<Result<WantedProductDto>> AddProduct(int id)
         {
@@ -84,18 +84,20 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                throw new Exception("AddProduct method:" + ex.Message);
+                return new Result<WantedProductDto>();
             }
         }
-        async Task<int> SaveChangesAsync()
+        async Task<Result<int>> SaveChangesAsync()
         {
             try
             {
-                return await _context.SaveChangesAsync();
+                var res = await _context.SaveChangesAsync();
+                return new Result<int>(res);
+
             }
             catch (Exception ex)
             {
-                throw new Exception("SaveChangesAsync method:" + ex.Message);
+                return new Result<int>();
             }
         }
         public async Task<Result<Product>> FindProductAsync(int id)
@@ -108,7 +110,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                throw new Exception("FindProductAsync method:" + ex.Message);
+                return new Result<Product>();
             }
 
         }
@@ -121,7 +123,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                throw new Exception("FindWantedProductAsync method:" + ex.Message);
+                return new Result<WantedProduct>();
             }
         }
         public async Task<Result<ActionResult<WantedProductDto>>> GetWantedProductItemAsync(int id)
@@ -140,7 +142,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetWantedProductItemAsync method:" + ex.Message);
+                return new Result<ActionResult<WantedProductDto>>();
             }
         }
         public async Task<Result<bool>> RemoveWantedProduct(int id)
@@ -160,7 +162,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                throw new Exception("RemoveWantedProduct method:" + ex.Message);
+                return new Result<bool>();
             }
         }
         public async Task<Result<bool>> RemoveAllWantedProducts()
@@ -183,7 +185,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                throw new Exception("RemoveAllWantedProducts method:" + ex.Message);
+                return new Result<bool>();
             }
         }
     }

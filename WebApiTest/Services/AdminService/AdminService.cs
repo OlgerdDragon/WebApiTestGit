@@ -39,7 +39,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetProductsAsync method:" + ex.Message);
+                return new Result<List<ProductDto>>();
             }
         }
 
@@ -55,7 +55,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetShopsAsync method:" + ex.Message);
+                return new Result<List<ShopDto>>();
             }
         }
         public async Task<Result<ShopDto>> UpdateShopAsync(ShopDto newShop)
@@ -72,7 +72,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("UpdateShopAsync method:" + ex.Message);
+                return new Result<ShopDto>();
             }
         }
         public async Task<Result<ProductDto>> UpdateProductAsync(ProductDto newProduct)
@@ -92,7 +92,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("UpdateProductAsync method:" + ex.Message);
+                return new Result<ProductDto>();
             }
         }
         public async Task<Result<Shop>> FindShopAsync(int id)
@@ -103,7 +103,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("FindShopAsync method:" + ex.Message);
+                return new Result<Shop>();
             }
         }
 
@@ -115,7 +115,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("FindProductAsync method:" + ex.Message);
+                return new Result<Product>();
             }
         }
         public async Task<Result<ActionResult<ShopDto>>> GetShopAsync(int id)
@@ -131,7 +131,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetShopAsync method:" + ex.Message);
+                return new Result<ActionResult<ShopDto>>();
             }
             
         }
@@ -150,7 +150,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("GetProductAsync method:" + ex.Message);
+                return new Result<ActionResult<ProductDto>>();
             }
         }
         public async Task<Result<bool>> RemoveProduct(int id)
@@ -168,7 +168,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("RemoveProduct method:" + ex.Message);
+                return new Result<bool>();
             }
         }
 
@@ -187,7 +187,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("RemoveShop method:" + ex.Message);
+                return new Result<bool>();
             }
         }
         public async Task<Result<bool>> AddProduct(ProductDto productDtoItem)
@@ -203,7 +203,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("AddProduct method:" + ex.Message);
+                return new Result<bool>();
             }
         }
         public async Task<Result<bool>> AddShop(ShopDto shopDtoItem)
@@ -216,19 +216,20 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
-                throw new Exception("AddShop method:" + ex.Message);
+                return new Result<bool>(true);
             }
         }
-        async Task<int> SaveChangesAsync()
+        async Task<Result<int>> SaveChangesAsync()
         {
             try
             {
-                return await _context.SaveChangesAsync();
+                var res = await _context.SaveChangesAsync();
+                return new Result<int>(res);
 
             }
             catch (Exception ex)
             {
-                throw new Exception("SaveChangesAsync method:" + ex.Message);
+                return new Result<int>();
             }
         }
     }

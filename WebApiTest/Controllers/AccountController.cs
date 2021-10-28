@@ -16,9 +16,12 @@ namespace WebApiTest.Controllers
         }
 
         [HttpPost("Token")]
-        public ActionResult<EntryAccountDto> Token(EntryAccountDto account)
+        public async Task<ActionResult<EntryAccountDto>> Token(EntryAccountDto account)
         {            
-            var identity = _accountService?.Token(account.Username, account.Password);               
+            var result = await _accountService?.Token(account.Username, account.Password);
+            if (!result.Successfully) return BadRequest();
+
+            var identity = result.Element;
             if (identity == null)                  
                 return BadRequest(new { errorText = "Invalid username or password." });    
             

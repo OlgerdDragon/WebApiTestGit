@@ -9,9 +9,14 @@ namespace WebApiTest.Data
     {
         public bool Successfully { get; set; }
         public T Element { get; set; }
+        public Result()
+        {
+            Successfully = false;
+        }
         public Result(T _result)
         {
             Element = _result;
+            Successfully = true;
         }
     }
 }

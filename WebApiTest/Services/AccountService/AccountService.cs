@@ -32,17 +32,23 @@ namespace WebApiTest.Services.AccountService
             
         }
         
-        public object Token(string username, string password)
+        public async Task<Result<object>> Token(string username, string password)
         {
             try
             {
-                var identity = GetIdentity(username, password);
-                if (identity == null)
+                _logger.LogDebug($"Token - username: {username} password: {password}");
+                var result = GetIdentity(username, password);
+                _logger.LogDebug($"result.Successfully: {result.Successfully} result.Element: {result.Element}");
+                
+                if (!result.Successfully || result.Element == null)
                 {
-                    return null;
+                    return new Result<object>(null);
                 }
 
+                var identity = result.Element;
                 var now = DateTime.UtcNow;
+                _logger.LogDebug($"DateTime now: {now}");
+
                 var jwt = new JwtSecurityToken(
                         issuer: AuthOptions.ISSUER,
                         audience: AuthOptions.AUDIENCE,
@@ -58,23 +64,32 @@ namespace WebApiTest.Services.AccountService
                     username = identity.Name
                 };
 
-                return response;
+                _logger.LogInformation($"Token return - username: {response.username} access_token: {response.access_token} ");
+                return new Result<object>(response);
             }
             catch (Exception ex)
             {
-                throw new Exception("Token method:" + ex.Message);
+                _logger.LogError(ex, "Token");
+                return new Result<object>();
             }
         }
 
-        private ClaimsIdentity GetIdentity(string username, string password)
+        private Result<ClaimsIdentity> GetIdentity(string username, string password)
         {
             try
             {
+                _logger.LogDebug($"GetIdentity - username: {username} password: {password}");
+
                 Person person = _context.Persons
                 .Where(x => x.Login == username)
                 .FirstOrDefault();
-                bool access = GetHash(person, password);
+                _logger.LogDebug($"person.Login: {person.Login} person.Role: {person.Role}");
 
+                var result = GetHash(person, password);
+                bool access = result.Element;
+                _logger.LogDebug($"result.Successfully: {result.Successfully} result.Element: {result.Element}");
+
+                ClaimsIdentity claimsIdentity=null;
                 if (person != null && access)
                 {
                     var claims = new List<Claim>
@@ -82,50 +97,62 @@ namespace WebApiTest.Services.AccountService
                     new Claim(ClaimsIdentity.DefaultNameClaimType, person.Login),
                     new Claim(ClaimsIdentity.DefaultRoleClaimType, person.Role)
                 };
-                    ClaimsIdentity claimsIdentity =
+                    claimsIdentity =
                     new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
                         ClaimsIdentity.DefaultRoleClaimType);
-                    return claimsIdentity;
                 }
-                return null;
+
+                _logger.LogDebug($"GetIdentity return - claimsIdentity.Name: {claimsIdentity.Name}");
+                return new Result<ClaimsIdentity>(claimsIdentity);
             }
             catch (Exception ex)
             {
-                throw new Exception("GetIdentity method:" + ex.Message);
+                _logger.LogError(ex, "GetIdentity");
+                return new Result<ClaimsIdentity>();
             }
         }
 
-        private Boolean GetHash(Person person, string password)
+        private Result<Boolean> GetHash(Person person, string password)
         {
             try
             {
+                _logger.LogDebug($"GetHash - person.Login: {person.Login} person.Password: {person.Password} person.Role: {person.Role} password: {password}");
+
                 byte[] tmpSource = ASCIIEncoding.ASCII.GetBytes(password);
+                _logger.LogDebug($"tmpSource: {tmpSource}");
+
                 byte[] tmpChekHash = new MD5CryptoServiceProvider().ComputeHash(tmpSource);
-                var chekHash = ByteArrayToString(tmpChekHash);
+                _logger.LogDebug($"tmpChekHash: {tmpChekHash}");
 
+                var result = ByteArrayToString(tmpChekHash);
+                _logger.LogDebug($"result.Successfullyn: {result.Successfully} result.Element: {result.Element}");
+
+                var chekHash = result.Element;
+                bool same = false;
                 if (chekHash == person.Password)
-                    return true;
+                    same = true;
 
-                return false;
+                _logger.LogDebug($"GetHash return - same: {same}");
+                return new Result<Boolean>(same);
             }
             catch (Exception ex)
             {
-                throw new Exception("GetHash method:" + ex.Message);
+                var res = new Result<Boolean>();
+                return res;
             }
             
         }
 
-        private string ByteArrayToString(byte[] arrInput)
+        private Result<string> ByteArrayToString(byte[] arrInput)
         {
             try
             {
-                int i;
                 StringBuilder sOutput = new StringBuilder(arrInput.Length);
-                for (i = 0; i < arrInput.Length - 1; i++)
+                for (int i = 0; i < arrInput.Length - 1; i++)
                 {
                     sOutput.Append(arrInput[i].ToString("X2"));
                 }
-                return sOutput.ToString();
+                return new Result<string>(sOutput.ToString());
             }
             catch (Exception ex)
             {

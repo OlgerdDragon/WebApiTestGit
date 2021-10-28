@@ -15,10 +15,11 @@ namespace WebApiTest.Controllers
             _utilsService = utilsService;
         }
 
-        [HttpPost("Logging/{id}")]
+        [HttpPut("Logging/{id}")]
         public async Task<ActionResult> ChangeLogging(int level)
         {
             var result = await _utilsService.ChangeLogLevel(level);
+            if (!result.Successfully) return BadRequest();
             return Ok();
         }
 

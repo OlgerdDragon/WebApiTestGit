@@ -12,6 +12,5 @@ namespace WebApiTest.Services.HusbandService
         public Task<Result<List<ShopDto>>> GetShopsForVisitAsync();
         public Task<Result<List<ProductDto>>> GetProductsInShopAsync(int ShopId);
         public Task<Result<Shop>> FindShopAsync(int id);
-        public Task<Result<Product>> FindProductAsync(string name);
     }
 }

@@ -41,6 +41,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "GetWantedProductsAsync");
                 return new Result<List<WantedProductDto>>();
             }
         }
@@ -89,6 +90,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"AddProduct id: {id}");
                 return new Result<WantedProductDto>();
             }
         }
@@ -103,6 +105,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "GetWantedProductsAsync");
                 return new Result<int>();
             }
         }
@@ -117,6 +120,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"FindProductAsync id: {id}");
                 return new Result<Product>();
             }
 
@@ -132,6 +136,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"FindWantedProductAsync id: {id}");
                 return new Result<WantedProduct>();
             }
         }
@@ -151,6 +156,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"GetWantedProductItemAsync id: {id}");
                 return new Result<ActionResult<WantedProductDto>>();
             }
         }
@@ -172,6 +178,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"RemoveWantedProduct id: {id}");
                 return new Result<bool>();
             }
         }
@@ -196,6 +203,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "RemoveAllWantedProducts");
                 return new Result<bool>();
             }
         }

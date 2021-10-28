@@ -40,6 +40,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "GetWantedProductsAsync");
                 return new Result<List<WantedProductDto>>();
             }
             
@@ -71,6 +72,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "GetShopsForVisitAsync");
                 return new Result<List<ShopDto>>();
             }
         }
@@ -94,6 +96,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"SearchShop return - neededProduct.Id: {neededProduct.Id} neededProduct.ProductId: {neededProduct.ProductId}"); ;
                 return new Result<Shop>();
             }
         }
@@ -125,6 +128,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"GetProductsInShopAsync - ShopId: { ShopId}");
                 return new Result<List<ProductDto>>();
             }
         }
@@ -139,21 +143,11 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"FindShopAsync  id: {id}");
                 return new Result<Shop>();
             }
         }
-        public async Task<Result<Product>> FindProductAsync(string name)
-        {
-            try
-            {
-                var product = await _context.Products.FindAsync(name);
-                return new Result<Product>(product);
-            }
-            catch (Exception ex)
-            {
-                return new Result<Product>();
-            }
-        }
+       
         List<WantedProductDto> GetWantedProducts()
         {
             try
@@ -168,6 +162,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "GetWantedProducts");
                 throw ex;
             }
         }
@@ -185,6 +180,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "GetProductList");
                 throw ex; 
             }
         }

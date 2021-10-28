@@ -39,6 +39,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "GetProductsAsync");
                 return new Result<List<ProductDto>>();
             }
         }
@@ -55,6 +56,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "GetShopsAsync");
                 return new Result<List<ShopDto>>();
             }
         }
@@ -73,6 +75,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"UpdateShopAsync - newShop.Id: {newShop.Id} newShop.Name: {newShop.Name}");
                 return new Result<ShopDto>();
             }
         }
@@ -94,6 +97,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"UpdateProductAsync - newProduct.Id: {newProduct.Id} product.Name: {newProduct.Name} product.Price: {newProduct.Price} product.ShopId: {newProduct.ShopId}");
                 return new Result<ProductDto>();
             }
         }
@@ -107,6 +111,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"FindShopAsync id: {id}");
                 return new Result<Shop>();
             }
         }
@@ -121,6 +126,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"FindProductAsync id: {id}");
                 return new Result<Product>();
             }
         }
@@ -138,6 +144,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"GetShopAsync id: {id}");
                 return new Result<ActionResult<ShopDto>>();
             }
             
@@ -157,6 +164,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"GetProductAsync id: {id}");
                 return new Result<ActionResult<ProductDto>>();
             }
         }
@@ -178,6 +186,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, $"RemoveProduct id: {id}");
                 return new Result<bool>();
             }
         }
@@ -199,6 +208,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Token");
                 return new Result<bool>();
             }
         }
@@ -218,6 +228,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Token"); 
                 return new Result<bool>();
             }
         }
@@ -233,6 +244,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "Token");
                 return new Result<bool>(true);
             }
         }
@@ -248,6 +260,7 @@ namespace WebApiTest.Services.AdminService
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex, "SaveChangesAsync");
                 return new Result<int>();
             }
         }

@@ -62,6 +62,7 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
+                _logger.LogInformation($"UpdateShopAsync - newShop.Id: {newShop.Id} newShop.Name: {newShop.Name}");
                 var shop = _context.Shops
                 .Where(i => i.Id == newShop.Id)
                 .FirstOrDefault();
@@ -79,6 +80,7 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
+                _logger.LogInformation($"UpdateProductAsync - newProduct.Id: {newProduct.Id} product.Name: {newProduct.Name} product.Price: {newProduct.Price} product.ShopId: {newProduct.ShopId}");
                 var product = _context.Products
                 .Where(i => i.Id == newProduct.Id)
                 .FirstOrDefault();
@@ -99,7 +101,9 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
-                return new Result<Shop>(await _context.Shops.FindAsync(id));
+                var shop = await _context.Shops.FindAsync(id);
+                _logger.LogDebug($"FindShopAsync return - id: {id} shop.Id: {shop.Id} shop.Name: {shop.Name}");
+                return new Result<Shop>(shop);
             }
             catch (Exception ex)
             {
@@ -111,7 +115,9 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
-                return new Result<Product>(await _context.Products.FindAsync(id));
+                var product = await _context.Products.FindAsync(id);
+                _logger.LogDebug($"FindProductAsync return - id: {id} product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
+                return new Result<Product>();
             }
             catch (Exception ex)
             {
@@ -122,6 +128,7 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
+                _logger.LogDebug($"GetShopAsync - id: {id} return FindShopAsync(id)");
                 var shopItem = await FindShopAsync(id);
                 if (shopItem.Element == null)
                 {
@@ -139,8 +146,8 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
+                _logger.LogDebug($"GetProductAsync - id: {id} return FindProductAsync(id)");
                 var productItem = await FindProductAsync(id);
-
                 if (productItem.Element == null)
                 {
                     return null;
@@ -157,6 +164,7 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
+                
                 var status = true;
                 var productItem = await FindProductAsync(id);
                 if (productItem == null)
@@ -164,6 +172,8 @@ namespace WebApiTest.Services.AdminService
 
                 _context.Products.Remove(productItem.Element);
                 await SaveChangesAsync();
+
+                _logger.LogInformation($"RemoveProduct - id: {id} return status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)
@@ -183,6 +193,8 @@ namespace WebApiTest.Services.AdminService
 
                 _context.Shops.Remove(shopItem.Element);
                 await SaveChangesAsync();
+
+                _logger.LogInformation($"RemoveShop - id: {id} return status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)
@@ -194,11 +206,14 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
+                _logger.LogDebug($"AddProduct - productDtoItem.Name: {productDtoItem.Name} productDtoItem.Price: {productDtoItem.Price} productDtoItem.ShopId: {productDtoItem.ShopId}");
                 var shop = FindShopAsync(productDtoItem.ShopId);
                 var productItem = productDtoItem.Product(shop.Result.Element);
 
                 _context.Products.Add(productItem);
                 await SaveChangesAsync();
+
+                _logger.LogInformation($"AddProduct - productDtoItem.Name: {productItem.Name} productDtoItem.Price: {productItem.Price} productDtoItem.ShopId: {productItem.ShopId}");
                 return new Result<bool>(true);
             }
             catch (Exception ex)
@@ -210,8 +225,10 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
-                var shop = _context.Shops.Add(shopDtoItem.Shop());
+                _context.Shops.Add(shopDtoItem.Shop());
                 await SaveChangesAsync();
+
+                _logger.LogInformation($"AddProduct - shop.Id: {shopDtoItem.Id} shop.Name: {shopDtoItem.Name}");
                 return new Result<bool>(true);
             }
             catch (Exception ex)
@@ -224,6 +241,8 @@ namespace WebApiTest.Services.AdminService
             try
             {
                 var res = await _context.SaveChangesAsync();
+
+                _logger.LogDebug($"SaveChangesAsync done!");
                 return new Result<int>(res);
 
             }

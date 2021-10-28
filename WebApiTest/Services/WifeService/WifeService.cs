@@ -61,7 +61,10 @@ namespace WebApiTest.Services.WifeService
                 {
                     var product = await FindProductAsync(item.ProductId);
                     _totalAmount += product.Element.Price;
+                    _logger.LogDebug($"GetTotalAmountWantedProductsAsync - _totalAmount: {_totalAmount} item.ProductId:{item.ProductId} product.Price{product.Element.Price}");
                 }
+
+                _logger.LogDebug($"GetTotalAmountWantedProductsAsync - _totalAmount: {_totalAmount}");
                 return new Result<string>($"Total Amount: {_totalAmount}");
             }
             catch (Exception ex)
@@ -80,6 +83,8 @@ namespace WebApiTest.Services.WifeService
                 await SaveChangesAsync();
 
                 var wantedProductDTO = WantedProductDto.ItemWantedProductDTO(_wantedProductItem);
+
+                _logger.LogInformation($"AddProduct(id) id: {id} return - wantedProductDTO.Id: {wantedProductDTO.Id} wantedProductDTO.ProductId: {wantedProductDTO.ProductId}");
                 return new Result<WantedProductDto>(wantedProductDTO);
             }
             catch (Exception ex)
@@ -92,6 +97,7 @@ namespace WebApiTest.Services.WifeService
             try
             {
                 var res = await _context.SaveChangesAsync();
+                _logger.LogDebug($"SaveChangesAsync done!");
                 return new Result<int>(res);
 
             }
@@ -105,6 +111,7 @@ namespace WebApiTest.Services.WifeService
             try
             {
                 var product = await _context.Products.FindAsync(id);
+                _logger.LogDebug($"FindProductAsync id: {id} return - product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
                 return new Result<Product>(product);
 
             }
@@ -119,6 +126,8 @@ namespace WebApiTest.Services.WifeService
             try
             {
                 var wantedProduct = await _context.WantedProducts.FindAsync(id);
+
+                _logger.LogDebug($"FindWantedProductAsync id: {id} return -  wantedProduct.Id: {wantedProduct.Id} wantedProduct.Name: {wantedProduct.ProductId}");
                 return new Result<WantedProduct>(wantedProduct);
             }
             catch (Exception ex)
@@ -131,13 +140,13 @@ namespace WebApiTest.Services.WifeService
             try
             {
                 var wantedProductItem = await FindWantedProductAsync(id);
-
                 if (wantedProductItem == null)
                 {
                     return null;
                 }
-
                 var wantedProductDTO = WantedProductDto.ItemWantedProductDTO(wantedProductItem.Element);
+
+                _logger.LogInformation($"RemoveWantedProduct(id) id: {id} return - wantedProductDTO.Id: {wantedProductDTO.Id} wantedProductDTO.ProductId: {wantedProductDTO.ProductId}");
                 return new Result<ActionResult<WantedProductDto>>(wantedProductDTO);
             }
             catch (Exception ex)
@@ -151,13 +160,14 @@ namespace WebApiTest.Services.WifeService
             {
                 var status = true;
                 var _wantedProductItem = await FindWantedProductAsync(id);
-
+                
                 if (_wantedProductItem == null)
                     status = false;
 
                 _context.WantedProducts.Remove(_wantedProductItem.Element);
                 await SaveChangesAsync();
 
+                _logger.LogInformation($"RemoveWantedProduct(id) id: {id} return - status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)
@@ -181,6 +191,7 @@ namespace WebApiTest.Services.WifeService
                 }
                 await SaveChangesAsync();
 
+                _logger.LogInformation($"RemoveAllWantedProducts return - status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)

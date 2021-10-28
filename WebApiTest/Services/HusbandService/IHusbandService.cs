@@ -8,9 +8,9 @@ namespace WebApiTest.Services.HusbandService
 {
     public interface IHusbandService
     {
-        public Task<Result<List<WantedProductDto>>> GetWantedProductsAsync();
-        public Task<Result<List<ShopDto>>> GetShopsForVisitAsync();
-        public Task<Result<List<ProductDto>>> GetProductsInShopAsync(int ShopId);
+        public Task<Result<List<WantedProductDto>>> GetWantedProductsAsync(string userLogin);
+        public Task<Result<List<ShopDto>>> GetShopsForVisitAsync(string userLogin);
+        public Task<Result<List<ProductDto>>> GetProductsInShopAsync(int ShopId, string userLogin);
         public Task<Result<Shop>> FindShopAsync(int id);
     }
 }

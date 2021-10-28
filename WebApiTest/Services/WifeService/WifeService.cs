@@ -1,10 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Core;
-using Serilog.Events;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -74,7 +70,7 @@ namespace WebApiTest.Services.WifeService
             }
 
         }
-        public async Task<Result<WantedProductDto>> AddProduct(int id)
+        public async Task<Result<WantedProductDto>> AddProduct(int id, string userLogin)
         {
             try
             {
@@ -85,7 +81,7 @@ namespace WebApiTest.Services.WifeService
 
                 var wantedProductDTO = WantedProductDto.ItemWantedProductDTO(_wantedProductItem);
 
-                _logger.LogInformation($"AddProduct(id) id: {id} return - wantedProductDTO.Id: {wantedProductDTO.Id} wantedProductDTO.ProductId: {wantedProductDTO.ProductId}");
+                _logger.LogInformation($"AddProduct(id) userLogin: {userLogin} id: {id} return - wantedProductDTO.Id: {wantedProductDTO.Id} wantedProductDTO.ProductId: {wantedProductDTO.ProductId}");
                 return new Result<WantedProductDto>(wantedProductDTO);
             }
             catch (Exception ex)
@@ -160,7 +156,7 @@ namespace WebApiTest.Services.WifeService
                 return new Result<ActionResult<WantedProductDto>>();
             }
         }
-        public async Task<Result<bool>> RemoveWantedProduct(int id)
+        public async Task<Result<bool>> RemoveWantedProduct(int id, string userLogin)
         {
             try
             {
@@ -173,7 +169,7 @@ namespace WebApiTest.Services.WifeService
                 _context.WantedProducts.Remove(_wantedProductItem.Element);
                 await SaveChangesAsync();
 
-                _logger.LogInformation($"RemoveWantedProduct(id) id: {id} return - status: {status}");
+                _logger.LogInformation($"RemoveWantedProduct(id) userLogin: {userLogin} id: {id}  return - status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)
@@ -182,7 +178,7 @@ namespace WebApiTest.Services.WifeService
                 return new Result<bool>();
             }
         }
-        public async Task<Result<bool>> RemoveAllWantedProducts()
+        public async Task<Result<bool>> RemoveAllWantedProducts(string userLogin)
         {
             try
             {
@@ -198,7 +194,7 @@ namespace WebApiTest.Services.WifeService
                 }
                 await SaveChangesAsync();
 
-                _logger.LogInformation($"RemoveAllWantedProducts return - status: {status}");
+                _logger.LogInformation($"RemoveAllWantedProducts userLogin: {userLogin} return - status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)

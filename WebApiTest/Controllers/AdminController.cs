@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApiTest.Services.AdminService;
 using WebApiTest.Models.Dto;
+using System.Net.Http;
 
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
+using System.Linq;
 
 namespace WebApiTest.Controllers
 {
@@ -13,11 +17,13 @@ namespace WebApiTest.Controllers
     public class AdminController : APIControllerBase
     {
         private readonly IAdminService _adminService;
+        
         public AdminController(IAdminService adminService)
         {
             _adminService = adminService;
         }
-        
+
+
         [HttpGet("Hello")]
         public string Get()
         {
@@ -27,6 +33,7 @@ namespace WebApiTest.Controllers
         [HttpGet("Shops")]
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItems()
         {
+            
             var shopItems = await _adminService.GetShopsAsync();
             if (!shopItems.Successfully) return BadRequest();
             return shopItems.Element;

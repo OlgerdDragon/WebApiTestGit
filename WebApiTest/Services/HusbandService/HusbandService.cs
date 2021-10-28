@@ -25,7 +25,7 @@ namespace WebApiTest.Services.HusbandService
             _context = context;
             _logger = logger;
         }
-        public async Task<Result<List<WantedProductDto>>> GetWantedProductsAsync()
+        public async Task<Result<List<WantedProductDto>>> GetWantedProductsAsync(string userLogin)
         {
             try
             {
@@ -40,12 +40,12 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "GetWantedProductsAsync");
+                _logger.LogError(ex, $"GetWantedProductsAsync userLogin: {userLogin}");
                 return new Result<List<WantedProductDto>>();
             }
             
         }
-        public async Task<Result<List<ShopDto>>> GetShopsForVisitAsync()
+        public async Task<Result<List<ShopDto>>> GetShopsForVisitAsync(string userLogin)
         {
             try
             {
@@ -63,7 +63,7 @@ namespace WebApiTest.Services.HusbandService
                         if (!neededShopList.Exists(o => o.Id == shopSearchedDto.Id))
                         {
                             neededShopList.Add(shopSearchedDto);
-                            _logger.LogDebug($"GetShopsForVisitAsync - Add(shop) - shopSearchedDto.Id: {shopSearchedDto.Id} shopSearchedDto.Name: {shopSearchedDto.Name}");
+                            _logger.LogDebug($"GetShopsForVisitAsync userLogin: {userLogin} - List.Add(shop) - shopSearchedDto.Id: {shopSearchedDto.Id} shopSearchedDto.Name: {shopSearchedDto.Name}");
 
                         }
                     }
@@ -101,7 +101,7 @@ namespace WebApiTest.Services.HusbandService
             }
         }
         
-        public async Task<Result<List<ProductDto>>> GetProductsInShopAsync(int ShopId)
+        public async Task<Result<List<ProductDto>>> GetProductsInShopAsync(int ShopId, string userLogin)
         {
             try
             {
@@ -119,7 +119,7 @@ namespace WebApiTest.Services.HusbandService
                             if (neededProduct.ProductId == product.Id)
                             {
                                 productInShop?.Add(product);
-                                _logger.LogDebug($"GetProductsInShopAsync - Add(product) - product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
+                                _logger.LogDebug($"GetProductsInShopAsync userLogin: {userLogin} - List.Add(product) - product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
                             }
                         }
                     }

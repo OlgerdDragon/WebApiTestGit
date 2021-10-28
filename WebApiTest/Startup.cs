@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
+using Microsoft.AspNetCore.Http;
 
 namespace WebApiTest
 {
@@ -33,6 +34,8 @@ namespace WebApiTest
             services.AddScoped<IWifeService, WifeService>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUtilsService, UtilsService>();
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddControllers();
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
 
@@ -59,6 +62,7 @@ namespace WebApiTest
                             ValidateIssuerSigningKey = true,
                         };
                     });
+            services.AddHttpContextAccessor();
             services.AddControllersWithViews();
         }
         private void LoggingConfiguration()

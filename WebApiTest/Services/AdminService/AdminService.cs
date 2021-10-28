@@ -60,7 +60,7 @@ namespace WebApiTest.Services.AdminService
                 return new Result<List<ShopDto>>();
             }
         }
-        public async Task<Result<ShopDto>> UpdateShopAsync(ShopDto newShop)
+        public async Task<Result<ShopDto>> UpdateShopAsync(ShopDto newShop, string userLogin)
         {
             try
             {
@@ -79,7 +79,7 @@ namespace WebApiTest.Services.AdminService
                 return new Result<ShopDto>();
             }
         }
-        public async Task<Result<ProductDto>> UpdateProductAsync(ProductDto newProduct)
+        public async Task<Result<ProductDto>> UpdateProductAsync(ProductDto newProduct, string userLogin)
         {
             try
             {
@@ -168,7 +168,7 @@ namespace WebApiTest.Services.AdminService
                 return new Result<ActionResult<ProductDto>>();
             }
         }
-        public async Task<Result<bool>> RemoveProduct(int id)
+        public async Task<Result<bool>> RemoveProduct(int id, string userLogin)
         {
             try
             {
@@ -181,7 +181,7 @@ namespace WebApiTest.Services.AdminService
                 _context.Products.Remove(productItem.Element);
                 await SaveChangesAsync();
 
-                _logger.LogInformation($"RemoveProduct - id: {id} return status: {status}");
+                _logger.LogInformation($"RemoveProduct - id: {id} userLogin: {userLogin} return status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)
@@ -191,7 +191,7 @@ namespace WebApiTest.Services.AdminService
             }
         }
 
-        public async Task<Result<bool>> RemoveShop(int id)
+        public async Task<Result<bool>> RemoveShop(int id, string userLogin)
         {
             try
             {
@@ -203,7 +203,7 @@ namespace WebApiTest.Services.AdminService
                 _context.Shops.Remove(shopItem.Element);
                 await SaveChangesAsync();
 
-                _logger.LogInformation($"RemoveShop - id: {id} return status: {status}");
+                _logger.LogInformation($"RemoveShop - id: {id} userLogin: {userLogin} return status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)
@@ -212,7 +212,7 @@ namespace WebApiTest.Services.AdminService
                 return new Result<bool>();
             }
         }
-        public async Task<Result<bool>> AddProduct(ProductDto productDtoItem)
+        public async Task<Result<bool>> AddProduct(ProductDto productDtoItem, string userLogin)
         {
             try
             {
@@ -223,7 +223,7 @@ namespace WebApiTest.Services.AdminService
                 _context.Products.Add(productItem);
                 await SaveChangesAsync();
 
-                _logger.LogInformation($"AddProduct - productDtoItem.Name: {productItem.Name} productDtoItem.Price: {productItem.Price} productDtoItem.ShopId: {productItem.ShopId}");
+                _logger.LogInformation($"AddProduct userLogin: {userLogin} - productDtoItem.Name: {productItem.Name} productDtoItem.Price: {productItem.Price} productDtoItem.ShopId: {productItem.ShopId}");
                 return new Result<bool>(true);
             }
             catch (Exception ex)
@@ -232,14 +232,14 @@ namespace WebApiTest.Services.AdminService
                 return new Result<bool>();
             }
         }
-        public async Task<Result<bool>> AddShop(ShopDto shopDtoItem)
+        public async Task<Result<bool>> AddShop(ShopDto shopDtoItem, string userLogin)
         {
             try
             {
                 _context.Shops.Add(shopDtoItem.Shop());
                 await SaveChangesAsync();
 
-                _logger.LogInformation($"AddProduct - shop.Id: {shopDtoItem.Id} shop.Name: {shopDtoItem.Name}");
+                _logger.LogInformation($"AddProduct userLogin: {userLogin} - shop.Id: {shopDtoItem.Id} shop.Name: {shopDtoItem.Name}");
                 return new Result<bool>(true);
             }
             catch (Exception ex)

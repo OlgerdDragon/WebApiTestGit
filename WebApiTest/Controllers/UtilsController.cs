@@ -19,7 +19,8 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult> ChangeLogging(int level)
         {
             var result = await _utilsService.ChangeLogLevel(level);
-            if (!result.Successfully) return BadRequest();
+            if (!result.Successfully) 
+                return BadRequest(result.ExceptionMessage);
             return Ok();
         }
 

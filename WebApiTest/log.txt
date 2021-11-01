@@ -372,3 +372,110 @@ System.InvalidOperationException: Unable to resolve service for type 'System.Net
 2021-10-28 15:13:47.241 +03:00 [INF] HTTP GET /api/admin/shops responded 401 in 321.1203 ms
 2021-10-28 15:13:55.060 +03:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzU0MjMyMzUsImV4cCI6MTYzNTQyMzgzNSwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.ecn0iT9U01IiV568C3XjFcC8CuSi52aUZM8rZthYqHM 
 2021-10-28 15:13:55.094 +03:00 [INF] HTTP POST /api/account/Token responded 200 in 3389.6786 ms
+2021-11-01 02:45:23.478 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 197.5416 ms
+2021-11-01 02:46:16.495 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 187.2021 ms
+2021-11-01 02:46:20.944 +02:00 [INF] HTTP POST /api/account/Token responded 404 in 8.7149 ms
+2021-11-01 02:47:49.513 +02:00 [ERR] GetIdentity
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiTest.Services.AccountService.AccountService.GetIdentity(String username, String password) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Services\AccountService\AccountService.cs:line 86
+2021-11-01 02:47:49.694 +02:00 [INF] HTTP POST /Token responded 400 in 79940.7743 ms
+2021-11-01 02:53:26.376 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 246.6890 ms
+2021-11-01 02:53:36.684 +02:00 [ERR] HTTP POST /api/account/Token responded 500 in 10557.6484 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiTest.Controllers.APIControllerBase..ctor() in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\APIControllerBase.cs:line 21
+   at WebApiTest.Controllers.AccountController..ctor(IAccountService accountService) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\AccountController.cs:line 13
+   at lambda_method8(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass4_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass5_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.<Invoke>g__AwaitMatcher|8_0(EndpointRoutingMiddleware middleware, HttpContext httpContext, Task`1 matcherTask)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-11-01 02:53:36.799 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiTest.Controllers.APIControllerBase..ctor() in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\APIControllerBase.cs:line 21
+   at WebApiTest.Controllers.AccountController..ctor(IAccountService accountService) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\AccountController.cs:line 13
+   at lambda_method8(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass4_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass5_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.<Invoke>g__AwaitMatcher|8_0(EndpointRoutingMiddleware middleware, HttpContext httpContext, Task`1 matcherTask)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-11-01 02:54:15.937 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 193.7654 ms
+2021-11-01 02:55:07.322 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 263.1271 ms
+2021-11-01 02:55:13.882 +02:00 [ERR] HTTP POST /api/account/Token responded 500 in 6828.3006 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiTest.Controllers.APIControllerBase..ctor() in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\APIControllerBase.cs:line 21
+   at WebApiTest.Controllers.AccountController..ctor(IAccountService accountService) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\AccountController.cs:line 13
+   at lambda_method8(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass4_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass5_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.<Invoke>g__AwaitMatcher|8_0(EndpointRoutingMiddleware middleware, HttpContext httpContext, Task`1 matcherTask)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-11-01 02:55:14.096 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiTest.Controllers.APIControllerBase..ctor() in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\APIControllerBase.cs:line 21
+   at WebApiTest.Controllers.AccountController..ctor(IAccountService accountService) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\AccountController.cs:line 13
+   at lambda_method8(Closure , IServiceProvider , Object[] )
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerActivatorProvider.<>c__DisplayClass4_0.<CreateActivator>b__0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass5_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.<Invoke>g__AwaitMatcher|8_0(EndpointRoutingMiddleware middleware, HttpContext httpContext, Task`1 matcherTask)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-11-01 02:55:47.837 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 211.5661 ms
+2021-11-01 02:58:27.312 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 192.4500 ms
+2021-11-01 02:59:47.829 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 197.5673 ms
+2021-11-01 03:01:51.436 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 241.9144 ms
+2021-11-01 03:02:03.957 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzU3Mjg1MjMsImV4cCI6MTYzNTcyOTEyMywiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.98BfYNf14s9uOHqs3xHcZD8lyGwPc8DivmUXfhMs8_Y 
+2021-11-01 03:02:04.029 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 11897.1420 ms
+2021-11-01 03:04:57.210 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 262.6936 ms
+2021-11-01 03:05:08.494 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzU3Mjg3MDgsImV4cCI6MTYzNTcyOTMwOCwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.KXRKXzYVQbYH0AbGGWD642fTbXvcss3AtAltO-6VkGc 
+2021-11-01 03:05:08.543 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 4853.3044 ms
+2021-11-01 03:05:21.343 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 591.4059 ms
+2021-11-01 03:05:35.717 +02:00 [INF] HTTP GET /api/admin/products responded 400 in 201.4749 ms

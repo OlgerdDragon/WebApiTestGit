@@ -30,7 +30,7 @@ namespace WebApiTest.Services.UtilsService
             }
             catch (Exception ex)
             {
-                return new Result<bool>();
+                return new Result<bool>(ex);
             }
             
         }

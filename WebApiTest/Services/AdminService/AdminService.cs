@@ -40,7 +40,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetProductsAsync");
-                return new Result<List<ProductDto>>();
+                return new Result<List<ProductDto>>(ex);
             }
         }
 
@@ -57,7 +57,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetShopsAsync");
-                return new Result<List<ShopDto>>();
+                return new Result<List<ShopDto>>(ex);
             }
         }
         public async Task<Result<ShopDto>> UpdateShopAsync(ShopDto newShop, string userLogin)
@@ -76,7 +76,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"UpdateShopAsync - newShop.Id: {newShop.Id} newShop.Name: {newShop.Name}");
-                return new Result<ShopDto>();
+                return new Result<ShopDto>(ex);
             }
         }
         public async Task<Result<ProductDto>> UpdateProductAsync(ProductDto newProduct, string userLogin)
@@ -98,7 +98,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"UpdateProductAsync - newProduct.Id: {newProduct.Id} product.Name: {newProduct.Name} product.Price: {newProduct.Price} product.ShopId: {newProduct.ShopId}");
-                return new Result<ProductDto>();
+                return new Result<ProductDto>(ex);
             }
         }
         public async Task<Result<Shop>> FindShopAsync(int id)
@@ -112,7 +112,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"FindShopAsync id: {id}");
-                return new Result<Shop>();
+                return new Result<Shop>(ex);
             }
         }
 
@@ -122,12 +122,12 @@ namespace WebApiTest.Services.AdminService
             {
                 var product = await _context.Products.FindAsync(id);
                 _logger.LogDebug($"FindProductAsync return - id: {id} product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
-                return new Result<Product>();
+                return new Result<Product>(product);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"FindProductAsync id: {id}");
-                return new Result<Product>();
+                return new Result<Product>(ex);
             }
         }
         public async Task<Result<ActionResult<ShopDto>>> GetShopAsync(int id)
@@ -145,7 +145,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"GetShopAsync id: {id}");
-                return new Result<ActionResult<ShopDto>>();
+                return new Result<ActionResult<ShopDto>>(ex);
             }
             
         }
@@ -165,7 +165,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"GetProductAsync id: {id}");
-                return new Result<ActionResult<ProductDto>>();
+                return new Result<ActionResult<ProductDto>>(ex);
             }
         }
         public async Task<Result<bool>> RemoveProduct(int id, string userLogin)
@@ -187,7 +187,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"RemoveProduct id: {id}");
-                return new Result<bool>();
+                return new Result<bool>(ex);
             }
         }
 
@@ -209,7 +209,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Token");
-                return new Result<bool>();
+                return new Result<bool>(ex);
             }
         }
         public async Task<Result<bool>> AddProduct(ProductDto productDtoItem, string userLogin)
@@ -229,7 +229,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Token"); 
-                return new Result<bool>();
+                return new Result<bool>(ex);
             }
         }
         public async Task<Result<bool>> AddShop(ShopDto shopDtoItem, string userLogin)
@@ -245,7 +245,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Token");
-                return new Result<bool>(true);
+                return new Result<bool>(ex);
             }
         }
         async Task<Result<int>> SaveChangesAsync()
@@ -261,7 +261,7 @@ namespace WebApiTest.Services.AdminService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "SaveChangesAsync");
-                return new Result<int>();
+                return new Result<int>(ex);
             }
         }
     }

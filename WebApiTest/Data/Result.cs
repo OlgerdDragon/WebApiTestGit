@@ -9,8 +9,10 @@ namespace WebApiTest.Data
     {
         public bool Successfully { get; set; }
         public T Element { get; set; }
-        public Result()
+        public Exception ExceptionMessage { get; set; }
+        public Result(Exception ex)
         {
+            ExceptionMessage = ex;
             Successfully = false;
         }
         public Result(T _result)

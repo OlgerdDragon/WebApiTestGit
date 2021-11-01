@@ -70,7 +70,7 @@ namespace WebApiTest.Services.AccountService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Token");
-                return new Result<object>();
+                return new Result<object>(ex);
             }
         }
 
@@ -108,7 +108,7 @@ namespace WebApiTest.Services.AccountService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetIdentity");
-                return new Result<ClaimsIdentity>();
+                return new Result<ClaimsIdentity>(ex);
             }
         }
 
@@ -137,7 +137,7 @@ namespace WebApiTest.Services.AccountService
             }
             catch (Exception ex)
             {
-                var res = new Result<Boolean>();
+                var res = new Result<Boolean>(ex);
                 return res;
             }
             

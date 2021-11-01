@@ -35,7 +35,8 @@ namespace WebApiTest.Controllers
         {
             
             var shopItems = await _adminService.GetShopsAsync();
-            if (!shopItems.Successfully) return BadRequest();
+            if (!shopItems.Successfully) 
+                return BadRequest(shopItems.ExceptionMessage);
             return shopItems.Element;
         } 
 
@@ -43,7 +44,8 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductItems() 
         {
             var productItems = await _adminService.GetProductsAsync();
-            if (!productItems.Successfully) return BadRequest();
+            if (!productItems.Successfully) 
+                return BadRequest(productItems.ExceptionMessage);
             return productItems.Element;
         }
 
@@ -51,7 +53,8 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ShopDto>> GetShopItem(int id)
         {
             var shopItem = await _adminService.GetShopAsync(id);
-            if (!shopItem.Successfully) return BadRequest();
+            if (!shopItem.Successfully) 
+                return BadRequest(shopItem.ExceptionMessage);
             return shopItem.Element ?? NotFound();
         }
 
@@ -59,15 +62,17 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ProductDto>> GetProductItem(int id)
         {
             var productItem = await _adminService.GetProductAsync(id);
-            if (!productItem.Successfully) return BadRequest();
+            if (!productItem.Successfully) 
+                return BadRequest(productItem.ExceptionMessage);
             return productItem.Element ?? NotFound();
         }
 
         [HttpDelete("Shop/{id}")]
         public async Task<IActionResult> DeleteShopItem(int id)
         {
-            var shopItem = await _adminService.RemoveShop(id);
-            if (!shopItem.Successfully) return BadRequest();
+            var shopItem = await _adminService.RemoveShop(id, userLogin);
+            if (!shopItem.Successfully) 
+                return BadRequest(shopItem.ExceptionMessage);
             if (shopItem.Element)
             {
                 return NoContent();
@@ -78,8 +83,9 @@ namespace WebApiTest.Controllers
         [HttpDelete("Product/{id}")]
         public async Task<IActionResult> DeleteProductItem(int id)
         {
-            var productItem = await _adminService.RemoveProduct(id);
-            if (!productItem.Successfully) return BadRequest();
+            var productItem = await _adminService.RemoveProduct(id, userLogin);
+            if (!productItem.Successfully) 
+                return BadRequest(productItem.ExceptionMessage);
             if (productItem.Element)
             {
                 return  NoContent();
@@ -90,8 +96,9 @@ namespace WebApiTest.Controllers
         [HttpPut("Shop")]
         public async Task<ActionResult<ShopDto>> PutShopItem(ShopDto shopDtoItem)
         {
-            var shopItem = await _adminService.UpdateShopAsync(shopDtoItem);
-            if (!shopItem.Successfully) return BadRequest();
+            var shopItem = await _adminService.UpdateShopAsync(shopDtoItem, userLogin);
+            if (!shopItem.Successfully) 
+                return BadRequest(shopItem.ExceptionMessage);
 
             return CreatedAtAction(
             nameof(GetShopItem),
@@ -101,8 +108,9 @@ namespace WebApiTest.Controllers
         [HttpPut("Product")]
         public async Task<ActionResult<ProductDto>> PutProductItem(ProductDto productDtoItem)
         {
-            var productItem = await _adminService.UpdateProductAsync(productDtoItem);
-            if (!productItem.Successfully) return BadRequest();
+            var productItem = await _adminService.UpdateProductAsync(productDtoItem, userLogin);
+            if (!productItem.Successfully) 
+                return BadRequest(productItem.ExceptionMessage);
 
             return CreatedAtAction(
             nameof(GetShopItem),
@@ -113,8 +121,9 @@ namespace WebApiTest.Controllers
         [HttpPost("Product")]
         public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productDtoItem)
         {
-            var product = await _adminService.AddProduct(productDtoItem);
-            if (!product.Successfully) return BadRequest();
+            var product = await _adminService.AddProduct(productDtoItem, userLogin);
+            if (!product.Successfully) 
+                return BadRequest(product.ExceptionMessage);
 
             return CreatedAtAction(
                 nameof(GetProductItem),
@@ -124,8 +133,9 @@ namespace WebApiTest.Controllers
         [HttpPost("Shop")]
         public async Task<ActionResult<ShopDto>> AddShopItem(ShopDto shopDtoItem)
         { 
-            var shop = await _adminService.AddShop(shopDtoItem);
-            if (!shop.Successfully) return BadRequest();
+            var shop = await _adminService.AddShop(shopDtoItem, userLogin);
+            if (!shop.Successfully) 
+                return BadRequest(shop.ExceptionMessage);
 
             return CreatedAtAction(
             nameof(GetShopItem),

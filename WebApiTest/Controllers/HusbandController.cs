@@ -28,23 +28,26 @@ namespace WebApiTest.Controllers
         [HttpGet("Products")]
         public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetNeededProductList()
         {
-            var neededProductList = await _husbandService.GetWantedProductsAsync();
-            if (!neededProductList.Successfully) return BadRequest();
+            var neededProductList = await _husbandService.GetWantedProductsAsync(userLogin);
+            if (!neededProductList.Successfully) 
+                return BadRequest(neededProductList.ExceptionMessage);
             return neededProductList.Element;
         }
         [HttpGet("Shops")]
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList()
         {
-            var neededShopList = await _husbandService.GetShopsForVisitAsync();
-            if (!neededShopList.Successfully) return BadRequest();
+            var neededShopList = await _husbandService.GetShopsForVisitAsync(userLogin);
+            if (!neededShopList.Successfully) 
+                return BadRequest(neededShopList.ExceptionMessage);
             return neededShopList.Element;
         }
 
         [HttpGet("ProductsInShop/{shopId}")]
         public async Task<ActionResult<IEnumerable<ProductDto>>> GetNededProductListInShop(int shopId)
         {
-            var nededProductListInShop = await _husbandService.GetProductsInShopAsync(shopId);
-            if (!nededProductListInShop.Successfully) return BadRequest();
+            var nededProductListInShop = await _husbandService.GetProductsInShopAsync(shopId, userLogin);
+            if (!nededProductListInShop.Successfully) 
+                return BadRequest(nededProductListInShop.ExceptionMessage);
             return nededProductListInShop.Element;
         }
 }

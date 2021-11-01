@@ -41,7 +41,7 @@ namespace WebApiTest.Services.HusbandService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"GetWantedProductsAsync userLogin: {userLogin}");
-                return new Result<List<WantedProductDto>>();
+                return new Result<List<WantedProductDto>>(ex);
             }
             
         }
@@ -73,7 +73,7 @@ namespace WebApiTest.Services.HusbandService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetShopsForVisitAsync");
-                return new Result<List<ShopDto>>();
+                return new Result<List<ShopDto>>(ex);
             }
         }
         async Task<Result<Shop>> SearchShop(List<ProductDto> productList, WantedProductDto neededProduct)
@@ -97,7 +97,7 @@ namespace WebApiTest.Services.HusbandService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"SearchShop return - neededProduct.Id: {neededProduct.Id} neededProduct.ProductId: {neededProduct.ProductId}"); ;
-                return new Result<Shop>();
+                return new Result<Shop>(ex);
             }
         }
         
@@ -129,7 +129,7 @@ namespace WebApiTest.Services.HusbandService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"GetProductsInShopAsync - ShopId: { ShopId}");
-                return new Result<List<ProductDto>>();
+                return new Result<List<ProductDto>>(ex);
             }
         }
 
@@ -144,7 +144,7 @@ namespace WebApiTest.Services.HusbandService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"FindShopAsync  id: {id}");
-                return new Result<Shop>();
+                return new Result<Shop>(ex);
             }
         }
        

@@ -16,11 +16,11 @@ namespace WebApiTest.Data
         public DbSet<Person> Persons { get; set; }
 
         public TownContext(DbContextOptions<TownContext> options)
-            : base(options)
+           : base(options)
         {
 
         }
-       
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Models.Product>()

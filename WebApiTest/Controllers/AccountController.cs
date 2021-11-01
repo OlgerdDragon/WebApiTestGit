@@ -6,7 +6,9 @@ using WebApiTest.Services.AccountService;
 
 namespace WebApiTest.Controllers
 {
-    public class AccountController : APIControllerBase
+    [ApiController]
+    [Route("Api/[controller]")]
+    public class AccountController : Controller
     {
         private readonly IAccountService _accountService;
 
@@ -16,10 +18,10 @@ namespace WebApiTest.Controllers
         }
 
         [HttpPost("Token")]
-        public async Task<ActionResult<EntryAccountDto>> Token(EntryAccountDto account)
+        public async Task<IActionResult> Token(EntryAccountDto account)
         {            
             var result = await _accountService?.Token(account.Username, account.Password);
-            if (!result.Successfully) return BadRequest();
+            if (!result.Successfully) return BadRequest(result.ExceptionMessage);
 
             var identity = result.Element;
             if (identity == null)                  

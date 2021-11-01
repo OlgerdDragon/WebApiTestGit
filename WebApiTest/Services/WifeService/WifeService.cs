@@ -38,7 +38,7 @@ namespace WebApiTest.Services.WifeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetWantedProductsAsync");
-                return new Result<List<WantedProductDto>>();
+                return new Result<List<WantedProductDto>>(ex);
             }
         }
         public async Task<Result<string>> GetTotalAmountWantedProductsAsync()
@@ -66,7 +66,7 @@ namespace WebApiTest.Services.WifeService
             }
             catch (Exception ex)
             {
-                return new Result<string>();
+                return new Result<string>(ex);
             }
 
         }
@@ -87,7 +87,7 @@ namespace WebApiTest.Services.WifeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"AddProduct id: {id}");
-                return new Result<WantedProductDto>();
+                return new Result<WantedProductDto>(ex);
             }
         }
         async Task<Result<int>> SaveChangesAsync()
@@ -102,7 +102,7 @@ namespace WebApiTest.Services.WifeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetWantedProductsAsync");
-                return new Result<int>();
+                return new Result<int>(ex);
             }
         }
         public async Task<Result<Product>> FindProductAsync(int id)
@@ -117,7 +117,7 @@ namespace WebApiTest.Services.WifeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"FindProductAsync id: {id}");
-                return new Result<Product>();
+                return new Result<Product>(ex);
             }
 
         }
@@ -133,7 +133,7 @@ namespace WebApiTest.Services.WifeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"FindWantedProductAsync id: {id}");
-                return new Result<WantedProduct>();
+                return new Result<WantedProduct>(ex);
             }
         }
         public async Task<Result<ActionResult<WantedProductDto>>> GetWantedProductItemAsync(int id)
@@ -153,7 +153,7 @@ namespace WebApiTest.Services.WifeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"GetWantedProductItemAsync id: {id}");
-                return new Result<ActionResult<WantedProductDto>>();
+                return new Result<ActionResult<WantedProductDto>>(ex);
             }
         }
         public async Task<Result<bool>> RemoveWantedProduct(int id, string userLogin)
@@ -175,7 +175,7 @@ namespace WebApiTest.Services.WifeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"RemoveWantedProduct id: {id}");
-                return new Result<bool>();
+                return new Result<bool>(ex);
             }
         }
         public async Task<Result<bool>> RemoveAllWantedProducts(string userLogin)
@@ -200,7 +200,7 @@ namespace WebApiTest.Services.WifeService
             catch (Exception ex)
             {
                 _logger.LogError(ex, "RemoveAllWantedProducts");
-                return new Result<bool>();
+                return new Result<bool>(ex);
             }
         }
     }

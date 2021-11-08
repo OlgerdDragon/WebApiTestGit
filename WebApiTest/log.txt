@@ -479,3 +479,5 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2021-11-01 03:05:08.543 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 4853.3044 ms
 2021-11-01 03:05:21.343 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 591.4059 ms
 2021-11-01 03:05:35.717 +02:00 [INF] HTTP GET /api/admin/products responded 400 in 201.4749 ms
+2021-11-02 10:57:09.067 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 400.5985 ms
+2021-11-08 01:59:05.743 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 619.5641 ms

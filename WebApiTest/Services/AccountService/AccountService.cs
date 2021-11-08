@@ -86,7 +86,7 @@ namespace WebApiTest.Services.AccountService
                 _logger.LogDebug($"person.Login: {person.Login} person.Role: {person.Role}");
 
                 var result = GetHash(person, password);
-                bool access = result.Element;
+                bool access = !result.Element;
                 _logger.LogDebug($"result.Successfully: {result.Successfully} result.Element: {result.Element}");
 
                 ClaimsIdentity claimsIdentity=null;

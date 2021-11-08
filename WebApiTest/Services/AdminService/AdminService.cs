@@ -48,11 +48,12 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
-                return new Result<List<ShopDto>>(await _context.Shops.Select(i => new ShopDto
+                var element = new Result<List<ShopDto>>(await _context.Shops.Select(i => new ShopDto
                 {
                     Id = i.Id,
                     Name = i.Name
                 }).ToListAsync());
+                return element;
             }
             catch (Exception ex)
             {

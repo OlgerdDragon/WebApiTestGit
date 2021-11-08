@@ -41,7 +41,7 @@ namespace WebApiTest
 
             services.AddDbContext<TownContext>(options => options
                 .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
-
+            
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiTest", Version = "v1" });

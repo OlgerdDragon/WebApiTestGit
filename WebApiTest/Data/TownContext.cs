@@ -7,13 +7,13 @@ namespace WebApiTest.Data
 {
     public class TownContext : DbContext
     {
-        public DbSet<Admin> Admins { get; set; }
-        public DbSet<Husband> Husbands { get; set; }
-        public DbSet<Product> Products { get; set; }
-        public DbSet<Shop> Shops { get; set; }
-        public DbSet<WantedProduct> WantedProducts { get; set; }
-        public DbSet<Wife> Wifes { get; set; }
-        public DbSet<Person> Persons { get; set; }
+        public virtual DbSet<Admin> Admins { get; set; }
+        public virtual DbSet<Husband> Husbands { get; set; }
+        public virtual DbSet<Product> Products { get; set; }
+        public virtual DbSet<Shop> Shops { get; set; }
+        public virtual DbSet<WantedProduct> WantedProducts { get; set; }
+        public virtual DbSet<Wife> Wifes { get; set; }
+        public virtual DbSet<Person> Persons { get; set; }
 
         public TownContext(DbContextOptions<TownContext> options)
            : base(options)

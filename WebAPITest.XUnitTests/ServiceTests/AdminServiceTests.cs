@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
@@ -13,6 +14,8 @@ using Microsoft.EntityFrameworkCore;
 using WebApiTest.Models;
 using WebApiTest.Controllers;
 using WebApiTest.Models.Dto;
+using WebAPITest.XUnitTests.Extensions;
+using WebAPITest.XUnitTests.Infra;
 
 
 namespace WebAPITest.XUnitTests.Common
@@ -38,31 +41,11 @@ namespace WebAPITest.XUnitTests.Common
             //Arrange
             var data = new List<Shop>
             {
-                new Shop { Id=1, Name = "Metro" }
-            }.AsQueryable();
-            var shopSet = new Mock<DbSet<Shop>>();
-            //var list = new Mock<IEnumerable<Shop>>(MockBehavior.Strict);
+                new() { Id=1, Name = "Metro" }
+            };
 
-            //list.As<IEnumerable<Shop>>().Setup(x => x.id)
-
-            //shopSet.As<IEnumerable<Shop>>().Setup(x => x.GetEnumerator()).Returns(data.GetEnumerator());
-
-            shopSet.As<IQueryable<Shop>>().Setup(m => m.Provider).Returns(data.Provider);
-            shopSet.As<IQueryable<Shop>>().Setup(m => m.Expression).Returns(data.Expression);
-            shopSet.As<IQueryable<Shop>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            shopSet.As<IQueryable<Shop>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
+            _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
             
-
-            _context.Setup(p => p.Shops).Returns(shopSet.Object);
-
-            //shopSet
-            //.Setup(x => x.Select(i => new ShopDto
-            //{
-            //    Id = i.Id,
-            //    Name = i.Name
-            //})).Returns(data);
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShopsAsync();

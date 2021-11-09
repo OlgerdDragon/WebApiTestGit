@@ -22,13 +22,12 @@ namespace WebAPITest.XUnitTests.Common
 {
     public class AdminServiceTests
     {
-        private AdminController _adminController;
-
         private IAdminService _adminService;
         private Mock<DbContextOptions<TownContext>> _optionsTown = new Mock<DbContextOptions<TownContext>>();
         private Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
         private Mock<ILogger<AdminService>> _logger = new Mock<ILogger<AdminService>>();
 
+        private string userLogin = "adminUnitTest";
         public AdminServiceTests()
         {
             
@@ -159,7 +158,186 @@ namespace WebAPITest.XUnitTests.Common
 
             Assert.NotNull(realData.ExceptionMessage);
         }
-        
-        
+        [Fact]
+        public async Task UpdateShopAsync_ShouldReturnOneShop_WhenOneShop()
+        {
+            //Arrange
+            var data = new List<Shop>();
+            var dataDto = new ShopDto
+            {
+                Id = 1,
+                Name = "Metro"
+            };
+
+            _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
+
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateShopAsync(dataDto, userLogin);
+
+            //Assert
+            var some = false;
+
+            if (realData.Element.Id == 1
+                && realData.Element.Name == "Metro") some = true;
+
+
+            Assert.True(some);
+        }
+        [Fact]
+        public async Task UpdateShopAsync_ShouldReturnNullException_WhenNULLShopDto()
+        {
+            //Arrange
+            var data = new List<Shop>();
+            var dataDto = new ShopDto();
+
+            _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
+
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateShopAsync(dataDto, userLogin);
+
+            //Assert
+
+            Assert.NotNull(realData.ExceptionMessage);
+        }
+        [Fact]
+        public async Task UpdateShopAsync_ShouldReturnNullException_WhenNotHaveShops()
+        {
+            //Arrange
+            var dataDto = new ShopDto
+            {
+                Id = 1,
+                Name = "Metro"
+            };
+
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateShopAsync(dataDto, userLogin);
+
+            //Assert
+            Assert.NotNull(realData.ExceptionMessage);
+        }
+        [Fact]
+        public async Task UpdateProductAsync_ShouldReturnOneShop_WhenOneShop()
+        {
+            //Arrange
+            var data = new List<Shop>();
+            var dataDto = new ProductDto
+            {
+                Id = 1,
+                Name = "Metro",
+                Price = 100,
+                ShopId =1
+            };
+
+            _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
+
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateProductAsync(dataDto, userLogin);
+
+            //Assert
+            var some = false;
+
+            if (realData.Element.Id == 1
+                && realData.Element.Name == "Metro") some = true;
+
+
+            Assert.True(some);
+        }
+        [Fact]
+        public async Task UpdateProductAsync_ShouldReturnNullException_WhenZeroShop()
+        {
+            //Arrange
+            var data = new List<Shop>();
+            var dataDto = new ProductDto();
+
+            _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
+
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateProductAsync(dataDto, userLogin);
+
+            //Assert
+
+            Assert.NotNull(realData.ExceptionMessage);
+        }
+        [Fact]
+        public async Task UpdateProductAsync_ShouldReturnNullException_WhenNotHaveShops()
+        {
+            //Arrange
+            var dataDto = new ProductDto
+            {
+                Id = 1,
+                Name = "Metro",
+                Price = 100,
+                ShopId = 1
+            };
+
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateProductAsync(dataDto, userLogin);
+
+            //Assert
+            Assert.NotNull(realData.ExceptionMessage);
+        }
+        public async Task AddProduct_ShouldReturnTrue_WhenAddOneWantedProduct()
+        {
+            //Arrange
+            var dataProduct = new List<Product>();
+            var producDto = new ProductDto
+            {
+                Id = 1,
+                Name = "Milk",
+                Price = 100,
+                ShopId = 1
+            };
+
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(producDto, userLogin);
+
+            //Assert
+
+            Assert.True(realData.Element);
+        }
+        [Fact]
+        public async Task AddProduct_ShouldReturnNULL_WhenZeroProducts()
+        {
+            //Arrange
+            var dataProduct = new List<Product>();
+            var producDto = new ProductDto();
+
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(producDto, userLogin);
+
+            //Assert
+            Assert.NotNull(realData.ExceptionMessage);
+        }
+
+        [Fact]
+        public async Task AddProduct_ShouldReturnNullException_WhenNotHaveProducts()
+        {
+            //Arrange
+            var producDto = new ProductDto
+            {
+                Id = 1,
+                Name = "Milk",
+                Price = 100,
+                ShopId = 1
+            };
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(producDto, userLogin);
+
+            //Assert
+            Assert.NotNull(realData.ExceptionMessage);
+        }
     }
 }

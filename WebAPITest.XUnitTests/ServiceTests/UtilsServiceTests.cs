@@ -20,8 +20,6 @@ namespace WebAPITest.XUnitTests.Common
 {
     public class UtilsServiceTests
     {
-        private AdminController _adminController;
-
         private UtilsService _utilsService;
 
         public UtilsServiceTests()

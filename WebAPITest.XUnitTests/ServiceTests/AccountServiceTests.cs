@@ -98,36 +98,7 @@ namespace WebAPITest.XUnitTests.Common
 
             Assert.True(true);
         }
-        [Fact]
-        public async Task GetTokenAsync_ShouldReturnUsernameAndJwt_v3_WhenUsernameAndPasword()
-        {
-            //Arrange
-            var data = new List<Shop>
-            {
-                new Shop { Id=1, Name = "Metro" }
-            }.AsQueryable();
-
-            var mockSet = new Mock<DbSet<Shop>>();
-            mockSet.As<IQueryable<Shop>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Shop>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Shop>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Shop>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            var mockContext = new Mock<TownContext>(new DbContextOptions<TownContext>());
-            mockContext.Setup(c => c.Shops).Returns(mockSet.Object);
-
-            Mock<ILogger<AdminService>> _loggerAdmin = new Mock<ILogger<AdminService>>();
-            var service = new AdminService(mockContext.Object, _loggerAdmin.Object);
-
-            //Act
-
-            var blogs = await service.GetShopsAsync();
-
-            //Assert
-            Assert.NotNull(blogs.Element);
-
-            Assert.True(true);
-        }
+       
         public async Task GetTokenAsync_NewMock()
         {
             //Arrange

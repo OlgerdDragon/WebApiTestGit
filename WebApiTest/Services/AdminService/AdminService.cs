@@ -102,7 +102,7 @@ namespace WebApiTest.Services.AdminService
                 return new Result<ProductDto>(ex);
             }
         }
-        public async Task<Result<Shop>> FindShopAsync(int id)
+        async Task<Result<Shop>> FindShopAsync(int id)
         {
             try
             {
@@ -117,7 +117,7 @@ namespace WebApiTest.Services.AdminService
             }
         }
 
-        public async Task<Result<Product>> FindProductAsync(int id)
+        async Task<Result<Product>> FindProductAsync(int id)
         {
             try
             {

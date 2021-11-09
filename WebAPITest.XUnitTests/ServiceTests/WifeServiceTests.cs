@@ -139,9 +139,11 @@ namespace WebAPITest.XUnitTests.Common
         public async Task GetTotalAmountWantedProductsAsync_ShouldReturnZero_WhenZeroWantedProduct()
         {
             //Arrange
-            var data = new List<WantedProduct>();
+            var dataWantedProduct = new List<WantedProduct>();
+            var dataProduct = new List<Product>();
 
-            _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
+            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
 
             //Act
             _wifeService = new WifeService(_context.Object, _logger.Object);
@@ -293,11 +295,17 @@ namespace WebAPITest.XUnitTests.Common
             var realData = await _wifeService.GetWantedProductItemAsync(wantedProductId);
 
             //Assert
-            var actual = realData.Element.Result;
-            Assert.True(true);
+            var actual = realData.Element.Value;
+            var some = false;
+            if (actual.Id == 1
+                    && actual.BoughtStatus == false
+                    && actual.ProductId == 1
+                    && actual.WifeId == 1) some = true;
+
+            Assert.True(some);
         }
         [Fact]
-        public async Task GetWantedProductItemAsync_ShouldReturnFalse_WhenZeroWantedProduct()
+        public async Task GetWantedProductItemAsync_ShouldReturnNULL_WhenZeroWantedProduct()
         {
             //Arrange
             var data = new List<WantedProduct>();
@@ -321,6 +329,69 @@ namespace WebAPITest.XUnitTests.Common
             //Act
             _wifeService = new WifeService(_context.Object, _logger.Object);
             var realData = await _wifeService.GetWantedProductItemAsync(wantedProductId);
+
+            //Assert
+            Assert.NotNull(realData.ExceptionMessage);
+        }
+        [Fact]
+        public async Task AddProduct_ShouldReturnTrue_WhenAddOneWantedProduct()
+        {
+            //Arrange
+            var dataWantedProduct = new List<WantedProduct>();
+            var dataProduct = new List<Product>
+            {
+                new()
+                {
+                    Id = 1,
+                    Name = "Milk",
+                    Price = 100,
+                    ShopId = 1
+                }
+            };
+
+            var wantedProductId = 1;
+            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+
+            //Act
+            _wifeService = new WifeService(_context.Object, _logger.Object);
+            var realData = await _wifeService.AddProduct(wantedProductId, userLogin);
+
+            //Assert
+            var actual = realData.Element;
+            var some = false;
+            if (realData.Element.ProductId == 1) some = true;
+
+            Assert.True(some);
+        }
+        [Fact]
+        public async Task AddProduct_ShouldReturnNULL_WhenZeroProducts()
+        {
+            //Arrange
+            var wantedProductId = 1;
+            var dataWantedProduct = new List<WantedProduct>();
+            var dataProduct = new List<Product>();
+
+            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+
+            //Act
+            _wifeService = new WifeService(_context.Object, _logger.Object);
+            var realData = await _wifeService.AddProduct(wantedProductId, userLogin);
+
+            //Assert
+            Assert.Null(realData.Element);
+        }
+
+        [Fact]
+        public async Task AddProduct_ShouldReturnNullException_WhenNotHaveProducts()
+        {
+            //Arrange
+            var wantedProductId = 1;
+
+            //Act
+            _wifeService = new WifeService(_context.Object, _logger.Object);
+            var realData = await _wifeService.AddProduct(wantedProductId, userLogin);
 
             //Assert
             Assert.NotNull(realData.ExceptionMessage);

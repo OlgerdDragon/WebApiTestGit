@@ -41,7 +41,7 @@ namespace WebApiTest.Services.WifeService
                 return new Result<List<WantedProductDto>>(ex);
             }
         }
-        public async Task<Result<string>> GetTotalAmountWantedProductsAsync()
+        public async Task<Result<int>> GetTotalAmountWantedProductsAsync()
         {
             try
             {
@@ -53,20 +53,20 @@ namespace WebApiTest.Services.WifeService
                     WifeId = i.WifeId
 
                 }).ToListAsync();
-                int _totalAmount = 0;
+                int totalAmount = 0;
                 foreach (var item in _wantedProductsList)
                 {
                     var product = await FindProductAsync(item.ProductId);
-                    _totalAmount += product.Element.Price;
-                    _logger.LogDebug($"GetTotalAmountWantedProductsAsync - _totalAmount: {_totalAmount} item.ProductId:{item.ProductId} product.Price{product.Element.Price}");
+                    totalAmount += product.Element.Price;
+                    _logger.LogDebug($"GetTotalAmountWantedProductsAsync - _totalAmount: {totalAmount} item.ProductId:{item.ProductId} product.Price{product.Element.Price}");
                 }
 
-                _logger.LogDebug($"GetTotalAmountWantedProductsAsync - _totalAmount: {_totalAmount}");
-                return new Result<string>($"Total Amount: {_totalAmount}");
+                _logger.LogDebug($"GetTotalAmountWantedProductsAsync - _totalAmount: {totalAmount}");
+                return new Result<int>(totalAmount);
             }
             catch (Exception ex)
             {
-                return new Result<string>(ex);
+                return new Result<int>(ex);
             }
 
         }
@@ -105,7 +105,7 @@ namespace WebApiTest.Services.WifeService
                 return new Result<int>(ex);
             }
         }
-        public async Task<Result<Product>> FindProductAsync(int id)
+        async Task<Result<Product>> FindProductAsync(int id)
         {
             try
             {
@@ -121,7 +121,7 @@ namespace WebApiTest.Services.WifeService
             }
 
         }
-        public async Task<Result<WantedProduct>> FindWantedProductAsync(int id)
+        async Task<Result<WantedProduct>> FindWantedProductAsync(int id)
         {
             try
             {
@@ -147,7 +147,7 @@ namespace WebApiTest.Services.WifeService
                 }
                 var wantedProductDTO = WantedProductDto.ItemWantedProductDTO(wantedProductItem.Element);
 
-                _logger.LogInformation($"RemoveWantedProduct(id) id: {id} return - wantedProductDTO.Id: {wantedProductDTO.Id} wantedProductDTO.ProductId: {wantedProductDTO.ProductId}");
+                _logger.LogDebug($"GetWantedProductItemAsync(id) id: {id} return - wantedProductDTO.Id: {wantedProductDTO.Id} wantedProductDTO.ProductId: {wantedProductDTO.ProductId}");
                 return new Result<ActionResult<WantedProductDto>>(wantedProductDTO);
             }
             catch (Exception ex)
@@ -162,12 +162,16 @@ namespace WebApiTest.Services.WifeService
             {
                 var status = true;
                 var _wantedProductItem = await FindWantedProductAsync(id);
-                
-                if (_wantedProductItem == null)
-                    status = false;
 
-                _context.WantedProducts.Remove(_wantedProductItem.Element);
-                await SaveChangesAsync();
+                if(!_wantedProductItem.Successfully) return new Result<bool>(_wantedProductItem.ExceptionMessage);
+
+                if (_wantedProductItem.Element == null)
+                    status = false;
+                else
+                {
+                    _context.WantedProducts.Remove(_wantedProductItem.Element);
+                    await SaveChangesAsync();
+                }
 
                 _logger.LogInformation($"RemoveWantedProduct(id) userLogin: {userLogin} id: {id}  return - status: {status}");
                 return new Result<bool>(status);
@@ -182,7 +186,6 @@ namespace WebApiTest.Services.WifeService
         {
             try
             {
-                var status = true;
                 var _wantedProductList = _context.WantedProducts.Select(i => new WantedProduct
                 {
                     Id = i.Id,
@@ -193,7 +196,7 @@ namespace WebApiTest.Services.WifeService
                     _context.WantedProducts.Remove(item);
                 }
                 await SaveChangesAsync();
-
+                var status = true;
                 _logger.LogInformation($"RemoveAllWantedProducts userLogin: {userLogin} return - status: {status}");
                 return new Result<bool>(status);
             }

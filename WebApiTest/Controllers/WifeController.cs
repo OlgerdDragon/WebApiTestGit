@@ -33,7 +33,7 @@ namespace WebApiTest.Controllers
             return wantedProducts.Element;
         }
         [HttpGet("Products/TotalAmount")]
-        public async Task<ActionResult<string>> GetTotalAmountWantedProducts()
+        public async Task<ActionResult<int>> GetTotalAmountWantedProducts()
         {
             var totalAmount = await _wifeService.GetTotalAmountWantedProductsAsync();
             if (!totalAmount.Successfully) 

@@ -16,6 +16,7 @@ namespace WebApiTest.Services.UtilsService
         {
             try
             {
+                if(level<0 ||level>5) return new Result<bool>(false);
                 var levelSwitch = new LoggingLevelSwitch();
                 levelSwitch.MinimumLevel = (LogEventLevel)level;
 

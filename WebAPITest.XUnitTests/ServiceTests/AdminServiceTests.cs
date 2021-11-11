@@ -32,7 +32,7 @@ namespace WebAPITest.XUnitTests.Common
             
         }
         [Fact]
-        public async Task GetProductsAsync_ShouldReturnOneProduct_WhenOneProduct()
+        public async Task GetProductsAsync_ShouldReturnOneProduct_WhenHaveOneProduct()
         {
             //Arrange
             var data = new List<Product>
@@ -63,7 +63,7 @@ namespace WebAPITest.XUnitTests.Common
             Assert.True(some);
         }
         [Fact]
-        public async Task GetProductsAsync_ShouldReturnZero_WhenZeroProduct()
+        public async Task GetProductsAsync_ShouldReturnZeroList_WhenHaveZeroProducts()
         {
             //Arrange
             var data = new List<Product>();
@@ -85,18 +85,14 @@ namespace WebAPITest.XUnitTests.Common
         public async Task GetProductsAsync_ShouldReturnNullException_WhenNotHaveProducts()
         {
             //Arrange
-
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetProductsAsync();
-
             //Assert
-
             Assert.NotNull(realData.ExceptionMessage);
         }
         [Fact]
-        public async Task GetShopsAsync_ShouldReturnOneShop_WhenOneShop()
+        public async Task GetShopsAsync_ShouldReturnOneShop_WhenHaveOneShops()
         {
             //Arrange
             var data = new List<Shop>
@@ -107,13 +103,10 @@ namespace WebAPITest.XUnitTests.Common
                     Name = "Metro" 
                 }
             };
-
             _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
-            
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShopsAsync();
-            
             //Assert
             var some = false;
             if (realData.Element.Count == 1)
@@ -123,40 +116,32 @@ namespace WebAPITest.XUnitTests.Common
             Assert.True(some);
         }
         [Fact]
-        public async Task GetShopsAsync_ShouldReturnZero_WhenZeroShop()
+        public async Task GetShopsAsync_ShouldReturnZeroList_WhenHaveZeroShops()
         {
             //Arrange
             var data = new List<Shop>();
-
             _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShopsAsync();
-
             //Assert
             var some = false;
             if (realData.Element.Count == 0)
                 some = true;
-
             Assert.True(some);
         }
         [Fact]
         public async Task GetShopsAsync_ShouldReturnNullException_WhenNotHaveShops()
         {
             //Arrange
-
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShopsAsync();
-
             //Assert
-
             Assert.NotNull(realData.ExceptionMessage);
         }
         [Fact]
-        public async Task UpdateShopAsync_ShouldReturnOneShop_WhenOneShop()
+        public async Task UpdateShopAsync_ShouldReturnOneShop_WhenHaveOneShops()
         {
             //Arrange
             var data = new List<Shop>
@@ -173,37 +158,34 @@ namespace WebAPITest.XUnitTests.Common
                 Id = 1,
                 Name = "Metro"
             };
-
             _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateShopAsync(dataDto, userLogin);
-
             //Assert
             var some = false;
-
             if (realData.Element.Id == 1
                 && realData.Element.Name == "Metro") some = true;
-
-
             Assert.True(some);
         }
         [Fact]
         public async Task UpdateShopAsync_ShouldReturnNullException_WhenNULLShopDto()
         {
             //Arrange
-            var data = new List<Shop>();
+            var dataShop = new List<Shop>
+            {
+                new()
+                {
+                    Id = 1,
+                    Name = "Metro"
+                }
+            };
             var dataDto = new ShopDto();
-
-            _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
-
+            _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateShopAsync(dataDto, userLogin);
-
             //Assert
-
             Assert.NotNull(realData.ExceptionMessage);
         }
         [Fact]
@@ -224,7 +206,7 @@ namespace WebAPITest.XUnitTests.Common
             Assert.NotNull(realData.ExceptionMessage);
         }
         [Fact]
-        public async Task UpdateProductAsync_ShouldReturnOneShop_WhenOneShop()
+        public async Task UpdateProductAsync_ShouldReturnOneShop_WhenHaveOneShops()
         {
             //Arrange
             var data = new List<Product>
@@ -244,36 +226,36 @@ namespace WebAPITest.XUnitTests.Common
                 Price = 100,
                 ShopId =1
             };
-
             _context.Setup(p => p.Products).Returns(data.BuildMockDbSet());
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProductAsync(dataDto, userLogin);
-
             //Assert
             var some = false;
-
             if (realData.Element.Id == 1
                 && realData.Element.Name == "Metro") some = true;
-
-
             Assert.True(some);
         }
         [Fact]
-        public async Task UpdateProductAsync_ShouldReturnNullException_WhenZeroShop()
+        public async Task UpdateProductAsync_ShouldReturnNullException_WhenZeroShopDto()
         {
             //Arrange
-            var data = new List<Shop>();
+            var data = new List<Product>
+            {
+                new()
+                {
+                     Id = 1,
+                    Name = "",
+                    Price = 0,
+                    ShopId =0
+                }
+            };
             var dataDto = new ProductDto();
-
-            _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
-
+            _context.Setup(p => p.Products).Returns(data.BuildMockDbSet());
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProductAsync(dataDto, userLogin);
-
             //Assert
-
             Assert.NotNull(realData.ExceptionMessage);
         }
         [Fact]
@@ -287,16 +269,14 @@ namespace WebAPITest.XUnitTests.Common
                 Price = 100,
                 ShopId = 1
             };
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProductAsync(dataDto, userLogin);
-
             //Assert
             Assert.NotNull(realData.ExceptionMessage);
         }
         [Fact]
-        public async Task AddProduct_ShouldReturnTrue_WhenAddOneWantedProduct()
+        public async Task AddProduct_ShouldReturnTrue_WhenOneProductDto()
         {
             //Arrange
             var dataProduct = new List<Product>();
@@ -324,7 +304,7 @@ namespace WebAPITest.XUnitTests.Common
             Assert.True(realData.Element);
         }
         [Fact]
-        public async Task AddProduct_ShouldReturnFalse_WhenNotHaveShops()
+        public async Task AddProduct_ShouldReturnFalse_WhenNotHaveNeededShop()
         {
             //Arrange
             var dataProduct = new List<Product>();
@@ -336,13 +316,31 @@ namespace WebAPITest.XUnitTests.Common
                 Price = 100,
                 ShopId = 1
             };
-
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.AddProduct(producDto, userLogin);
 
+            //Assert
+            Assert.False(realData.Element);
+        }
+        [Fact]
+        public async Task AddProduct_ShouldReturnFalse_WhenNotHaveShops()
+        {
+            //Arrange
+            var dataProduct = new List<Product>();
+            var producDto = new ProductDto
+            {
+                Id = 1,
+                Name = "Milk",
+                Price = 100,
+                ShopId = 1
+            };
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+            //Act
+            _adminService = new AdminService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(producDto, userLogin);
             //Assert
             Assert.False(realData.Element);
         }
@@ -424,7 +422,7 @@ namespace WebAPITest.XUnitTests.Common
             Assert.True(realData.Element);
         }
         [Fact]
-        public async Task AddShop_ShouldReturnNULL_WhenNULShopDto()
+        public async Task AddShop_ShouldReturnFalse_WhenNULLShopDto()
         {
             //Arrange
             var dataShop = new List<Shop>();
@@ -450,7 +448,6 @@ namespace WebAPITest.XUnitTests.Common
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.AddShop(shopDto, userLogin);
-
             //Assert
             Assert.NotNull(realData.ExceptionMessage);
         }
@@ -470,27 +467,22 @@ namespace WebAPITest.XUnitTests.Common
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.RemoveProduct(productId, userLogin);
-
             //Assert
-
             Assert.True(realData.Element);
         }
         [Fact]
-        public async Task RemoveProduct_ShouldReturnNULL_WhenNULLProductDto()
+        public async Task RemoveProduct_ShouldReturnFalse_WhenNotHaveNeededProduct()
         {
             //Arrange
             var dataProduct = new List<Product>();
             var productId = 1;
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
-            _context.Setup(p => p.Products.FindAsync(productId)).Returns(null);
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.RemoveProduct(productId, userLogin);
-
             //Assert
             Assert.False(realData.Element);
         }
-
         [Fact]
         public async Task RemoveProduct_ShouldReturnNullException_WhenNotHaveProducts()
         {
@@ -530,17 +522,15 @@ namespace WebAPITest.XUnitTests.Common
             Assert.True(realData.Element);
         }
         [Fact]
-        public async Task RemoveShop_ShouldReturnFalse_WhenNotHaveShopDto()
+        public async Task RemoveShop_ShouldReturnFalse_WhenNotHaveNeededShop()
         {
             //Arrange
             var dataShop = new List<Shop>();
             var shopId = 1;
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
-            _context.Setup(p => p.Shops.FindAsync(shopId)).Returns(null);
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.RemoveShop(shopId, userLogin);
-
             //Assert
             Assert.False(realData.Element);
         }
@@ -579,18 +569,15 @@ namespace WebAPITest.XUnitTests.Common
             Assert.True(some);
         }
         [Fact]
-        public async Task GetShopAsync_ShouldReturnNULL_WhenHaveNotShopDto()
+        public async Task GetShopAsync_ShouldReturnNULL_WhenNotHaveNeededShop()
         {
             //Arrange
             var dataShop = new List<Shop>();
             var shopId = 1;
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
-            _context.Setup(p => p.Products.FindAsync(shopId)).Returns(null);
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShopAsync(shopId);
-
             //Assert
             Assert.Null(realData);
         }
@@ -619,39 +606,30 @@ namespace WebAPITest.XUnitTests.Common
             };
             var productId = 1;
             _context.Setup(p => p.Products.FindAsync(productId)).Returns(new ValueTask<Product>(product));
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetProductAsync(productId);
-
             //Assert
             var some = false;
-
             if (realData.Element.Value.Id == 1
                 && realData.Element.Value.Name == "Milk"
                 && realData.Element.Value.Price == 100
                 && realData.Element.Value.ShopId == 1) some = true;
-
-
             Assert.True(some);
         }
         [Fact]
-        public async Task GetProductAsync_ShouldReturnNULL_WhenHaveNotShopDto()
+        public async Task GetProductAsync_ShouldReturnNULL_WhenNotHaveNeededProduct()
         {
             //Arrange
             var dataProduct = new List<Product>();
             var productId = 1;
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
-            _context.Setup(p => p.Products.FindAsync(productId)).Returns(null);
-
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetProductAsync(productId);
-
             //Assert
             Assert.Null(realData);
         }
-
         [Fact]
         public async Task GetProductAsync_ShouldReturnNullException_WhenNotHaveShops()
         {
@@ -660,7 +638,6 @@ namespace WebAPITest.XUnitTests.Common
             //Act
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.GetProductAsync(productId);
-
             //Assert
             Assert.NotNull(realData.ExceptionMessage);
         }

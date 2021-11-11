@@ -114,7 +114,7 @@ namespace WebAPITest.XUnitTests.Common
             {
                 new()
                 {
-                    Id=1,
+                    Id = 1,
                     Name = "Salo",
                     Price = 100,
                     ShopId = 1
@@ -125,8 +125,10 @@ namespace WebAPITest.XUnitTests.Common
                 Id = 1,
                 Name = "Metro"
             };
+            
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+            _context.Setup(p => p.Products.FindAsync(dataWantedProduct[0].ProductId)).Returns(new ValueTask<Product>(dataProduct[0]));
             _context.Setup(p => p.Shops.FindAsync(dataProduct[0].ShopId)).Returns(new ValueTask<Shop>(shop));
             //Act
             _husbandService = new HusbandService(_context.Object, _logger.Object);
@@ -206,7 +208,7 @@ namespace WebAPITest.XUnitTests.Common
 
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
-
+            _context.Setup(p => p.Products.FindAsync(dataWantedProduct[0].ProductId)).Returns(new ValueTask<Product>(dataProduct[0]));
             //Act
             _husbandService = new HusbandService(_context.Object, _logger.Object);
             var realData = await _husbandService.GetProductsInShopAsync(shopId, userLogin);

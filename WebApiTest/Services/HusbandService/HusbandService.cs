@@ -50,23 +50,14 @@ namespace WebApiTest.Services.HusbandService
             try
             {
                 var neededProductList = GetWantedProducts();
-                var productList = GetProductList();
-
                 var neededShopList = new List<ShopDto>();
                 foreach (var neededProduct in neededProductList)
                 {
-                    var shopSearched = await SearchShop(productList, neededProduct);
-                    if (shopSearched != null)
-                    {
-                        var shopSearchedDto = ShopDto.ItemShopDTO(shopSearched.Element);
-
-                        if (!neededShopList.Exists(o => o.Id == shopSearchedDto.Id))
-                        {
-                            neededShopList.Add(shopSearchedDto);
-                            _logger.LogDebug($"GetShopsForVisitAsync userLogin: {userLogin} - List.Add(shop) - shopSearchedDto.Id: {shopSearchedDto.Id} shopSearchedDto.Name: {shopSearchedDto.Name}");
-
-                        }
-                    }
+                    var productSearched = await FindProductAsync(neededProduct.ProductId);
+                    var shopSearched = await FindShopAsync(productSearched.Element.Id);
+                    var shopSearchedDto = ShopDto.ItemShopDTO(shopSearched.Element);
+                    neededShopList.Add(shopSearchedDto);
+                    _logger.LogDebug($"GetShopsForVisitAsync userLogin: {userLogin} - List.Add(shop) - shopSearchedDto.Id: {shopSearchedDto.Id} shopSearchedDto.Name: {shopSearchedDto.Name}");
                 }
                 return new Result<List<ShopDto>>(neededShopList);
             }
@@ -76,53 +67,26 @@ namespace WebApiTest.Services.HusbandService
                 return new Result<List<ShopDto>>(ex);
             }
         }
-        async Task<Result<Shop>> SearchShop(List<ProductDto> productList, WantedProductDto neededProduct)
-        {
-            try
-            {
-                _logger.LogDebug($"SearchShop return - neededProduct.Id: {neededProduct.Id} neededProduct.ProductId: {neededProduct.ProductId}");
-                
-                Shop shop = null;
-                foreach (var product in productList)
-                {
-                    if (product.Id == neededProduct.ProductId)
-                    {
-                        var productSearched = product;
-                        shop = await _context.Shops.FindAsync(product.ShopId);
-                    }
-                }
-                _logger.LogDebug($"SearchShop return - shop.Id: {shop.Id} shop.Name: {shop.Name}");
-                return new Result<Shop>(shop);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"SearchShop return - neededProduct.Id: {neededProduct.Id} neededProduct.ProductId: {neededProduct.ProductId}"); ;
-                return new Result<Shop>(ex);
-            }
-        }
         
         public async Task<Result<List<ProductDto>>> GetProductsInShopAsync(int ShopId, string userLogin)
         {
             try
             {
-                _logger.LogDebug($"GetProductsInShopAsync - ShopId: {ShopId} ");
+                _logger.LogDebug($"GetProductsInShopAsync  userLogin: {userLogin} - ShopId: {ShopId} ");
                 var neededProductList = GetWantedProducts();
-                var productList = GetProductList();
                 var productInShop = new List<ProductDto>();
 
-                foreach (var product in productList)
+                foreach (var neededProduct in neededProductList)
                 {
-                    if (product.ShopId == ShopId)
+                    _logger.LogDebug($"GetProductsInShopAsync - neededProduct.Id: {neededProduct.Id} neededProduct.BoughtStatus: {neededProduct.BoughtStatus} neededProduct.ProductId: {neededProduct.ProductId} neededProduct.WifeId: {neededProduct.WifeId}");
+                    var productSearched = await FindProductAsync(neededProduct.ProductId);
+                    if (productSearched.Element.ShopId == ShopId)
                     {
-                        foreach (var neededProduct in neededProductList)
-                        {
-                            if (neededProduct.ProductId == product.Id)
-                            {
-                                productInShop?.Add(product);
-                                _logger.LogDebug($"GetProductsInShopAsync userLogin: {userLogin} - List.Add(product) - product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
-                            }
-                        }
+                        var productDto = ProductDto.ItemProductDTO(productSearched.Element);
+                        productInShop.Add(productDto);
+                        _logger.LogDebug($"GetProductsInShopAsync List.Add(product) - product.Id: {productDto.Id} product.Name: {productDto.Name} product.Price: {productDto.Price} product.ShopId: {productDto.ShopId}");
                     }
+                    else _logger.LogDebug($"GetProductsInShopAsync List.Add(product) - Not added");
                 }
                 return new Result<List<ProductDto>>(productInShop);
             }
@@ -133,12 +97,15 @@ namespace WebApiTest.Services.HusbandService
             }
         }
 
-       
-        public async Task<Result<Shop>> FindShopAsync(int id)
+        async Task<Result<Shop>> FindShopAsync(int id)
         {
             try
             {
                 var shop = await _context.Shops.FindAsync(id);
+                if (shop == null)
+                    _logger.LogDebug($"FindProductAsync return - id: {id}  Null oject");
+                else
+                    _logger.LogDebug($"FindProductAsync return - id: {id} product.Id: {shop.Id} product.Name: {shop.Name}");
                 return new Result<Shop>(shop);
             }
             catch (Exception ex)
@@ -147,7 +114,23 @@ namespace WebApiTest.Services.HusbandService
                 return new Result<Shop>(ex);
             }
         }
-       
+        async Task<Result<Product>> FindProductAsync(int id)
+        {
+            try
+            {
+                var product = await _context.Products.FindAsync(id);
+                if (product == null)
+                    _logger.LogDebug($"FindProductAsync return - id: {id}  Null oject");
+                else
+                    _logger.LogDebug($"FindProductAsync return - id: {id} product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
+                return new Result<Product>(product);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"FindProductAsync id: {id}");
+                return new Result<Product>(ex);
+            }
+        }
         List<WantedProductDto> GetWantedProducts()
         {
             try
@@ -164,24 +147,6 @@ namespace WebApiTest.Services.HusbandService
             {
                 _logger.LogError(ex, "GetWantedProducts");
                 throw ex;
-            }
-        }
-        List<ProductDto> GetProductList()
-        {
-            try
-            {
-                return _context.Products.Select(i => new ProductDto
-                {
-                    Id = i.Id,
-                    Name = i.Name,
-                    Price = i.Price,
-                    ShopId = i.ShopId
-                }).ToList();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, "GetProductList");
-                throw ex; 
             }
         }
     }

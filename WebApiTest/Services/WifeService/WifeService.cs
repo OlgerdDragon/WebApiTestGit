@@ -31,7 +31,6 @@ namespace WebApiTest.Services.WifeService
                     BoughtStatus = i.BoughtStatus,
                     ProductId = i.ProductId,
                     WifeId = i.WifeId
-
                 }).ToListAsync();
                 return new Result<List<WantedProductDto>>(wantedProducts);
             }
@@ -74,12 +73,22 @@ namespace WebApiTest.Services.WifeService
         {
             try
             {
-                var _productItem = await FindProductAsync(id);
-                var _wantedProductItem = WantedProductDto.ConvertProductInWantedProduct(_productItem.Element);
-                _context.WantedProducts.Add(_wantedProductItem);
+                var productItem = await FindProductAsync(id);
+                if (productItem.Element == null)
+                {
+                    if (!productItem.Successfully)
+                    {
+                        _logger.LogError(productItem.ExceptionMessage, $"AddProduct id: {id}");
+                        return new Result<WantedProductDto>(productItem.ExceptionMessage);
+                    }
+                    _logger.LogDebug($"AddProduct userLogin: {userLogin} id: {id} return  null object");
+                    return new Result<WantedProductDto>(new WantedProductDto());
+                }
+                var wantedProductItem = WantedProductDto.ConvertProductInWantedProduct(productItem.Element);
+                _context.WantedProducts.Add(wantedProductItem);
                 await SaveChangesAsync();
 
-                var wantedProductDTO = WantedProductDto.ItemWantedProductDTO(_wantedProductItem);
+                var wantedProductDTO = WantedProductDto.ItemWantedProductDTO(wantedProductItem);
 
                 _logger.LogInformation($"AddProduct(id) userLogin: {userLogin} id: {id} return - wantedProductDTO.Id: {wantedProductDTO.Id} wantedProductDTO.ProductId: {wantedProductDTO.ProductId}");
                 return new Result<WantedProductDto>(wantedProductDTO);
@@ -110,7 +119,10 @@ namespace WebApiTest.Services.WifeService
             try
             {
                 var product = await _context.Products.FindAsync(id);
-                _logger.LogDebug($"FindProductAsync id: {id} return - product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
+                if (product == null)
+                    _logger.LogDebug($"FindProductAsync return - id: {id}  Null oject");
+                else
+                    _logger.LogDebug($"FindProductAsync return - id: {id} product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
                 return new Result<Product>(product);
 
             }
@@ -126,8 +138,10 @@ namespace WebApiTest.Services.WifeService
             try
             {
                 var wantedProduct = await _context.WantedProducts.FindAsync(id);
-
-                _logger.LogDebug($"FindWantedProductAsync id: {id} return -  wantedProduct.Id: {wantedProduct.Id} wantedProduct.Name: {wantedProduct.ProductId}");
+                if (wantedProduct == null)
+                    _logger.LogDebug($"FindWantedProductAsync return - id: {id}  Null oject");
+                else
+                    _logger.LogDebug($"FindWantedProductAsync id: {id} return -  wantedProduct.Id: {wantedProduct.Id} wantedProduct.Name: {wantedProduct.ProductId}");
                 return new Result<WantedProduct>(wantedProduct);
             }
             catch (Exception ex)
@@ -161,15 +175,19 @@ namespace WebApiTest.Services.WifeService
             try
             {
                 var status = true;
-                var _wantedProductItem = await FindWantedProductAsync(id);
+                var wantedProductItem = await FindWantedProductAsync(id);
 
-                if(!_wantedProductItem.Successfully) return new Result<bool>(_wantedProductItem.ExceptionMessage);
+                if(!wantedProductItem.Successfully)
+                {
+                    _logger.LogError(wantedProductItem.ExceptionMessage, $"RemoveWantedProduct id: {id}");
+                    return new Result<bool>(wantedProductItem.ExceptionMessage);
+                }
 
-                if (_wantedProductItem.Element == null)
+                if (wantedProductItem.Element == null)
                     status = false;
                 else
                 {
-                    _context.WantedProducts.Remove(_wantedProductItem.Element);
+                    _context.WantedProducts.Remove(wantedProductItem.Element);
                     await SaveChangesAsync();
                 }
 

@@ -11,13 +11,14 @@ using WebApiTest.Services.AccountService;
 using WebApiTest.Services.AdminService;
 using Microsoft.EntityFrameworkCore;
 using WebApiTest.Models;
+using WebAPITest.XUnitTests.Extensions;
+using WebAPITest.XUnitTests.Infra;
 
 namespace WebAPITest.XUnitTests.Common
 {
     public class AccountServiceTests
     {
-        private readonly IAccountService _accountService;
-        private IAccountService _accountService1;
+        private IAccountService _accountService;
         private readonly Mock<DbContextOptions<TownContext>> _optionsTown = new Mock<DbContextOptions<TownContext>>();
         private readonly Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
         private readonly Mock<ILogger<AccountService>> _logger = new Mock<ILogger<AccountService>>();
@@ -25,14 +26,13 @@ namespace WebAPITest.XUnitTests.Common
         public AccountServiceTests()
         {
             _accountService = new AccountService(_context.Object, _logger.Object);
-            
         }
 
         [Fact]
         public async Task GetTokenAsync_ShouldReturnNULL_WhenCustomerExists()
         {
             //Arrange
-
+            
             //Act
             var result = await _accountService?.Token("", "");
 
@@ -46,10 +46,10 @@ namespace WebAPITest.XUnitTests.Common
             //Arrange
 
             //Act
-            var result = await _accountService?.Token(null,null);
+            var result = await _accountService.Token(null,null);
 
             //Assert
-            Assert.False(result.Successfully);
+            Assert.NotNull(result.ExceptionMessage);
         }
         [Fact]
         public async Task GetTokenAsync_ShouldReturnUsernameAndJwt_WhenUsernameAndPasword()
@@ -57,76 +57,27 @@ namespace WebAPITest.XUnitTests.Common
             //Arrange
             var username = "admin@gmail.com";
             var password = "1";
-            Person person = new Person { Login = "admin@gmail.com", Password = "1" };
-            _context.Object.Persons.Add(person);
-
-            //Act
-            var result = await _accountService?.Token(username, password);
-
-            //Assert
-            Assert.NotNull(result.Element);
-        }
-        [Fact]
-        public async Task GetTokenAsync_ShouldReturnUsernameAndJwt_v2_WhenUsernameAndPasword()
-        {
-            //Arrange
-            var username = "admin@gmail.com";
-            var password = "1";
 
             var data = new List<Person>
             {
-                new Person { Login = "admin@gmail.com", Password = "1", Role = "admin" }
-            }.AsQueryable();
+                new()
+                {
+                    Login = "admin@gmail.com",
+                    Password = "1",
+                    Role = "admin"
+                }
+            };
 
-            var mockSet = new Mock<DbSet<Person>>();
-            mockSet.As<IQueryable<Person>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Person>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Person>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Person>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            var mockContext = new Mock<TownContext>(new DbContextOptions<TownContext>());
-            mockContext.Setup(c => c.Persons).Returns(mockSet.Object);
-
-            var service = new AccountService(mockContext.Object, _logger.Object);
-
-            //Act
-            
-            var blogs = await service.Token(username, password);
-
-            //Assert
-            Assert.NotNull(blogs.Element);
-
-            Assert.True(true);
-        }
-       
-        public async Task GetTokenAsync_NewMock()
-        {
-            //Arrange
-            var data = new List<Shop>
-            {
-                new Shop { Id=1, Name = "Metro" }
-            }.AsQueryable();
-
-            var mockSet = new Mock<DbSet<Shop>>();
-            mockSet.As<IQueryable<Shop>>().Setup(m => m.Provider).Returns(data.Provider);
-            mockSet.As<IQueryable<Shop>>().Setup(m => m.Expression).Returns(data.Expression);
-            mockSet.As<IQueryable<Shop>>().Setup(m => m.ElementType).Returns(data.ElementType);
-            mockSet.As<IQueryable<Shop>>().Setup(m => m.GetEnumerator()).Returns(data.GetEnumerator());
-
-            var mockContext = new Mock<TownContext>(new DbContextOptions<TownContext>());
-            mockContext.Setup(c => c.Shops).Returns(mockSet.Object);
-
-            Mock<ILogger<AdminService>> _loggerAdmin = new Mock<ILogger<AdminService>>();
-            var service = new AdminService(mockContext.Object, _loggerAdmin.Object);
+            _context.Setup(c => c.Persons).Returns(data.BuildMockDbSet());
 
             //Act
 
-            var blogs = await service.GetShopsAsync();
+            var blogs = await _accountService.Token(username, password);
 
             //Assert
             Assert.NotNull(blogs.Element);
-
-            Assert.True(true);
         }
+
+
     }
 }

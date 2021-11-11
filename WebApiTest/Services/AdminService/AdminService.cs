@@ -107,7 +107,10 @@ namespace WebApiTest.Services.AdminService
             try
             {
                 var shop = await _context.Shops.FindAsync(id);
-                _logger.LogDebug($"FindShopAsync return - id: {id} shop.Id: {shop.Id} shop.Name: {shop.Name}");
+                if (shop == null)
+                    _logger.LogDebug($"FindShopAsync return - id: {id}  Null oject");
+                else
+                    _logger.LogDebug($"FindShopAsync return - id: {id} shop.Id: {shop.Id} shop.Name: {shop.Name}");
                 return new Result<Shop>(shop);
             }
             catch (Exception ex)
@@ -122,7 +125,10 @@ namespace WebApiTest.Services.AdminService
             try
             {
                 var product = await _context.Products.FindAsync(id);
-                _logger.LogDebug($"FindProductAsync return - id: {id} product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
+                if (product == null) 
+                    _logger.LogDebug($"FindProductAsync return - id: {id}  Null oject");
+                else
+                    _logger.LogDebug($"FindProductAsync return - id: {id} product.Id: {product.Id} product.Name: {product.Name} product.Price: {product.Price} product.ShopId: {product.ShopId}");
                 return new Result<Product>(product);
             }
             catch (Exception ex)
@@ -139,13 +145,18 @@ namespace WebApiTest.Services.AdminService
                 var shopItem = await FindShopAsync(id);
                 if (shopItem.Element == null)
                 {
+                    if(shopItem.ExceptionMessage != null)
+                    {
+                        _logger.LogError(shopItem.ExceptionMessage, $"GetShopAsync id: {id}");
+                        return new Result<ActionResult<ShopDto>>(shopItem.ExceptionMessage);
+                    }
                     return null;
                 }
                 return new Result<ActionResult<ShopDto>>(ShopDto.ItemShopDTO(shopItem.Element));
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"GetShopAsync id: {id}");
+                
                 return new Result<ActionResult<ShopDto>>(ex);
             }
             
@@ -158,6 +169,11 @@ namespace WebApiTest.Services.AdminService
                 var productItem = await FindProductAsync(id);
                 if (productItem.Element == null)
                 {
+                    if (productItem.ExceptionMessage != null)
+                    {
+                        _logger.LogError(productItem.ExceptionMessage, $"GetProductAsync id: {id}");
+                        return new Result<ActionResult<ProductDto>>(productItem.ExceptionMessage);
+                    }
                     return null;
                 }
 
@@ -173,10 +189,9 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
-                
                 var status = true;
                 var productItem = await FindProductAsync(id);
-                if (productItem == null)
+                if (productItem.Element == null)
                     status = false;
 
                 _context.Products.Remove(productItem.Element);
@@ -191,20 +206,26 @@ namespace WebApiTest.Services.AdminService
                 return new Result<bool>(ex);
             }
         }
-
+        
         public async Task<Result<bool>> RemoveShop(int id, string userLogin)
         {
             try
             {
-                var status = true;
+                var status = false;
                 var shopItem = await FindShopAsync(id);
-                if (shopItem == null)
-                    status = false;
-
-                _context.Shops.Remove(shopItem.Element);
-                await SaveChangesAsync();
-
-                _logger.LogInformation($"RemoveShop - id: {id} userLogin: {userLogin} return status: {status}");
+                if (shopItem.Element != null)
+                {
+                    status = true;
+                    _context.Shops.Remove(shopItem.Element);
+                    await SaveChangesAsync();
+                    _logger.LogInformation($"RemoveShop - id: {id} userLogin: {userLogin} return status: {status}");
+                }
+                if (shopItem.ExceptionMessage != null)
+                {
+                    _logger.LogError(shopItem.ExceptionMessage, "RemoveShop");
+                    return new Result<bool>(shopItem.ExceptionMessage);
+                }
+                _logger.LogDebug($"AddProduct - id: {id} userLogin: {userLogin} return status: {status}");
                 return new Result<bool>(status);
             }
             catch (Exception ex)
@@ -217,9 +238,20 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
+                if (productDtoItem.Id == 0 || productDtoItem.Name == null)
+                    return new Result<bool>(false);
                 _logger.LogDebug($"AddProduct - productDtoItem.Name: {productDtoItem.Name} productDtoItem.Price: {productDtoItem.Price} productDtoItem.ShopId: {productDtoItem.ShopId}");
-                var shop = FindShopAsync(productDtoItem.ShopId);
-                var productItem = productDtoItem.Product(shop.Result.Element);
+                var shop = await FindShopAsync(productDtoItem.ShopId);
+                if (shop.Element == null)
+                {
+                    if(shop.ExceptionMessage != null)
+                    {
+                        _logger.LogError(shop.ExceptionMessage, "AddProduct");
+                        return new Result<bool>(shop.ExceptionMessage);
+                    }
+                    return new Result<bool>(false);
+                }
+                var productItem = productDtoItem.Product(shop.Element);
 
                 _context.Products.Add(productItem);
                 await SaveChangesAsync();
@@ -237,6 +269,8 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
+                if (shopDtoItem.Name == null)
+                    return new Result<bool>(false);
                 _context.Shops.Add(shopDtoItem.Shop());
                 await SaveChangesAsync();
 

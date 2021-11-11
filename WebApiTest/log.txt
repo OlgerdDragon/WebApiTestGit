@@ -482,3 +482,4 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2021-11-02 10:57:09.067 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 400.5985 ms
 2021-11-08 01:59:05.743 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 619.5641 ms
 2021-11-09 08:20:08.856 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 301.9763 ms
+2021-11-10 15:45:57.597 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 383.5720 ms

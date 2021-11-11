@@ -39,11 +39,19 @@ namespace WebApiTest.Services.AccountService
                 _logger.LogDebug($"Token - username: {username} password: {password}");
                 var result = GetIdentity(username, password);
                 _logger.LogDebug($"result.Successfully: {result.Successfully} result.Element: {result.Element}");
-                
-                if (!result.Successfully || result.Element == null)
+
+
+                if (result.Element == null)
                 {
+                    if (!result.Successfully)
+                    {
+                        _logger.LogDebug($"Token error: {result.ExceptionMessage}");
+                        return new Result<object>(result.ExceptionMessage);
+                    }
+                    _logger.LogDebug($"Token null: {result.Element}");
                     return new Result<object>(null);
                 }
+                
 
                 var identity = result.Element;
                 var now = DateTime.UtcNow;

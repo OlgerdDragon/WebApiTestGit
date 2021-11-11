@@ -110,14 +110,6 @@ namespace WebAPITest.XUnitTests.Common
                     WifeId = 1
                 }
             };
-            var dataShop = new List<Shop>
-            {
-                new()
-                {
-                    Id=1,
-                    Name = "Metro"
-                }
-            };
             var dataProduct = new List<Product>
             {
                 new()
@@ -128,11 +120,14 @@ namespace WebAPITest.XUnitTests.Common
                     ShopId = 1
                 }
             };
-            
-            _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
+            var shop = new Shop
+            {
+                Id = 1,
+                Name = "Metro"
+            };
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
-
+            _context.Setup(p => p.Shops.FindAsync(dataProduct[0].ShopId)).Returns(new ValueTask<Shop>(shop));
             //Act
             _husbandService = new HusbandService(_context.Object, _logger.Object);
             var realData = await _husbandService.GetShopsForVisitAsync(userLogin);
@@ -141,7 +136,7 @@ namespace WebAPITest.XUnitTests.Common
             var some = false;
             if (realData.Element.Count == 1
                     && realData.Element[0].Id == 1
-                    && realData.Element[0].Name == "Silpo") some = true;
+                    && realData.Element[0].Name == "Metro") some = true;
 
             Assert.True(some);
         }

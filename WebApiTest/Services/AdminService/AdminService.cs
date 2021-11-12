@@ -61,23 +61,24 @@ namespace WebApiTest.Services.AdminService
                 return new Result<List<ShopDto>>(ex);
             }
         }
-        public async Task<Result<ShopDto>> UpdateShopAsync(ShopDto newShop, string userLogin)
+        public async Task<Result<ShopDto>> UpdateShopAsync(ShopDto newShopDto, string userLogin)
         {
             try
             {
-                _logger.LogInformation($"UpdateShopAsync - newShop.Id: {newShop.Id} newShop.Name: {newShop.Name}");
                 var shop = _context.Shops
-                .Where(i => i.Id == newShop.Id)
+                .Where(i => i.Id == newShopDto.Id)
                 .FirstOrDefault();
                 if(shop == null) 
                     return new Result<ShopDto>(new ShopDto());
-                shop.Name = newShop.Name;
+                _logger.LogInformation($"UpdateShopAsync userLogin: {userLogin}  - newShop.Id: {newShopDto.Id} newShop.Name: {newShopDto.Name}");
+                shop.Name = newShopDto.Name;
+                var shopDto = ShopDto.ItemShopDTO(shop);
                 await SaveChangesAsync();
-                return new Result<ShopDto>(newShop);
+                return new Result<ShopDto>(shopDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"UpdateShopAsync - newShop.Id: {newShop.Id} newShop.Name: {newShop.Name}");
+                _logger.LogError(ex, $"UpdateShopAsync userLogin: {userLogin} - newShop.Id: {newShopDto.Id} newShop.Name: {newShopDto.Name}");
                 return new Result<ShopDto>(ex);
             }
         }
@@ -85,21 +86,24 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
-                _logger.LogInformation($"UpdateProductAsync - newProduct.Id: {newProduct.Id} product.Name: {newProduct.Name} product.Price: {newProduct.Price} product.ShopId: {newProduct.ShopId}");
+                
                 var product = _context.Products
                 .Where(i => i.Id == newProduct.Id)
                 .FirstOrDefault();
-
+                if (product == null)
+                    return new Result<ProductDto>(new ProductDto());
+                _logger.LogInformation($"UpdateProductAsync userLogin: {userLogin} - newProduct.Id: {newProduct.Id} product.Name: {newProduct.Name} product.Price: {newProduct.Price} product.ShopId: {newProduct.ShopId}");
                 product.Name = newProduct.Name;
                 product.Price = newProduct.Price;
                 product.ShopId = newProduct.ShopId;
-
+                
+                var productDto = ProductDto.ItemProductDTO(product);
                 await SaveChangesAsync();
-                return new Result<ProductDto>(newProduct);
+                return new Result<ProductDto>(productDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"UpdateProductAsync - newProduct.Id: {newProduct.Id} product.Name: {newProduct.Name} product.Price: {newProduct.Price} product.ShopId: {newProduct.ShopId}");
+                _logger.LogError(ex, $"UpdateProductAsync userLogin: {userLogin} - newProduct.Id: {newProduct.Id} product.Name: {newProduct.Name} product.Price: {newProduct.Price} product.ShopId: {newProduct.ShopId}");
                 return new Result<ProductDto>(ex);
             }
         }

@@ -63,7 +63,7 @@ namespace WebAPITest.XUnitTests.Common
                 new()
                 {
                     Login = "admin@gmail.com",
-                    Password = "1",
+                    Password = "C4CA4238A0B923820DCC509A6F7584",
                     Role = "admin"
                 }
             };

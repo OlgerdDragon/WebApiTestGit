@@ -176,3 +176,7 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2021-11-12 03:19:40.780 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 274.6111 ms
 2021-11-12 03:19:47.377 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
 2021-11-12 03:19:50.641 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 4222.1800 ms
+2021-11-12 08:57:58.023 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 938.0225 ms
+2021-11-12 08:58:53.479 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY3MDAzMzMsImV4cCI6MTYzNjcwMDkzMywiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.oaPt34u9zW9Hz3slq1fJ40E_PGR_H0x2KUXp0gntMlQ 
+2021-11-12 08:58:53.560 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 11023.0342 ms
+2021-11-12 08:59:10.282 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 523.9333 ms

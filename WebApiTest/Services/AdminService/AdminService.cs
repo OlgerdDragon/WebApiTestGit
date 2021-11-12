@@ -69,7 +69,8 @@ namespace WebApiTest.Services.AdminService
                 var shop = _context.Shops
                 .Where(i => i.Id == newShop.Id)
                 .FirstOrDefault();
-
+                if(shop == null) 
+                    return new Result<ShopDto>(new ShopDto());
                 shop.Name = newShop.Name;
                 await SaveChangesAsync();
                 return new Result<ShopDto>(newShop);

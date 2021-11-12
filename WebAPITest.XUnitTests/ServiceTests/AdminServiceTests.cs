@@ -186,7 +186,8 @@ namespace WebAPITest.XUnitTests.Common
             _adminService = new AdminService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateShopAsync(dataDto, userLogin);
             //Assert
-            Assert.NotNull(realData.ExceptionMessage);
+            var expected = 0;
+            Assert.Equal(expected, realData.Element.Id);
         }
         [Fact]
         public async Task UpdateShopAsync_ShouldReturnNullException_WhenNotHaveShops()

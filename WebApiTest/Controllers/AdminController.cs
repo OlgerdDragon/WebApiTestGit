@@ -97,6 +97,8 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ShopDto>> PutShopItem(ShopDto shopDtoItem)
         {
             var shopItem = await _adminService.UpdateShopAsync(shopDtoItem, userLogin);
+            if (shopItem.Element.Id == 0)
+                return BadRequest(Json(shopItem.Element).Value);
             if (!shopItem.Successfully) 
                 return BadRequest(shopItem.ExceptionMessage);
 

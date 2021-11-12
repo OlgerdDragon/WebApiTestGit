@@ -111,6 +111,8 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ProductDto>> PutProductItem(ProductDto productDtoItem)
         {
             var productItem = await _adminService.UpdateProductAsync(productDtoItem, userLogin);
+            if (productItem.Element.Id == 0)
+                return BadRequest(Json(productItem.Element).Value);
             if (!productItem.Successfully) 
                 return BadRequest(productItem.ExceptionMessage);
 
@@ -124,6 +126,8 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productDtoItem)
         {
             var product = await _adminService.AddProduct(productDtoItem, userLogin);
+            if (!product.Element)
+                return BadRequest();
             if (!product.Successfully) 
                 return BadRequest(product.ExceptionMessage);
 

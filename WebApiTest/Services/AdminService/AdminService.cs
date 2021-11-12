@@ -243,7 +243,7 @@ namespace WebApiTest.Services.AdminService
         {
             try
             {
-                if (productDtoItem.Id == 0 || productDtoItem.Name == null)
+                if (productDtoItem.Name == null)
                     return new Result<bool>(false);
                 _logger.LogDebug($"AddProduct - productDtoItem.Name: {productDtoItem.Name} productDtoItem.Price: {productDtoItem.Price} productDtoItem.ShopId: {productDtoItem.ShopId}");
                 var shop = await FindShopAsync(productDtoItem.ShopId);

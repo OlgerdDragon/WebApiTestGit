@@ -238,3 +238,14 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2021-11-12 10:30:06.938 +02:00 [INF] RemoveWantedProduct(id) userLogin: wife@gmail.com id: 16  return - status: True
 2021-11-12 10:30:06.939 +02:00 [INF] HTTP DELETE /api/wife/product/16 responded 204 in 228.4722 ms
 2021-11-12 10:30:12.229 +02:00 [INF] HTTP GET /api/wife/products responded 200 in 49.0109 ms
+2021-11-18 16:00:03.414 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 1220.4481 ms
+2021-11-18 16:05:01.883 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 166.8500 ms
+2021-11-18 16:05:44.532 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM3MjQ0MzQ0LCJleHAiOjE2MzcyNDQ5NDQsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.21RBhQZO5QyZqbMlMLu2A2Qn17fj2PK1q219z-xzwzs 
+2021-11-18 16:05:44.601 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 6295.7643 ms
+2021-11-18 16:09:14.332 +02:00 [INF] HTTP GET /api/husband/productsM responded 400 in 180829.6784 ms
+2021-11-18 16:11:06.695 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 169.2105 ms
+2021-11-18 16:11:48.248 +02:00 [INF] HTTP GET /api/husband/productsM responded 400 in 35298.0736 ms
+2021-11-18 16:12:45.300 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 335.2125 ms
+2021-11-18 16:13:34.672 +02:00 [INF] HTTP GET /api/husband/productsM responded 400 in 46466.9078 ms
+2021-11-18 16:15:55.730 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 161.0901 ms
+2021-11-18 16:16:05.380 +02:00 [INF] HTTP GET /api/husband/productsM responded 200 in 4228.1925 ms

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using WebApiTest.Models.Dto;
 using WebApiTest.Services.HusbandService;
+using Grpc.Net.Client;
+using HusbandGrpcService;
 
 namespace WebApiTest.Controllers
 {
@@ -24,7 +26,18 @@ namespace WebApiTest.Controllers
         {
             return "Hello Husband!";
         }
+        [HttpGet("ProductsM")]
+        public async Task<ActionResult<ListOfWantedProductDto>> GetNeededProductListM()
+        {
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            var husbandService = new Greeter.GreeterClient(channel);
 
+
+            var neededProductList = await husbandService.GetWantedProductsAsyncStreamAsync(new HelloRequest() { UserLogin = userLogin});
+            if (!neededProductList.Successfully)
+                return BadRequest(neededProductList.ErrorMessage);
+            return neededProductList.Element;
+        }
         [HttpGet("Products")]
         public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetNeededProductList()
         {

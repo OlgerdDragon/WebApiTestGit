@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option csharp_namespace = "HusbandGrpcService";
+
+package greet;
+
+// The greeting service definition.
+service Greeter {
+  // Sends a greeting
+  rpc GetWantedProductsAsyncStream (HelloRequest) returns (HelloReply);
+}
+
+// The request message containing the user's name.
+message HelloRequest {
+  string userLogin = 1;
+}
+
+// The response message containing the greetings.
+message HelloReply {
+   bool Successfully = 1;
+   ListOfWantedProductDto Element =2;
+   string ErrorMessage = 3;
+}
+
+message WantedProductDtoMessage {
+		int32 Id = 1;
+        bool BoughtStatus = 2;
+        int32 ProductId = 3;
+        int32 WifeId = 4;
+}
+message ListOfWantedProductDto {
+    repeated WantedProductDtoMessage wantedProductDtoMessage = 1;
+}

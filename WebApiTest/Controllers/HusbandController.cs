@@ -16,6 +16,7 @@ namespace WebApiTest.Controllers
     {
         private readonly IHusbandService _husbandService;
 
+
         public HusbandController(IHusbandService husbandService)
         {
             _husbandService = husbandService;
@@ -32,8 +33,7 @@ namespace WebApiTest.Controllers
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var husbandService = new Greeter.GreeterClient(channel);
 
-
-            var neededProductList = await husbandService.GetWantedProductsAsyncStreamAsync(new HelloRequest() { UserLogin = userLogin});
+            var neededProductList = await husbandService.GetWantedProductsAsync(new GetWantedProductsRequest() { UserLogin = userLogin});
             if (!neededProductList.Successfully)
                 return BadRequest(neededProductList.ErrorMessage);
             return neededProductList.Element;
@@ -46,6 +46,17 @@ namespace WebApiTest.Controllers
                 return BadRequest(neededProductList.ExceptionMessage);
             return neededProductList.Element;
         }
+        [HttpGet("ShopsM")]
+        public async Task<ActionResult<ListOfShopDto>> GetNeededShopListM()
+        {
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            var husbandService = new Greeter.GreeterClient(channel);
+
+            var neededShopList = await husbandService.GetShopsForVisitAsync(new GetShopsForVisitRequest() { UserLogin = userLogin });
+            if (!neededShopList.Successfully)
+                return BadRequest(neededShopList.ErrorMessage);
+            return neededShopList.Element;
+        }
         [HttpGet("Shops")]
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList()
         {
@@ -53,6 +64,17 @@ namespace WebApiTest.Controllers
             if (!neededShopList.Successfully) 
                 return BadRequest(neededShopList.ExceptionMessage);
             return neededShopList.Element;
+        }
+        [HttpGet("ProductsInShopM/{shopId}")]
+        public async Task<ActionResult<ListOfProductDto>> GetNededProductListInShopM(int shopId)
+        {
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            var husbandService = new Greeter.GreeterClient(channel);
+
+            var nededProductListInShop = await husbandService.GetProductsInShopAsync(new GetProductsInShopRequest() { ShopId = shopId, UserLogin = userLogin });
+            if (!nededProductListInShop.Successfully)
+                return BadRequest(nededProductListInShop.ErrorMessage);
+            return nededProductListInShop.Element;
         }
 
         [HttpGet("ProductsInShop/{shopId}")]

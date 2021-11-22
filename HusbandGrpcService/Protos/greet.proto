@@ -7,27 +7,63 @@ package greet;
 // The greeting service definition.
 service Greeter {
   // Sends a greeting
-  rpc GetWantedProductsAsyncStream (HelloRequest) returns (HelloReply);
+  rpc GetWantedProducts (GetWantedProductsRequest) returns (GetWantedProductsReply);
+  rpc GetShopsForVisit (GetShopsForVisitRequest) returns (GetShopsForVisitReply);
+  rpc GetProductsInShop (GetProductsInShopRequest) returns (GetProductsInShopReply);
 }
 
 // The request message containing the user's name.
-message HelloRequest {
-  string userLogin = 1;
+message GetWantedProductsRequest {
+  string UserLogin = 1;
 }
 
 // The response message containing the greetings.
-message HelloReply {
+message GetWantedProductsReply {
    bool Successfully = 1;
    ListOfWantedProductDto Element =2;
    string ErrorMessage = 3;
 }
-
+message ListOfWantedProductDto {
+    repeated WantedProductDtoMessage wantedProductDtoMessage = 1;
+}
 message WantedProductDtoMessage {
 		int32 Id = 1;
         bool BoughtStatus = 2;
         int32 ProductId = 3;
         int32 WifeId = 4;
 }
-message ListOfWantedProductDto {
-    repeated WantedProductDtoMessage wantedProductDtoMessage = 1;
+
+message GetShopsForVisitRequest {
+  string UserLogin = 1;
+}
+message GetShopsForVisitReply {
+   bool Successfully = 1;
+   ListOfShopDto Element =2;
+   string ErrorMessage = 3;
+}
+message ListOfShopDto {
+    repeated ShopDtoMessage shopDtoMessage = 1;
+}
+message ShopDtoMessage {
+		int32 Id = 1;
+        string Name =2;
+}
+
+message GetProductsInShopRequest {
+  int32 ShopId = 1; 
+  string UserLogin = 2;
+}
+message GetProductsInShopReply {
+   bool Successfully = 1;
+   ListOfProductDto Element =2;
+   string ErrorMessage = 3;
+}
+message ListOfProductDto {
+    repeated ProductDtoMessage productDtoMessage = 1;
+}
+message ProductDtoMessage {
+		int32 Id = 1;
+        string Name = 2;
+        int32 Price = 3;
+        int32 ShopId = 4;
 }

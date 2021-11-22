@@ -26,5 +26,13 @@ namespace HusbandGrpcService.Models.Dto
                Price = productItem.Price,
                ShopId = productItem.ShopId
            };
+        public static ProductDtoMessage ItemProductDTOMessage(Product productItem) =>
+          new ProductDtoMessage
+          {
+              Id = productItem.Id,
+              Name = productItem.Name,
+              Price = productItem.Price,
+              ShopId = productItem.ShopId
+          };
     }
 }

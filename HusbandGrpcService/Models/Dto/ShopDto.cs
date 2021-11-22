@@ -18,6 +18,11 @@ namespace HusbandGrpcService.Models.Dto
                Id = shopItem.Id,
                Name = shopItem.Name
            };
-
+        public static ShopDtoMessage ItemShopDTOMessage(Shop shopItem) =>
+           new ShopDtoMessage
+           {
+               Id = shopItem.Id,
+               Name = shopItem.Name
+           };
     }
 }

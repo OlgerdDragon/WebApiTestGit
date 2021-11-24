@@ -49,7 +49,13 @@ namespace WebApiTest.Services.HusbandService
         {
             try
             {
-                var neededProductList = GetWantedProducts();
+                var wantedProductsResult = GetWantedProducts();
+                if (!wantedProductsResult.Successfully)
+                {
+                    _logger.LogError(wantedProductsResult.ExceptionMessage, $"GetShopsForVisitAsync - userLogin: {userLogin}");
+                    return new Result<List<ShopDto>>(wantedProductsResult.ExceptionMessage);
+                }
+                var neededProductList = wantedProductsResult.Element;
                 var neededShopList = new List<ShopDto>();
                 foreach (var neededProduct in neededProductList)
                 {
@@ -74,7 +80,13 @@ namespace WebApiTest.Services.HusbandService
             try
             {
                 _logger.LogDebug($"GetProductsInShopAsync  userLogin: {userLogin} - ShopId: {ShopId} ");
-                var neededProductList = GetWantedProducts();
+                var wantedProductsResult = GetWantedProducts();
+                if (!wantedProductsResult.Successfully)
+                {
+                    _logger.LogError(wantedProductsResult.ExceptionMessage, $"GetProductsInShopAsync - ShopId: { ShopId} userLogin: {userLogin}");
+                    return new Result<List<ProductDto>>(wantedProductsResult.ExceptionMessage);
+                }
+                var neededProductList = wantedProductsResult.Element;
                 var productInShop = new List<ProductDto>();
 
                 foreach (var neededProduct in neededProductList)
@@ -93,7 +105,7 @@ namespace WebApiTest.Services.HusbandService
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"GetProductsInShopAsync - ShopId: { ShopId}");
+                _logger.LogError(ex, $"GetProductsInShopAsync - ShopId: { ShopId} serLogin: {userLogin}");
                 return new Result<List<ProductDto>>(ex);
             }
         }
@@ -132,22 +144,23 @@ namespace WebApiTest.Services.HusbandService
                 return new Result<Product>(ex);
             }
         }
-        List<WantedProductDto> GetWantedProducts()
+        Result<List<WantedProductDto>> GetWantedProducts()
         {
             try
             {
-                return _context.WantedProducts.Select(i => new WantedProductDto
+                var wantedProducts = _context.WantedProducts.Select(i => new WantedProductDto
                 {
                     Id = i.Id,
                     BoughtStatus = i.BoughtStatus,
                     ProductId = i.ProductId
 
                 }).ToList();
+                return new Result<List<WantedProductDto>>(wantedProducts);
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "GetWantedProducts");
-                throw ex;
+                return new Result<List<WantedProductDto>>(ex);
             }
         }
     }

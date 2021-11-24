@@ -36,7 +36,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItemsM()
         {
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            //var husbandService = new AdminGreeter (channel);
+            //var husbandService = new AdminGreeter. (channel);
 
             var shopItems = await _adminService.GetShopsAsync();
             if (!shopItems.Successfully)

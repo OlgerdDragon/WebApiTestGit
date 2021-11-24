@@ -15,7 +15,7 @@ namespace WebApiTest.Controllers
     public class HusbandController : APIControllerBase
     {
         private readonly IHusbandService _husbandService;
-
+        
 
         public HusbandController(IHusbandService husbandService)
         {
@@ -33,7 +33,7 @@ namespace WebApiTest.Controllers
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var husbandService = new Greeter.GreeterClient(channel);
 
-            var neededProductList = await husbandService.GetWantedProductsAsync(new GetWantedProductsRequest() { UserLogin = userLogin});
+            var neededProductList = await husbandService.GetWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin});
             if (!neededProductList.Successfully)
                 return BadRequest(neededProductList.ErrorMessage);
             return neededProductList.Element;
@@ -52,7 +52,7 @@ namespace WebApiTest.Controllers
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
             var husbandService = new Greeter.GreeterClient(channel);
 
-            var neededShopList = await husbandService.GetShopsForVisitAsync(new GetShopsForVisitRequest() { UserLogin = userLogin });
+            var neededShopList = await husbandService.GetShopsForVisitAsync(new UserLoginRequest() { UserLogin = userLogin });
             if (!neededShopList.Successfully)
                 return BadRequest(neededShopList.ErrorMessage);
             return neededShopList.Element;

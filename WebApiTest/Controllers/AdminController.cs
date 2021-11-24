@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using System.Linq;
+using Grpc.Net.Client;
+using AdminGrpcService;
 
 namespace WebApiTest.Controllers
 {
@@ -30,6 +32,17 @@ namespace WebApiTest.Controllers
             return "Hello Admin!";
         }
 
+        [HttpGet("ShopsM")]
+        public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItemsM()
+        {
+            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
+            //var husbandService = new AdminGreeter (channel);
+
+            var shopItems = await _adminService.GetShopsAsync();
+            if (!shopItems.Successfully)
+                return BadRequest(shopItems.ExceptionMessage);
+            return shopItems.Element;
+        }
         [HttpGet("Shops")]
         public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItems()
         {

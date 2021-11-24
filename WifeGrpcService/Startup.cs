@@ -7,14 +7,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HusbandGrpcService.Services.HusbandService;
-using HusbandGrpcService.Data;
+using WifeGrpcService.Services;
+using WifeGrpcService.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
-using HusbandGrpcService.Services;
 
-namespace HusbandGrpcService
+namespace WifeGrpcService
 {
     public class Startup
     {
@@ -28,7 +27,6 @@ namespace HusbandGrpcService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddScoped<IHusbandService, HusbandService>();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
             services.AddDbContext<TownContext>(options => options
@@ -51,7 +49,7 @@ namespace HusbandGrpcService
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<WifeGreeterService>();
 
                 endpoints.MapGet("/", async context =>
                 {

@@ -1,0 +1,84 @@
+syntax = "proto3";
+
+option csharp_namespace = "AdminGrpcService";
+
+package greet;
+
+// The greeting service definition.
+service AdminGreeter{
+  // Sends a greeting
+  rpc GetProducts (UserLoginRequest) returns (GetProductsReply);
+  rpc GetShops (UserLoginRequest) returns (GetShopsReply);
+  rpc UpdateShop (ShopRequest) returns (ShopReply);
+  rpc UpdateProduct (ProductRequest) returns (ProductReply);
+  rpc GetShop (ItemRequest) returns (ShopReply);
+  rpc GetProduct (ItemRequest) returns (ProductReply);
+  rpc RemoveProduct (ItemRequest) returns (BoolReply);
+  rpc RemoveShop (ItemRequest) returns (BoolReply);
+  rpc AddShop (ShopRequest) returns (BoolReply);
+  rpc AddProduct (ProductRequest) returns (BoolReply);
+}
+
+// The request message 
+message UserLoginRequest {
+  string UserLogin = 1;
+}
+message ShopRequest {
+  ShopDtoMessage ShopDtoMessage = 1;
+  string UserLogin = 2;
+}
+message ProductRequest {
+  ProductDtoMessage ProductDtoMessage = 1;
+  string UserLogin = 2;
+}
+message ItemRequest {
+  int32 Id =1;
+  string UserLogin = 2;
+}
+
+
+// The response message 
+message GetShopsReply {
+   bool Successfully = 1;
+   ListOfShopDto Element =2;
+   string ErrorMessage = 3;
+}
+message GetProductsReply {
+   bool Successfully = 1;
+   ListOfProductDto Element =2;
+   string ErrorMessage = 3;
+}
+message ShopReply {
+   bool Successfully = 1;
+   ShopDtoMessage Element =2;
+   string ErrorMessage = 3;
+}
+message ProductReply {
+   bool Successfully = 1;
+   ProductDtoMessage Element =2;
+   string ErrorMessage = 3;
+}
+message BoolReply {
+   bool Successfully = 1;
+   bool Element =2;
+   string ErrorMessage = 3;
+}
+
+
+
+message ListOfShopDto {
+    repeated ShopDtoMessage ShopDtoMessage = 1;
+}
+message ShopDtoMessage {
+		int32 Id = 1;
+        string Name =2;
+}
+message ListOfProductDto {
+    repeated ProductDtoMessage ProductDtoMessage = 1;
+}
+message ProductDtoMessage {
+		int32 Id = 1;
+        string Name = 2;
+        int32 Price = 3;
+        int32 ShopId = 4;
+}

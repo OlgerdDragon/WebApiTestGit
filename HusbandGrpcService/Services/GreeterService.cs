@@ -7,10 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using HusbandGrpcService.Data;
 using HusbandGrpcService.Models.Dto;
-using HusbandGrpcService.Services.HusbandService;
 using HusbandGrpcService.Models;
 
-namespace HusbandGrpcService
+namespace HusbandGrpcService.Services
 {
     public class GreeterService : Greeter.GreeterBase
     {
@@ -22,7 +21,7 @@ namespace HusbandGrpcService
             _logger = logger;
         }
 
-        public override async Task<GetWantedProductsReply> GetWantedProducts(GetWantedProductsRequest request, ServerCallContext context)
+        public override async Task<GetWantedProductsReply> GetWantedProducts(UserLoginRequest request, ServerCallContext context)
         {
             try
             {
@@ -37,7 +36,6 @@ namespace HusbandGrpcService
                 result.Element.WantedProductDtoMessage.AddRange(wantedProducts);
                 result.Successfully = true;
                 return result;
-
             }
             catch (Exception ex)
             {
@@ -45,7 +43,7 @@ namespace HusbandGrpcService
                 return new GetWantedProductsReply { ErrorMessage = ex.Message, Successfully = false };
             }
         }
-        public override async Task<GetShopsForVisitReply> GetShopsForVisit(GetShopsForVisitRequest request, ServerCallContext context)
+        public override async Task<GetShopsForVisitReply> GetShopsForVisit(UserLoginRequest request, ServerCallContext context)
         {
             try
             {
@@ -54,8 +52,9 @@ namespace HusbandGrpcService
                 foreach (var neededProduct in neededProductList)
                 {
                     var productSearched = await FindProductAsync(neededProduct.ProductId);
-                    var shopSearched = await FindShopAsync(productSearched.Element.Id);
+                    var shopSearched = await FindShopAsync(productSearched.Element.ShopId);
                     var shopSearchedDto = ShopDto.ItemShopDTOMessage(shopSearched.Element);
+                    if(!neededShopList.Contains(shopSearchedDto))
                     neededShopList.Add(shopSearchedDto);
                     _logger.LogDebug($"GetShopsForVisitAsync userLogin: {request.UserLogin} - List.Add(shop) - shopSearchedDto.Id: {shopSearchedDto.Id} shopSearchedDto.Name: {shopSearchedDto.Name}");
                 }
@@ -70,7 +69,7 @@ namespace HusbandGrpcService
                 return new GetShopsForVisitReply { ErrorMessage = ex.Message, Successfully = false };
             }
         }
-        public async Task<GetProductsInShopReply> GetProductsInShop(GetProductsInShopRequest request, ServerCallContext context)
+        public override async Task<GetProductsInShopReply> GetProductsInShop(GetProductsInShopRequest request, ServerCallContext context)
         {
             try
             {

@@ -16,6 +16,7 @@ namespace WebApiTest.Controllers
     public abstract class APIControllerBase : Controller
     {
         public readonly string userLogin;
+
         public APIControllerBase()
         {
             userLogin = new HttpContextAccessor().HttpContext.User.FindFirst(ClaimTypes.Name).Value;

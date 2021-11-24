@@ -1,23 +1,22 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using AdminGrpcService.Data;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using HusbandGrpcService.Services.HusbandService;
-using HusbandGrpcService.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
-using Microsoft.Extensions.Configuration;
-using HusbandGrpcService.Services;
+using AdminGrpcService.Services;
 
-namespace HusbandGrpcService
+namespace AdminGrpcService
 {
     public class Startup
     {
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,7 +27,7 @@ namespace HusbandGrpcService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
-            services.AddScoped<IHusbandService, HusbandService>();
+            //services.AddScoped<IAdminService, AdminService>();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
             services.AddDbContext<TownContext>(options => options
@@ -51,7 +50,7 @@ namespace HusbandGrpcService
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<AdminService>();
 
                 endpoints.MapGet("/", async context =>
                 {

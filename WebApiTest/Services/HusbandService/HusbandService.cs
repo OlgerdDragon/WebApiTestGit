@@ -56,7 +56,8 @@ namespace WebApiTest.Services.HusbandService
                     var productSearched = await FindProductAsync(neededProduct.ProductId);
                     var shopSearched = await FindShopAsync(productSearched.Element.Id);
                     var shopSearchedDto = ShopDto.ItemShopDTO(shopSearched.Element);
-                    neededShopList.Add(shopSearchedDto);
+                    if (!neededShopList.Contains(shopSearchedDto))
+                        neededShopList.Add(shopSearchedDto);
                     _logger.LogDebug($"GetShopsForVisitAsync userLogin: {userLogin} - List.Add(shop) - shopSearchedDto.Id: {shopSearchedDto.Id} shopSearchedDto.Name: {shopSearchedDto.Name}");
                 }
                 return new Result<List<ShopDto>>(neededShopList);

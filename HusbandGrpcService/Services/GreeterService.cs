@@ -11,11 +11,11 @@ using HusbandGrpcService.Models;
 
 namespace HusbandGrpcService.Services
 {
-    public class GreeterService : Greeter.GreeterBase
+    public class HusbandService : HusbandGreeter.HusbandGreeterBase
     {
-        private readonly ILogger<GreeterService> _logger;
+        private readonly ILogger<HusbandService> _logger;
         private readonly TownContext _context;
-        public GreeterService(ILogger<GreeterService> logger, TownContext context)
+        public HusbandService(ILogger<HusbandService> logger, TownContext context)
         {
             _context = context;
             _logger = logger;

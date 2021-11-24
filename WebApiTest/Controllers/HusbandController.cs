@@ -31,7 +31,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ListOfWantedProductDto>> GetNeededProductListM()
         {
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new Greeter.GreeterClient(channel);
+            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
 
             var neededProductList = await husbandService.GetWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin});
             if (!neededProductList.Successfully)
@@ -50,7 +50,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ListOfShopDto>> GetNeededShopListM()
         {
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new Greeter.GreeterClient(channel);
+            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
 
             var neededShopList = await husbandService.GetShopsForVisitAsync(new UserLoginRequest() { UserLogin = userLogin });
             if (!neededShopList.Successfully)
@@ -69,7 +69,7 @@ namespace WebApiTest.Controllers
         public async Task<ActionResult<ListOfProductDto>> GetNededProductListInShopM(int shopId)
         {
             using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new Greeter.GreeterClient(channel);
+            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
 
             var nededProductListInShop = await husbandService.GetProductsInShopAsync(new GetProductsInShopRequest() { ShopId = shopId, UserLogin = userLogin });
             if (!nededProductListInShop.Successfully)

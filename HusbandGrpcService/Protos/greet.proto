@@ -5,7 +5,7 @@ option csharp_namespace = "HusbandGrpcService";
 package greet;
 
 // The greeting service definition.
-service Greeter {
+service HusbandGreeter {
   // Sends a greeting
   rpc GetWantedProducts (UserLoginRequest) returns (GetWantedProductsReply);
   rpc GetShopsForVisit (UserLoginRequest) returns (GetShopsForVisitReply);

@@ -27,12 +27,12 @@ namespace AdminGrpcService.Models.Dto
                ShopId = productItem.ShopId
            };
         public static ProductDtoMessage ItemProductDTOMessage(Product productItem) =>
-          new ProductDtoMessage
-          {
-              Id = productItem.Id,
-              Name = productItem.Name,
-              Price = productItem.Price,
-              ShopId = productItem.ShopId
-          };
+           new ProductDtoMessage
+           {
+               Id = productItem.Id,
+               Name = productItem.Name,
+               Price = productItem.Price,
+               ShopId = productItem.ShopId
+           };
     }
 }

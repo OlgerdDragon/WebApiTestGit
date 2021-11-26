@@ -1,32 +1,27 @@
-﻿using System;
+using Grpc.Core;
+using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using AdminGrpcService;
-using AdminGrpcService.Data;
-using AdminGrpcService.Models;
-using AdminGrpcService.Models.Dto;
-using Grpc.Core;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
-using Serilog;
-using Serilog.Core;
-using Serilog.Events;
-
+using AdminGrpcService.Data;
+using AdminGrpcService.Models.Dto;
+using AdminGrpcService.Models;
 
 namespace AdminGrpcService.Services
 {
-    public class AdminService: AdminGreeter.AdminGreeterBase
+    public class AdminGreeterService : AdminGreeter.AdminGreeterBase
     {
+
         private readonly TownContext _context;
-        private readonly ILogger<AdminService> _logger;
-        public AdminService(TownContext context, ILogger<AdminService> logger)
+        private readonly ILogger<AdminGreeterService> _logger;
+        public AdminGreeterService(TownContext context, ILogger<AdminGreeterService> logger)
         {
             _context = context;
             _logger = logger;
         }
+
         public override async Task<GetProductsReply> GetProducts(UserLoginRequest request, ServerCallContext context)
         {
             try
@@ -78,7 +73,7 @@ namespace AdminGrpcService.Services
                 var shop = _context.Shops
                 .Where(i => i.Id == newShopDto.Id)
                 .FirstOrDefault();
-                if(shop == null) 
+                if (shop == null)
                     return new ShopReply { Element = new ShopDtoMessage() };
                 _logger.LogInformation($"UpdateShopAsync userLogin: {request.UserLogin}  - newShop.Id: {newShopDto.Id} newShop.Name: {newShopDto.Name}");
                 shop.Name = newShopDto.Name;
@@ -108,7 +103,7 @@ namespace AdminGrpcService.Services
                 product.Name = newProduct.Name;
                 product.Price = newProduct.Price;
                 product.ShopId = newProduct.ShopId;
-                
+
                 var productDtoMessage = ProductDto.ItemProductDTOMessage(product);
                 await SaveChangesAsync();
                 var result = new ProductReply { Element = productDtoMessage, Successfully = true };
@@ -121,7 +116,7 @@ namespace AdminGrpcService.Services
                 return new ProductReply { ErrorMessage = ex.Message, Successfully = false };
             }
         }
-        
+
         public override async Task<ShopReply> GetShop(ItemRequest request, ServerCallContext context)
         {
             try
@@ -131,14 +126,14 @@ namespace AdminGrpcService.Services
                 var shopItem = await FindShopAsync(id);
                 if (shopItem.Element == null)
                 {
-                    if(shopItem.ExceptionMessage != null)
+                    if (shopItem.ExceptionMessage != null)
                     {
                         _logger.LogError(shopItem.ExceptionMessage, $"GetShopAsync id: {id}");
                         return new ShopReply { ErrorMessage = shopItem.ExceptionMessage.Message, Successfully = false };
                     }
                     return null;
                 }
-                var shopDtoMessage= ShopDto.ItemShopDTOMessage(shopItem.Element);
+                var shopDtoMessage = ShopDto.ItemShopDTOMessage(shopItem.Element);
                 var result = new ShopReply { Element = shopDtoMessage, Successfully = true };
                 return result;
 
@@ -148,7 +143,7 @@ namespace AdminGrpcService.Services
                 _logger.LogError(ex, $"GetShop id: {request.Id}");
                 return new ShopReply { ErrorMessage = ex.Message, Successfully = false };
             }
-            
+
         }
         public override async Task<ProductReply> GetProduct(ItemRequest request, ServerCallContext context)
         {
@@ -207,7 +202,7 @@ namespace AdminGrpcService.Services
                 return new BoolReply { ErrorMessage = ex.Message, Successfully = false };
             }
         }
-        
+
         public override async Task<BoolReply> RemoveShop(ItemRequest request, ServerCallContext context)
         {
             try
@@ -228,7 +223,7 @@ namespace AdminGrpcService.Services
                     await SaveChangesAsync();
                     _logger.LogInformation($"RemoveShop - id: {id} userLogin: {request.UserLogin} return status: {status}");
                 }
-                
+
                 var result = new BoolReply { Element = status, Successfully = true };
                 return result;
             }
@@ -244,7 +239,7 @@ namespace AdminGrpcService.Services
             {
                 var status = false;
                 var productDtoItem = request.ProductDtoMessage;
-                if (productDtoItem.Name != null) 
+                if (productDtoItem.Name != null)
                 {
                     _logger.LogDebug($"AddProduct - productDtoItem.Name: {productDtoItem.Name} productDtoItem.Price: {productDtoItem.Price} productDtoItem.ShopId: {productDtoItem.ShopId}");
                     var shop = await FindShopAsync(productDtoItem.ShopId);
@@ -255,12 +250,13 @@ namespace AdminGrpcService.Services
                     }
                     if (shop.Element != null)
                     {
-                        var productItem = new Product {
+                        var productItem = new Product
+                        {
                             Id = productDtoItem.Id,
                             Name = productDtoItem.Name,
                             Price = productDtoItem.Price,
                             ShopId = productDtoItem.ShopId,
-                            Shops = shop.Element 
+                            Shops = shop.Element
                         };
                         _context.Products.Add(productItem);
                         await SaveChangesAsync();
@@ -281,7 +277,7 @@ namespace AdminGrpcService.Services
         public override async Task<BoolReply> AddShop(ShopRequest request, ServerCallContext context)
         {
             try
-            { 
+            {
                 var status = false;
                 var shopDtoMessage = request.ShopDtoMessage;
                 if (shopDtoMessage.Name == null)
@@ -298,7 +294,7 @@ namespace AdminGrpcService.Services
                 status = true;
                 var result = new BoolReply { Element = status, Successfully = true };
                 return result;
-            } 
+            }
             catch (Exception ex)
             {
                 var shopDtoMessage = request.ShopDtoMessage;

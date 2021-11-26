@@ -28,6 +28,7 @@ namespace AdminGrpcService.Models.Dto
             WifeId = 1
             
         };
+       
     }
     
 }

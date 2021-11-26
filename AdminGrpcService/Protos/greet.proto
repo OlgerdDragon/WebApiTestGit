@@ -45,7 +45,7 @@ message GetShopsReply {
 }
 message GetProductsReply {
    bool Successfully = 1;
-   ListOfProductDto Element =2;
+   ListOfProductDto Element = 2;
    string ErrorMessage = 3;
 }
 message ShopReply {
@@ -55,7 +55,7 @@ message ShopReply {
 }
 message ProductReply {
    bool Successfully = 1;
-   ProductDtoMessage Element =2;
+   ProductDtoMessage Element = 2;
    string ErrorMessage = 3;
 }
 message BoolReply {

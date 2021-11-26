@@ -49,7 +49,7 @@ namespace AdminGrpcService
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<AdminService>();
+                endpoints.MapGrpcService<AdminGreeterService>();
 
                 endpoints.MapGet("/", async context =>
                 {

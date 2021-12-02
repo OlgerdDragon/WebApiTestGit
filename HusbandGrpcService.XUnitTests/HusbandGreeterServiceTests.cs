@@ -7,21 +7,22 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using WebApiGeneralGrpc.Controllers;
-using HusbandGrpcService;
 using HusbandGrpcService.Data;
 using HusbandGrpcService.Services;
 using HusbandGrpcService.Models;
 using HusbandGrpcService.Models.Dto;
 using HusbandGrpcService.XUnitTests.Extensions;
+using Grpc.Core;
 
 namespace HusbandGrpcService.XUnitTests
 {
     public class HusbandGreeterServiceTests
     {
-
+        private HusbandGreeterService _husbandService;
         private Mock<DbContextOptions<TownContext>> _optionsTown = new Mock<DbContextOptions<TownContext>>();
         private Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
-        private Mock<ILogger<HusbandService>> _logger = new Mock<ILogger<HusbandService>>();
+        private Mock<ServerCallContext> serverCallContext = new Mock<ServerCallContext>();
+        private Mock<ILogger<HusbandGreeterService>> _logger = new Mock<ILogger<HusbandGreeterService>>();
 
         private string userLogin = "husbandUnitTest";
 
@@ -48,9 +49,8 @@ namespace HusbandGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-            var realData = await husbandService.GetWantedProductsAsync(new UserLoginRequest { UserLogin = userLogin });
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await _husbandService.GetWantedProducts(new UserLoginRequest { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -71,9 +71,8 @@ namespace HusbandGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-            var realData = await husbandService.GetWantedProductsAsync(new UserLoginRequest { UserLogin = userLogin });
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await  _husbandService.GetWantedProducts(new UserLoginRequest { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -88,9 +87,8 @@ namespace HusbandGrpcService.XUnitTests
             //Arrange
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-            var realData = await husbandService.GetWantedProductsAsync(new UserLoginRequest { UserLogin = userLogin});
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await  _husbandService.GetWantedProducts(new UserLoginRequest { UserLogin = userLogin}, serverCallContext.Object);
 
             //Assert
 
@@ -131,9 +129,8 @@ namespace HusbandGrpcService.XUnitTests
             _context.Setup(p => p.Products.FindAsync(dataWantedProduct[0].ProductId)).Returns(new ValueTask<Product>(dataProduct[0]));
             _context.Setup(p => p.Shops.FindAsync(dataProduct[0].ShopId)).Returns(new ValueTask<Shop>(shop));
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-            var realData = await husbandService.GetShopsForVisitAsync(new UserLoginRequest { UserLogin = userLogin });
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await  _husbandService.GetShopsForVisit(new UserLoginRequest { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -156,9 +153,8 @@ namespace HusbandGrpcService.XUnitTests
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-            var realData = await husbandService.GetShopsForVisitAsync(new UserLoginRequest { UserLogin = userLogin });
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await  _husbandService.GetShopsForVisit(new UserLoginRequest { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -174,9 +170,8 @@ namespace HusbandGrpcService.XUnitTests
 
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-            var realData = await husbandService.GetShopsForVisitAsync(new UserLoginRequest { UserLogin = userLogin });
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await  _husbandService.GetShopsForVisit(new UserLoginRequest { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
 
@@ -213,10 +208,9 @@ namespace HusbandGrpcService.XUnitTests
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             _context.Setup(p => p.Products.FindAsync(dataWantedProduct[0].ProductId)).Returns(new ValueTask<Product>(dataProduct[0]));
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
             var itemRequest = new GetProductsInShopRequest { ShopId = shopId, UserLogin = userLogin };
-            var realData = await husbandService.GetProductsInShopAsync(itemRequest);
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await  _husbandService.GetProductsInShop(itemRequest, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -240,10 +234,9 @@ namespace HusbandGrpcService.XUnitTests
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
             var itemRequest = new GetProductsInShopRequest { ShopId = shopId, UserLogin = userLogin };
-            var realData = await husbandService.GetProductsInShopAsync(itemRequest);
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await  _husbandService.GetProductsInShop(itemRequest, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -259,10 +252,9 @@ namespace HusbandGrpcService.XUnitTests
             var shopId = 1;
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
             var itemRequest = new GetProductsInShopRequest { ShopId = shopId, UserLogin = userLogin };
-            var realData = await husbandService.GetProductsInShopAsync(itemRequest);
+            _husbandService = new HusbandGreeterService(_context.Object, _logger.Object);
+            var realData = await  _husbandService.GetProductsInShop(itemRequest, serverCallContext.Object);
 
             //Assert
 

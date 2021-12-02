@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="Protos\greet.proto" GrpcServices="HusbandService" />
+    <Protobuf Include="Protos\greet.proto" GrpcServices="AdminGreeterService" />
   </ItemGroup>
 
 </Project>

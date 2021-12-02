@@ -1,28 +1,24 @@
 using Moq;
 using Xunit;
-using System;
-using Grpc.Net.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using WebApiTest.Controllers;
-using WifeGrpcService;
 using WifeGrpcService.Data;
 using WifeGrpcService.Services;
-using WifeGrpcService.Models.Dto;
 using WifeGrpcService.Models;
 using WifeGrpcService.XUnitTests.Extensions;
+using Grpc.Core;
 
 namespace WifeGrpcService.XUnitTests
 {
     public class WifeGreeterServiceTests
     {
-        private AdminController _adminController;
 
-        private WifeGreeterService wifeGreeterService;
+        private WifeGreeterService _wifeGreeterService;
         private Mock<DbContextOptions<TownContext>> _optionsTown = new Mock<DbContextOptions<TownContext>>();
         private Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
+        private Mock<ServerCallContext> serverCallContext = new Mock<ServerCallContext>();
         private Mock<ILogger<WifeGreeterService>> _logger = new Mock<ILogger<WifeGreeterService>>();
 
         private string userLogin = "husbandUnitTest";
@@ -47,9 +43,8 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.GetWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -68,10 +63,9 @@ namespace WifeGrpcService.XUnitTests
             var data = new List<WantedProduct>();
             _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
-            //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.GetWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            //Act 
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -85,10 +79,9 @@ namespace WifeGrpcService.XUnitTests
         {
             //Arrange
 
-            //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.GetWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            //Act 
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
 
@@ -119,10 +112,9 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
             _context.Setup(p => p.Products.FindAsync(dataWantedProduct[0].ProductId)).Returns(new ValueTask<Product>(product));
 
-            //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.GetTotalAmountWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            //Act 
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetTotalAmountWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             int expected = 100;
@@ -139,9 +131,8 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.GetTotalAmountWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetTotalAmountWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             int expected = 0;
@@ -153,9 +144,8 @@ namespace WifeGrpcService.XUnitTests
             //Arrange
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.GetTotalAmountWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetTotalAmountWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
 
@@ -186,10 +176,9 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
             _context.Setup(p => p.WantedProducts.FindAsync(wantedProductId)).Returns(new ValueTask<WantedProduct>(wantedproduct));
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.RemoveWantedProductAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.RemoveWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
             Assert.True(realData.Element);
@@ -203,10 +192,9 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.RemoveWantedProductAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.RemoveWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
             Assert.False(realData.Element);
@@ -218,10 +206,9 @@ namespace WifeGrpcService.XUnitTests
             var wantedProductId = 1;
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.RemoveWantedProductAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.RemoveWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
             Assert.NotNull(realData.ErrorMessage);
@@ -244,9 +231,8 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.RemoveAllWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.RemoveAllWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             Assert.True(realData.Element);
@@ -259,9 +245,8 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.RemoveAllWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.RemoveAllWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             Assert.True(realData.Element);
@@ -271,9 +256,8 @@ namespace WifeGrpcService.XUnitTests
         {
             //Arrange
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
-            var realData = await wifeGreeterService.RemoveAllWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.RemoveAllWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             Assert.NotNull(realData.ErrorMessage);
@@ -304,10 +288,9 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
             _context.Setup(p => p.WantedProducts.FindAsync(wantedProductId)).Returns(new ValueTask<WantedProduct>(wantedproduct));
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.GetWantedProductItemAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetWantedProductItem(itemRequest, serverCallContext.Object);
 
             //Assert
             var actual = realData.Element;
@@ -327,14 +310,13 @@ namespace WifeGrpcService.XUnitTests
             var wantedProductId = 1;
             _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
-            //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
+            //Act 
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.GetWantedProductItemAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetWantedProductItem(itemRequest, serverCallContext.Object);
 
             //Assert
-            Assert.Null(realData.Element);
+            Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
         public async Task GetWantedProductItemAsync_ShouldReturnNullException_WhenNotHaveWantedProducts()
@@ -342,11 +324,10 @@ namespace WifeGrpcService.XUnitTests
             //Arrange
             var wantedProductId = 1;
 
-            //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
+            //Act 
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.GetWantedProductItemAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.GetWantedProductItem(itemRequest, serverCallContext.Object);
 
             //Assert
             Assert.NotNull(realData.ErrorMessage);
@@ -366,11 +347,10 @@ namespace WifeGrpcService.XUnitTests
             var wantedProductId = 1;
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
             _context.Setup(p => p.Products.FindAsync(wantedProductId)).Returns(new ValueTask<Product>(product));
-            //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
+            //Act 
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.AddProductAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.AddProduct(itemRequest, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -388,11 +368,10 @@ namespace WifeGrpcService.XUnitTests
             _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
 
-            //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
+            //Act 
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.AddProductAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.AddProduct(itemRequest, serverCallContext.Object);
 
             //Assert
             var expected = 0;
@@ -404,11 +383,10 @@ namespace WifeGrpcService.XUnitTests
             //Arrange
             var wantedProductId = 1;
 
-            //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var wifeGreeterService = new WifeGreeter.WifeGreeterClient(channel);
+            //Act 
             var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            var realData = await wifeGreeterService.AddProductAsync(itemRequest);
+            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object);
+            var realData = await _wifeGreeterService.AddProduct(itemRequest, serverCallContext.Object);
 
             //Assert
             Assert.NotNull(realData.ErrorMessage);

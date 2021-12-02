@@ -280,7 +280,7 @@ namespace AdminGrpcService.Services
             {
                 var status = false;
                 var shopDtoMessage = request.ShopDtoMessage;
-                if (shopDtoMessage.Name == null)
+                if (shopDtoMessage.Id == 0)
                     return new BoolReply { Element = status, Successfully = true };
                 var shopDto = new Shop
                 {

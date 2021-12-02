@@ -1,30 +1,29 @@
 using Moq;
 using Xunit;
-using System;
-using Grpc.Net.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using WebApiTest.Controllers;
-using AdminGrpcService;
 using AdminGrpcService.Data;
 using AdminGrpcService.Services;
 using AdminGrpcService.Models.Dto;
 using AdminGrpcService.Models;
 using AdminGrpcService.XUnitTests.Extensions;
+using Grpc.Core;
 
 namespace AdminGrpcService.XUnitTests
 {
     public class AdminGreeterServiceTests
     {
+        private AdminGreeterService _adminService;
         private Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
+        private Mock<ServerCallContext> serverCallContext = new Mock<ServerCallContext>();
         private Mock<ILogger<AdminGreeterService>> _logger = new Mock<ILogger<AdminGreeterService>>();
 
         private string userLogin = "adminUnitTest";
         public AdminGreeterServiceTests()
         {
-
+            
         }
         [Fact]
         public async Task GetProductsAsync_ShouldReturnOneProduct_WhenHaveOneProduct()
@@ -44,9 +43,8 @@ namespace AdminGrpcService.XUnitTests
             _context.Setup(p => p.Products).Returns(data.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-            var realData = await adminService.GetProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -63,13 +61,11 @@ namespace AdminGrpcService.XUnitTests
         {
             //Arrange
             var data = new List<Product>();
-
             _context.Setup(p => p.Products).Returns(data.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-            var realData = await adminService.GetProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -83,9 +79,8 @@ namespace AdminGrpcService.XUnitTests
         {
             //Arrange
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-            var realData = await adminService.GetProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
             //Assert
             Assert.NotNull(realData.ErrorMessage);
         }
@@ -103,9 +98,8 @@ namespace AdminGrpcService.XUnitTests
             };
             _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-            var realData = await adminService.GetShopsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShops(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
             //Assert
             var some = false;
             if (realData.Element.ShopDtoMessage.Count == 1)
@@ -122,9 +116,8 @@ namespace AdminGrpcService.XUnitTests
             var data = new List<Shop>();
             _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-            var realData = await adminService.GetShopsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShops(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
             //Assert
             var some = false;
             if (realData.Element.ShopDtoMessage.Count == 0)
@@ -136,9 +129,8 @@ namespace AdminGrpcService.XUnitTests
         {
             //Arrange
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-            var realData = await adminService.GetShopsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShops(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
             //Assert
             Assert.NotNull(realData.ErrorMessage);
         }
@@ -162,10 +154,9 @@ namespace AdminGrpcService.XUnitTests
             };
             _context.Setup(p => p.Shops).Returns(data.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var shopRequest = new ShopRequest { ShopDtoMessage = shopDto, UserLogin = userLogin };
-            var realData = await adminService.UpdateShopAsync(shopRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
             //Assert
             var some = false;
             if (realData.Element.Id == 1
@@ -187,10 +178,9 @@ namespace AdminGrpcService.XUnitTests
             var shopDto = new ShopDtoMessage();
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var shopRequest = new ShopRequest { ShopDtoMessage = shopDto, UserLogin = userLogin };
-            var realData = await adminService.UpdateShopAsync(shopRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
             //Assert
             var expected = 0;
             Assert.Equal(expected, realData.Element.Id);
@@ -214,11 +204,10 @@ namespace AdminGrpcService.XUnitTests
             };
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var shopRequest = new ShopRequest { ShopDtoMessage = shopDto, UserLogin = userLogin };
-            var realData = await adminService.UpdateShopAsync(shopRequest);
-            //Assert
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
+            //Assert 
             var expected = 0;
             Assert.Equal(expected, realData.Element.Id);
         }
@@ -233,10 +222,9 @@ namespace AdminGrpcService.XUnitTests
             };
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var shopRequest = new ShopRequest { ShopDtoMessage = shopDto, UserLogin = userLogin };
-            var realData = await adminService.UpdateShopAsync(shopRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
 
             //Assert
             Assert.NotNull(realData.ErrorMessage);
@@ -264,10 +252,9 @@ namespace AdminGrpcService.XUnitTests
             };
             _context.Setup(p => p.Products).Returns(data.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.UpdateProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
             var some = false;
             if (realData.Element.Id == 1
@@ -291,10 +278,9 @@ namespace AdminGrpcService.XUnitTests
             var producDto = new ProductDtoMessage();
             _context.Setup(p => p.Products).Returns(data.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.UpdateProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
             var expected = 0;
             Assert.Equal(expected, realData.Element.Id);
@@ -322,10 +308,9 @@ namespace AdminGrpcService.XUnitTests
             };
             _context.Setup(p => p.Products).Returns(data.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.UpdateProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
             var expected = 0;
             Assert.Equal(expected, realData.Element.Id);
@@ -342,10 +327,9 @@ namespace AdminGrpcService.XUnitTests
                 ShopId = 1
             };
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.UpdateProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
             Assert.NotNull(realData.ErrorMessage);
         }
@@ -370,10 +354,9 @@ namespace AdminGrpcService.XUnitTests
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             _context.Setup(p => p.Shops.FindAsync(producDto.Id)).Returns(new ValueTask<Shop>(shop));
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.AddProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
 
@@ -395,10 +378,9 @@ namespace AdminGrpcService.XUnitTests
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.AddProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
             Assert.False(realData.Element);
@@ -417,10 +399,9 @@ namespace AdminGrpcService.XUnitTests
             };
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.AddProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
             //Assert
             Assert.False(realData.Element);
         }
@@ -435,10 +416,9 @@ namespace AdminGrpcService.XUnitTests
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.AddProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
             Assert.False(realData.Element);
@@ -457,10 +437,9 @@ namespace AdminGrpcService.XUnitTests
             };
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.AddProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
             Assert.False(realData.Element);
@@ -479,10 +458,9 @@ namespace AdminGrpcService.XUnitTests
             };
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var productRequest = new ProductRequest { ProductDtoMessage = producDto, UserLogin = userLogin };
-            var realData = await adminService.AddProductAsync(productRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
             Assert.NotNull(realData.ErrorMessage);
@@ -501,10 +479,9 @@ namespace AdminGrpcService.XUnitTests
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var shopRequest = new ShopRequest { ShopDtoMessage = shopDto, UserLogin = userLogin };
-            var realData = await adminService.AddShopAsync(shopRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddShop(shopRequest, serverCallContext.Object);
 
             //Assert
             Assert.True(realData.Element);
@@ -518,10 +495,9 @@ namespace AdminGrpcService.XUnitTests
 
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var shopRequest = new ShopRequest { ShopDtoMessage = shopDto, UserLogin = userLogin };
-            var realData = await adminService.AddShopAsync(shopRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddShop(shopRequest, serverCallContext.Object);
 
             //Assert
             Assert.False(realData.Element);
@@ -536,10 +512,9 @@ namespace AdminGrpcService.XUnitTests
                 Name = "ATB",
             };
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var shopRequest = new ShopRequest { ShopDtoMessage = shopDto, UserLogin = userLogin };
-            var realData = await adminService.AddShopAsync(shopRequest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.AddShop(shopRequest, serverCallContext.Object);
             //Assert
             Assert.NotNull(realData.ErrorMessage);
         }
@@ -557,10 +532,9 @@ namespace AdminGrpcService.XUnitTests
             var productId = 1;
             _context.Setup(p => p.Products.FindAsync(productId)).Returns(new ValueTask<Product>(product));
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = productId, UserLogin = userLogin };
-            var realData = await adminService.RemoveProductAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.RemoveProduct(itemRquest, serverCallContext.Object);
             //Assert
             Assert.True(realData.Element);
         }
@@ -572,10 +546,9 @@ namespace AdminGrpcService.XUnitTests
             var productId = 1;
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = productId, UserLogin = userLogin };
-            var realData = await adminService.RemoveProductAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.RemoveProduct(itemRquest, serverCallContext.Object);
             //Assert
             Assert.False(realData.Element);
         }
@@ -592,10 +565,9 @@ namespace AdminGrpcService.XUnitTests
             };
             var productId = 1;
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = productId, UserLogin = userLogin };
-            var realData = await adminService.RemoveProductAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.RemoveProduct(itemRquest, serverCallContext.Object);
 
             //Assert
             Assert.NotNull(realData.ErrorMessage);
@@ -613,10 +585,9 @@ namespace AdminGrpcService.XUnitTests
             _context.Setup(p => p.Shops.FindAsync(shopId)).Returns(new ValueTask<Shop>(shop));
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = shopId, UserLogin = userLogin };
-            var realData = await adminService.RemoveShopAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.RemoveShop(itemRquest, serverCallContext.Object);
 
             //Assert
             Assert.True(realData.Element);
@@ -629,10 +600,9 @@ namespace AdminGrpcService.XUnitTests
             var shopId = 1;
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = shopId, UserLogin = userLogin };
-            var realData = await adminService.RemoveShopAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.RemoveShop(itemRquest, serverCallContext.Object);
             //Assert
             Assert.False(realData.Element);
         }
@@ -642,10 +612,9 @@ namespace AdminGrpcService.XUnitTests
             //Arrange
             var shopId = 1;
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = shopId, UserLogin = userLogin };
-            var realData = await adminService.RemoveShopAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.RemoveShop(itemRquest, serverCallContext.Object);
             //Assert
             Assert.NotNull(realData.ErrorMessage);
         }
@@ -662,10 +631,9 @@ namespace AdminGrpcService.XUnitTests
             _context.Setup(p => p.Shops.FindAsync(shopId)).Returns(new ValueTask<Shop>(shop));
 
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = shopId, UserLogin = userLogin };
-            var realData = await adminService.GetShopAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShop(itemRquest, serverCallContext.Object);
 
             //Assert
             var some = false;
@@ -681,10 +649,9 @@ namespace AdminGrpcService.XUnitTests
             var shopId = 1;
             _context.Setup(p => p.Shops).Returns(dataShop.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = shopId, UserLogin = userLogin };
-            var realData = await adminService.GetShopAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShop(itemRquest, serverCallContext.Object);
             //Assert
             Assert.Null(realData);
         }
@@ -694,10 +661,9 @@ namespace AdminGrpcService.XUnitTests
             //Arrange
             var shopId = 1;
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = shopId, UserLogin = userLogin };
-            var realData = await adminService.GetShopAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShop(itemRquest, serverCallContext.Object);
 
             //Assert
             Assert.NotNull(realData.ErrorMessage);
@@ -716,10 +682,9 @@ namespace AdminGrpcService.XUnitTests
             var productId = 1;
             _context.Setup(p => p.Products.FindAsync(productId)).Returns(new ValueTask<Product>(product));
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = productId, UserLogin = userLogin };
-            var realData = await adminService.GetProductAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProduct(itemRquest, serverCallContext.Object);
             //Assert
             var some = false;
             if (realData.Element.Id == 1
@@ -736,10 +701,9 @@ namespace AdminGrpcService.XUnitTests
             var productId = 1;
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = productId, UserLogin = userLogin };
-            var realData = await adminService.GetProductAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProduct(itemRquest, serverCallContext.Object);
             //Assert
             Assert.Null(realData);
         }
@@ -749,10 +713,9 @@ namespace AdminGrpcService.XUnitTests
             //Arrange
             var productId = 1;
             //Act
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
             var itemRquest = new ItemRequest { Id = productId, UserLogin = userLogin };
-            var realData = await adminService.GetProductAsync(itemRquest);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProduct(itemRquest, serverCallContext.Object);
             //Assert
             Assert.NotNull(realData.ErrorMessage);
         }

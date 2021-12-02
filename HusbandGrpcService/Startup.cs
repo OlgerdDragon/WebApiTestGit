@@ -49,7 +49,7 @@ namespace HusbandGrpcService
             app.UseRouting();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<HusbandService>();
+                endpoints.MapGrpcService<HusbandGreeterService>();
 
                 endpoints.MapGet("/", async context =>
                 {

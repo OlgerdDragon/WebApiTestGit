@@ -21,7 +21,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
             //await AuthenticateAsync();
 
             // Act
-            var response = await TestClient.GetAsync("Api/Admin/ShopsM");
+            var response = await TestClient.GetAsync("Api/Admin/Shops");
 
             // Assert
             response.StatusCode.Should().Be(HttpStatusCode.OK);

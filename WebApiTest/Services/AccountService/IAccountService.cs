@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
-using WebApiTest.Data;
+using WebApiGeneralGrpc.Data;
 
-namespace WebApiTest.Services.AccountService
+namespace WebApiGeneralGrpc.Services.AccountService
 {
     public interface IAccountService
     {

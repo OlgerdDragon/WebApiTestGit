@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
-using WebApiTest.Models.Dto;
-using WebApiTest.Services.AccountService;
+using WebApiGeneralGrpc.Models.Dto;
+using WebApiGeneralGrpc.Services.AccountService;
 
-namespace WebApiTest.Controllers
+namespace WebApiGeneralGrpc.Controllers
 {
     [ApiController]
     [Route("Api/[controller]")]

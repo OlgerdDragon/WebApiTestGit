@@ -1,5 +1,5 @@
 ﻿
-namespace WebApiTest.Models.Dto
+namespace WebApiGeneralGrpc.Models.Dto
 {
     public class WantedProductDto
     {

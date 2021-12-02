@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using WebApiTest.Controllers;
+using WebApiGeneralGrpc.Controllers;
 using HusbandGrpcService;
 using HusbandGrpcService.Data;
 using HusbandGrpcService.Services;

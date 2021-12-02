@@ -7,17 +7,17 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
-using WebApiTest.Data;
+using WebApiMonolit.Data;
 using Microsoft.EntityFrameworkCore;
-using WebApiTest.Models;
-using WebApiTest.Controllers;
-using WebApiTest.Models.Dto;
-using WebAPITest.XUnitTests.Extensions;
-using WebAPITest.XUnitTests.Infra;
-using WebApiTest.Services.WifeService;
+using WebApiMonolit.Models;
+using WebApiMonolit.Controllers;
+using WebApiMonolit.Models.Dto;
+using WebApiMonolit.XUnitTests.Extensions;
+using WebApiMonolit.XUnitTests.Infra;
+using WebApiMonolit.Services.WifeService;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPITest.XUnitTests.Common
+namespace WebApiMonolit.XUnitTests.Common
 {
     public class WifeServiceTests
     {

@@ -5,12 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using WebApiTest.Data;
-using WebApiTest.Services.AdminService;
-using WebApiTest.Services.HusbandService;
-using WebApiTest.Services.WifeService;
-using WebApiTest.Services.AccountService;
-using WebApiTest.Services.UtilsService;
+using WebApiGeneralGrpc.Data;
+using WebApiGeneralGrpc.Services.AdminService;
+using WebApiGeneralGrpc.Services.HusbandService;
+using WebApiGeneralGrpc.Services.WifeService;
+using WebApiGeneralGrpc.Services.AccountService;
+using WebApiGeneralGrpc.Services.UtilsService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -18,7 +18,7 @@ using Serilog.Core;
 using Serilog.Events;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApiTest
+namespace WebApiGeneralGrpc
 {
     public class Startup
     {
@@ -44,7 +44,7 @@ namespace WebApiTest
             
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiTest", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApiGeneralGrpc", Version = "v1" });
             });
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

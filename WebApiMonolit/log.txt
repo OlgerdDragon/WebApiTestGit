@@ -1,0 +1,451 @@
+2021-11-11 16:37:31.024 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 285.5292 ms
+2021-11-11 16:39:21.480 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY2NDE1NjEsImV4cCI6MTYzNjY0MjE2MSwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.jc1Cd48LZGRiF2E4QKesYb-Gk6Dh0h0lendSYPwz_Qs 
+2021-11-11 16:39:21.510 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 3669.5116 ms
+2021-11-11 16:39:35.119 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 558.5227 ms
+2021-11-11 16:58:46.019 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY2NDI3MjYsImV4cCI6MTYzNjY0MzMyNiwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.UcOab-ioUnRbqcYkc0w-NrQTqa2CIR13izdHsizVeQA 
+2021-11-11 16:58:46.020 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 513.4563 ms
+2021-11-11 16:59:01.414 +02:00 [INF] HTTP GET /api/admin/shops responded 401 in 33.2823 ms
+2021-11-11 16:59:06.298 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 51.2790 ms
+2021-11-11 16:59:13.312 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 69.9314 ms
+2021-11-11 16:59:27.104 +02:00 [INF] HTTP GET /api/admin/shop/1 responded 200 in 258.5363 ms
+2021-11-11 16:59:32.833 +02:00 [INF] HTTP GET /api/admin/product/1 responded 200 in 118.1569 ms
+2021-11-11 17:00:11.497 +02:00 [INF] AddProduct userLogin: admin@gmail.com - shop.Id: 0 shop.Name: Nats
+2021-11-11 17:00:11.620 +02:00 [INF] HTTP POST /api/admin/shop responded 201 in 678.9626 ms
+2021-11-11 17:00:45.358 +02:00 [INF] HTTP POST /api/admin/product responded 201 in 67.0825 ms
+2021-11-11 17:01:12.300 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 73.8989 ms
+2021-11-11 17:01:31.124 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:02:07.598 +02:00 [ERR] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiMonolit.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Services\AdminService\AdminService.cs:line 73
+2021-11-11 17:02:07.759 +02:00 [ERR] HTTP PUT /api/admin/shop responded 500 in 36651.4025 ms
+System.NotSupportedException: Serialization and deserialization of 'System.Type' instances are not supported and should be avoided since they can lead to security issues. Path: $.TargetSite.DeclaringType.
+ ---> System.NotSupportedException: Serialization and deserialization of 'System.Type' instances are not supported and should be avoided since they can lead to security issues.
+   at System.Text.Json.Serialization.Converters.TypeConverter.Write(Utf8JsonWriter writer, Type value, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.JsonConverter`1.TryWrite(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.JsonPropertyInfo`1.GetMemberAndWriteJson(Object obj, WriteStack& state, Utf8JsonWriter writer)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryWrite(Utf8JsonWriter writer, T value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.TryWrite(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.JsonPropertyInfo`1.GetMemberAndWriteJson(Object obj, WriteStack& state, Utf8JsonWriter writer)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryWrite(Utf8JsonWriter writer, T value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.TryWrite(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.WriteCore(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(WriteStack& state, NotSupportedException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.WriteCore(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.WriteCoreAsObject(Utf8JsonWriter writer, Object value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.JsonSerializer.WriteCore[TValue](JsonConverter jsonConverter, Utf8JsonWriter writer, TValue& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.JsonSerializer.WriteAsyncCore[TValue](Stream utf8Json, TValue value, Type inputType, JsonSerializerOptions options, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter.WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-11-11 17:02:07.778 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NotSupportedException: Serialization and deserialization of 'System.Type' instances are not supported and should be avoided since they can lead to security issues. Path: $.TargetSite.DeclaringType.
+ ---> System.NotSupportedException: Serialization and deserialization of 'System.Type' instances are not supported and should be avoided since they can lead to security issues.
+   at System.Text.Json.Serialization.Converters.TypeConverter.Write(Utf8JsonWriter writer, Type value, JsonSerializerOptions options)
+   at System.Text.Json.Serialization.JsonConverter`1.TryWrite(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.JsonPropertyInfo`1.GetMemberAndWriteJson(Object obj, WriteStack& state, Utf8JsonWriter writer)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryWrite(Utf8JsonWriter writer, T value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.TryWrite(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.JsonPropertyInfo`1.GetMemberAndWriteJson(Object obj, WriteStack& state, Utf8JsonWriter writer)
+   at System.Text.Json.Serialization.Converters.ObjectDefaultConverter`1.OnTryWrite(Utf8JsonWriter writer, T value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.TryWrite(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.WriteCore(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   --- End of inner exception stack trace ---
+   at System.Text.Json.ThrowHelper.ThrowNotSupportedException(WriteStack& state, NotSupportedException ex)
+   at System.Text.Json.Serialization.JsonConverter`1.WriteCore(Utf8JsonWriter writer, T& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.Serialization.JsonConverter`1.WriteCoreAsObject(Utf8JsonWriter writer, Object value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.JsonSerializer.WriteCore[TValue](JsonConverter jsonConverter, Utf8JsonWriter writer, TValue& value, JsonSerializerOptions options, WriteStack& state)
+   at System.Text.Json.JsonSerializer.WriteAsyncCore[TValue](Stream utf8Json, TValue value, Type inputType, JsonSerializerOptions options, CancellationToken cancellationToken)
+   at Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonOutputFormatter.WriteResponseBodyAsync(OutputFormatterWriteContext context, Encoding selectedEncoding)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResultFilterAsync>g__Awaited|29_0[TFilter,TFilterAsync](ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResultExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.ResultNext[TFilter,TFilterAsync](State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeResultFilters()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-11-11 17:07:56.229 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:08:33.752 +02:00 [ERR] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiMonolit.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
+2021-11-11 17:08:52.177 +02:00 [ERR] HTTP PUT /api/admin/shop responded 500 in 55953.2326 ms
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiMonolit.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
+   at WebApiMonolit.Controllers.AdminController.PutShopItem(ShopDto shopDtoItem)
+   at lambda_method204(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-11-11 17:08:52.211 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at WebApiMonolit.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
+   at WebApiMonolit.Controllers.AdminController.PutShopItem(ShopDto shopDtoItem)
+   at lambda_method204(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.InvokeFilterPipelineAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-11-11 17:09:10.100 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:09:10.147 +02:00 [INF] HTTP PUT /api/admin/shop responded 201 in 55.3685 ms
+2021-11-11 17:09:17.158 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 45.6746 ms
+2021-11-11 17:09:23.186 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:09:23.234 +02:00 [INF] HTTP PUT /api/admin/shop responded 201 in 53.0445 ms
+2021-11-11 17:10:16.995 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 502.4165 ms
+2021-11-11 17:10:26.418 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:12:23.698 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 241.8013 ms
+2021-11-11 17:12:34.444 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:12:37.607 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 3936.5272 ms
+2021-11-11 17:12:50.824 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:12:50.937 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 121.9621 ms
+2021-11-11 17:13:36.869 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 332.0345 ms
+2021-11-11 17:13:39.901 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:13:42.848 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 3766.7860 ms
+2021-11-11 17:13:44.717 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-11 17:13:44.821 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 109.6296 ms
+2021-11-11 17:15:42.854 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 202.4090 ms
+2021-11-11 17:15:57.892 +02:00 [INF] HTTP PUT /api/admin/shop responded 401 in 358.9103 ms
+2021-11-11 17:16:06.977 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY2NDM3NjYsImV4cCI6MTYzNjY0NDM2NiwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.Qn5vW-MQtENayxMb1LUIkX3cA3AJWEv6u-twNL24wdU 
+2021-11-11 17:16:07.064 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 3823.0228 ms
+2021-11-11 17:16:17.084 +02:00 [INF] AddProduct userLogin: admin@gmail.com - shop.Id: 0 shop.Name: Nats
+2021-11-11 17:16:17.230 +02:00 [INF] HTTP POST /api/admin/shop responded 201 in 970.1327 ms
+2021-11-12 03:09:54.065 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 721.8657 ms
+2021-11-12 03:10:01.582 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY2Nzk0MDEsImV4cCI6MTYzNjY4MDAwMSwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.X6hBAFKMZqFkKaVjJ9xekmf2m0qGDeq1DgVXWQa9GKM 
+2021-11-12 03:10:01.643 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 8303.6867 ms
+2021-11-12 03:10:44.450 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 1208.7675 ms
+2021-11-12 03:11:07.190 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-12 03:12:47.332 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 100216.4662 ms
+2021-11-12 03:17:59.401 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 447.7044 ms
+2021-11-12 03:18:06.955 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-12 03:18:50.313 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 551.9206 ms
+2021-11-12 03:18:52.924 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-12 03:18:56.309 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 4592.2358 ms
+2021-11-12 03:19:40.780 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 274.6111 ms
+2021-11-12 03:19:47.377 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-12 03:19:50.641 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 4222.1800 ms
+2021-11-12 08:57:58.023 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 938.0225 ms
+2021-11-12 08:58:53.479 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY3MDAzMzMsImV4cCI6MTYzNjcwMDkzMywiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.oaPt34u9zW9Hz3slq1fJ40E_PGR_H0x2KUXp0gntMlQ 
+2021-11-12 08:58:53.560 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 11023.0342 ms
+2021-11-12 08:59:10.282 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 523.9333 ms
+2021-11-12 09:25:07.498 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 264.5006 ms
+2021-11-12 09:25:16.615 +02:00 [INF] HTTP GET /api/admin/hello responded 401 in 260.8186 ms
+2021-11-12 09:25:32.353 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY3MDE5MzIsImV4cCI6MTYzNjcwMjUzMiwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.9ACsi6kaM1RKUSe2rGWEtClpFHDRlNSNLXvGdRgEBpA 
+2021-11-12 09:25:32.392 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 9384.3441 ms
+2021-11-12 09:25:43.080 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
+2021-11-12 09:25:43.203 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 238.3460 ms
+2021-11-12 09:25:50.467 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 241.9099 ms
+2021-11-12 09:26:01.669 +02:00 [INF] UpdateProductAsync - newProduct.Id: 9 product.Name: TicTacToe product.Price: 55 product.ShopId: 1
+2021-11-12 09:26:01.829 +02:00 [INF] HTTP PUT /api/admin/product responded 201 in 172.9004 ms
+2021-11-12 09:26:14.549 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 58.4657 ms
+2021-11-12 10:12:59.788 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY3MDQ3NzksImV4cCI6MTYzNjcwNTM3OSwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.RuvIg26moxOajuAPU0iRENfY_9jhHXnzNquZbfp4e8c 
+2021-11-12 10:12:59.894 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 5470.5319 ms
+2021-11-12 10:13:18.545 +02:00 [INF] HTTP PUT /api/admin/shop responded 400 in 328.7245 ms
+2021-11-12 10:13:25.196 +02:00 [INF] HTTP PUT /api/admin/product responded 201 in 218.2023 ms
+2021-11-12 10:13:40.672 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 254.1358 ms
+2021-11-12 10:14:44.104 +02:00 [INF] HTTP PUT /api/admin/product responded 201 in 20277.3973 ms
+2021-11-12 10:16:15.903 +02:00 [INF] HTTP PUT /api/admin/product responded 400 in 8655.9104 ms
+2021-11-12 10:16:26.292 +02:00 [INF] HTTP GET /api/admin/shops responded 401 in 37.4147 ms
+2021-11-12 10:16:36.819 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2MzY3MDQ5OTYsImV4cCI6MTYzNjcwNTU5NiwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.XGrQF5-p9cFnrZNED207kExffSFPlxEQqRuYj6vzKkE 
+2021-11-12 10:16:36.834 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 327.1796 ms
+2021-11-12 10:16:45.185 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 313.5280 ms
+2021-11-12 10:17:00.163 +02:00 [INF] RemoveShop - id: 11 userLogin: admin@gmail.com return status: True
+2021-11-12 10:17:00.168 +02:00 [INF] HTTP DELETE /api/admin/shop/11 responded 204 in 658.7680 ms
+2021-11-12 10:17:02.881 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 57.8942 ms
+2021-11-12 10:17:06.569 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 99.3098 ms
+2021-11-12 10:17:22.943 +02:00 [INF] HTTP POST /api/admin/product responded 201 in 113.7402 ms
+2021-11-12 10:17:26.172 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 53.1748 ms
+2021-11-12 10:17:38.621 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 58.8602 ms
+2021-11-12 10:18:36.048 +02:00 [INF] HTTP POST /api/admin/product responded 201 in 6168.3058 ms
+2021-11-12 10:18:59.209 +02:00 [INF] HTTP POST /api/admin/product responded 201 in 2322.1940 ms
+2021-11-12 10:20:38.912 +02:00 [INF] HTTP POST /api/admin/product responded 201 in 8.3425 ms
+2021-11-12 10:21:47.554 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 675.7297 ms
+2021-11-12 10:21:48.149 +02:00 [INF] AddProduct userLogin: admin@gmail.com - productDtoItem.Name: Butter productDtoItem.Price: 302 productDtoItem.ShopId: 1
+2021-11-12 10:21:48.252 +02:00 [INF] HTTP POST /api/admin/product responded 201 in 23551.3531 ms
+2021-11-12 10:23:45.166 +02:00 [INF] AddProduct userLogin: admin@gmail.com - productDtoItem.Name: Butter productDtoItem.Price: 302 productDtoItem.ShopId: 1
+2021-11-12 10:23:58.622 +02:00 [INF] HTTP POST /api/admin/product responded 201 in 125226.2667 ms
+2021-11-12 10:24:07.371 +02:00 [INF] AddProduct userLogin: admin@gmail.com - productDtoItem.Name: Butter productDtoItem.Price: 302 productDtoItem.ShopId: 1
+2021-11-12 10:24:08.376 +02:00 [INF] HTTP POST /api/admin/product responded 201 in 6352.0034 ms
+2021-11-12 10:24:23.459 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 49.4907 ms
+2021-11-12 10:24:58.347 +02:00 [INF] RemoveProduct - id: 12 userLogin: admin@gmail.com return status: True
+2021-11-12 10:24:58.350 +02:00 [INF] HTTP DELETE /api/admin/product/12 responded 204 in 262.2080 ms
+2021-11-12 10:25:03.017 +02:00 [INF] HTTP GET /api/admin/products responded 200 in 59.2572 ms
+2021-11-12 10:27:34.140 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM2NzA1NjU0LCJleHAiOjE2MzY3MDYyNTQsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.-g1cpU_Gur-BnhDkes6ZswsejDVPFYXHSnvi2UVO5ws 
+2021-11-12 10:27:34.153 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 165.6975 ms
+2021-11-12 10:27:43.662 +02:00 [INF] HTTP GET /api/husband/products responded 200 in 179.2341 ms
+2021-11-12 10:27:51.638 +02:00 [INF] HTTP GET /api/husband/shops responded 200 in 389.5004 ms
+2021-11-12 10:27:58.502 +02:00 [INF] HTTP GET /api/husband/productsInShop/2 responded 200 in 210.1904 ms
+2021-11-12 10:28:26.792 +02:00 [INF] Token return - username: wife@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoid2lmZUBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJ3aWZlIiwibmJmIjoxNjM2NzA1NzA2LCJleHAiOjE2MzY3MDYzMDYsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.wcqujVeNsHXoobCtadJSun9H_XHrBIoU-isViqUeugE 
+2021-11-12 10:28:26.793 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 53.2935 ms
+2021-11-12 10:28:39.378 +02:00 [INF] HTTP GET /api/wife/products responded 200 in 64.3810 ms
+2021-11-12 10:29:01.048 +02:00 [INF] HTTP GET /api/wife/Products/TotalAmount responded 200 in 237.5654 ms
+2021-11-12 10:29:24.657 +02:00 [INF] HTTP GET /api/wife/product/11 responded 200 in 113.2293 ms
+2021-11-12 10:29:39.884 +02:00 [INF] AddProduct(id) userLogin: wife@gmail.com id: 10 return - wantedProductDTO.Id: 16 wantedProductDTO.ProductId: 10
+2021-11-12 10:29:39.886 +02:00 [INF] HTTP POST /api/wife/product/10 responded 201 in 278.3718 ms
+2021-11-12 10:29:51.011 +02:00 [INF] HTTP GET /api/wife/products responded 200 in 48.5347 ms
+2021-11-12 10:30:06.938 +02:00 [INF] RemoveWantedProduct(id) userLogin: wife@gmail.com id: 16  return - status: True
+2021-11-12 10:30:06.939 +02:00 [INF] HTTP DELETE /api/wife/product/16 responded 204 in 228.4722 ms
+2021-11-12 10:30:12.229 +02:00 [INF] HTTP GET /api/wife/products responded 200 in 49.0109 ms
+2021-11-18 16:00:03.414 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 1220.4481 ms
+2021-11-18 16:05:01.883 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 166.8500 ms
+2021-11-18 16:05:44.532 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM3MjQ0MzQ0LCJleHAiOjE2MzcyNDQ5NDQsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.21RBhQZO5QyZqbMlMLu2A2Qn17fj2PK1q219z-xzwzs 
+2021-11-18 16:05:44.601 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 6295.7643 ms
+2021-11-18 16:09:14.332 +02:00 [INF] HTTP GET /api/husband/productsM responded 400 in 180829.6784 ms
+2021-11-18 16:11:06.695 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 169.2105 ms
+2021-11-18 16:11:48.248 +02:00 [INF] HTTP GET /api/husband/productsM responded 400 in 35298.0736 ms
+2021-11-18 16:12:45.300 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 335.2125 ms
+2021-11-18 16:13:34.672 +02:00 [INF] HTTP GET /api/husband/productsM responded 400 in 46466.9078 ms
+2021-11-18 16:15:55.730 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 161.0901 ms
+2021-11-18 16:16:05.380 +02:00 [INF] HTTP GET /api/husband/productsM responded 200 in 4228.1925 ms
+2021-11-23 03:38:59.572 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 452.7164 ms
+2021-11-23 04:44:09.151 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM3NjM1NDQ4LCJleHAiOjE2Mzc2MzYwNDgsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.Bko4mkKUshGr-2NivzgK6M7kj84YhLiVB9UmTsLbwmA 
+2021-11-23 04:44:09.229 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 6986.7124 ms
+2021-11-23 04:44:30.067 +02:00 [INF] HTTP GET /api/husband/productsM responded 200 in 6330.9531 ms
+2021-11-23 04:44:50.106 +02:00 [INF] HTTP GET /api/husband/shopsM responded 200 in 1015.5539 ms
+2021-11-23 04:45:45.532 +02:00 [ERR] HTTP GET /api/husband/productsInShopM/2 responded 500 in 41147.7438 ms
+Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
+   at WebApiMonolit.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Controllers\HusbandController.cs:line 74
+   at lambda_method91(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-11-23 04:45:45.868 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
+   at WebApiMonolit.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Controllers\HusbandController.cs:line 74
+   at lambda_method91(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-11-23 04:46:11.748 +02:00 [ERR] HTTP GET /api/husband/productsInShopM/1 responded 500 in 3037.5827 ms
+Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
+   at WebApiMonolit.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Controllers\HusbandController.cs:line 74
+   at lambda_method91(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-11-23 04:46:11.756 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
+   at WebApiMonolit.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Controllers\HusbandController.cs:line 74
+   at lambda_method91(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-11-23 04:47:49.874 +02:00 [ERR] HTTP GET /api/husband/productsInShopM/5 responded 500 in 85714.2533 ms
+Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
+   at WebApiMonolit.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Controllers\HusbandController.cs:line 74
+   at lambda_method91(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-11-23 04:47:49.886 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
+   at WebApiMonolit.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Controllers\HusbandController.cs:line 74
+   at lambda_method91(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-11-23 04:48:39.679 +02:00 [ERR] HTTP GET /api/husband/productsInShopM/5 responded 500 in 41071.1892 ms
+Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
+   at WebApiMonolit.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Controllers\HusbandController.cs:line 74
+   at lambda_method91(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2021-11-23 04:48:39.685 +02:00 [ERR] An unhandled exception has occurred while executing the request.
+Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
+   at WebApiMonolit.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiMonolit\WebApiMonolit\Controllers\HusbandController.cs:line 74
+   at lambda_method91(Closure , Object )
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeNextResourceFilter>g__Awaited|24_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Rethrow(ResourceExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|19_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|6_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.Policy.AuthorizationMiddlewareResultHandler.HandleAsync(RequestDelegate next, HttpContext context, AuthorizationPolicy policy, PolicyAuthorizationResult authorizeResult)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
+2021-11-23 04:56:56.356 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 486.2505 ms
+2021-11-23 04:57:01.308 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM3NjM2MjIxLCJleHAiOjE2Mzc2MzY4MjEsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.PSbggTRek_3VyfuQscMQ13-gw2MD5Q_STZ-zE-jUPPc 
+2021-11-23 04:57:01.349 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 5486.9731 ms
+2021-11-23 04:57:23.298 +02:00 [INF] HTTP GET /api/husband/productsInShopM/5 responded 200 in 5303.7763 ms
+2021-11-23 04:57:28.903 +02:00 [INF] HTTP GET /api/husband/productsInShopM/1 responded 200 in 522.3534 ms
+2021-11-23 04:57:51.210 +02:00 [INF] HTTP GET /api/husband/productsM responded 200 in 331.1789 ms
+2021-11-23 04:58:13.943 +02:00 [INF] HTTP GET /api/husband/productsM responded 200 in 171.7160 ms
+2021-11-23 04:59:28.899 +02:00 [INF] HTTP GET /api/husband/productsInShopM/1 responded 200 in 575.2962 ms
+2021-11-23 05:02:02.582 +02:00 [INF] HTTP GET /api/husband/shopsM responded 200 in 220387.5984 ms
+2021-11-23 05:02:13.311 +02:00 [INF] HTTP GET /api/husband/productsInShopM/1 responded 200 in 76623.5501 ms
+2021-11-23 05:02:24.427 +02:00 [INF] HTTP GET /api/husband/shopsM responded 401 in 18.5117 ms
+2021-11-23 05:02:27.486 +02:00 [INF] HTTP GET /api/husband/shopsM responded 401 in 1.0126 ms
+2021-11-23 05:02:33.463 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM3NjM2NTUzLCJleHAiOjE2Mzc2MzcxNTMsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.dxtF2pqFbkOyL8JBfJVBfvmxyLj5G4LoQOvdqieJyTU 
+2021-11-23 05:02:33.467 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 137.5539 ms
+2021-11-23 05:02:46.982 +02:00 [INF] HTTP GET /api/husband/shops responded 200 in 608.1334 ms
+2021-11-23 05:02:57.285 +02:00 [INF] HTTP GET /api/husband/shopsM responded 200 in 550.8218 ms
+2021-11-23 05:05:31.154 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 475.5336 ms
+2021-11-23 05:05:39.352 +02:00 [INF] HTTP GET /api/husband/shopsM responded 200 in 8676.8442 ms
+2021-11-23 05:06:09.743 +02:00 [INF] HTTP GET /api/husband/productsInShopM/2 responded 200 in 652.7701 ms
+2021-11-23 05:08:35.499 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 608.9976 ms
+2021-11-23 05:08:44.390 +02:00 [INF] HTTP GET /api/husband/productsInShopM/2 responded 200 in 9489.1628 ms
+2021-11-23 05:08:49.690 +02:00 [INF] HTTP GET /api/husband/shopsM responded 200 in 697.0009 ms
+2021-11-23 14:15:10.516 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 598.6189 ms
+2021-11-23 14:15:30.428 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM3NjY5NzI5LCJleHAiOjE2Mzc2NzAzMjksImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.INAJw2ijCIlEYPZl2uFFeYcxAqSl9rU4fIfes30DJ3M 
+2021-11-23 14:15:30.495 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 6857.4699 ms
+2021-11-23 14:15:48.559 +02:00 [INF] HTTP GET /api/husband/productsM responded 200 in 6586.2863 ms
+2021-11-27 02:56:42.303 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 2413.5647 ms
+2021-11-30 15:35:09.695 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 645.0796 ms
+2021-12-01 03:58:12.686 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 812.1362 ms
+2021-12-01 04:01:26.077 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM4MzI0MDg1LCJleHAiOjE2MzgzMjQ2ODUsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.NTF1LZywE1-WX1U1njn-WxT9ucR9CF7eiNSfP0U6M80 
+2021-12-01 04:01:26.161 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 7573.2970 ms

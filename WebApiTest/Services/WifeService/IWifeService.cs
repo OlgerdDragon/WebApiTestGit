@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApiTest.Data;
-using WebApiTest.Models;
-using WebApiTest.Models.Dto;
+using WebApiGeneralGrpc.Data;
+using WebApiGeneralGrpc.Models;
+using WebApiGeneralGrpc.Models.Dto;
 
-namespace WebApiTest.Services.WifeService
+namespace WebApiGeneralGrpc.Services.WifeService
 {
     public interface IWifeService
     {

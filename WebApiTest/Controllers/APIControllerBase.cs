@@ -1,15 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
-using System.Threading.Tasks;
-using WebApiTest.Data;
-using System.Web;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Http;
 
-namespace WebApiTest.Controllers
+namespace WebApiGeneralGrpc.Controllers
 {
     [ApiController]
     [Route("Api/[controller]")]
@@ -19,7 +12,8 @@ namespace WebApiTest.Controllers
 
         public APIControllerBase()
         {
-            userLogin = new HttpContextAccessor().HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            //userLogin = new HttpContextAccessor().HttpContext.User.FindFirst(ClaimTypes.Name).Value;
+            userLogin = "";
         }
     }
 }

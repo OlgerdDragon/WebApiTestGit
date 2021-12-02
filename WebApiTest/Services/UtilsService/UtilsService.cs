@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApiTest.Data;
+using WebApiGeneralGrpc.Data;
 
-namespace WebApiTest.Services.UtilsService
+namespace WebApiGeneralGrpc.Services.UtilsService
 {
     public class UtilsService : IUtilsService
     {

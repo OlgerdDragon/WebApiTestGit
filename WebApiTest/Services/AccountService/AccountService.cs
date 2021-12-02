@@ -8,8 +8,8 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
-using WebApiTest.Data;
-using WebApiTest.Models;
+using WebApiGeneralGrpc.Data;
+using WebApiGeneralGrpc.Models;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Serilog.Core;
@@ -17,7 +17,7 @@ using Serilog.Events;
 using Microsoft.Extensions.Configuration;
 using Serilog;
 
-namespace WebApiTest.Services.AccountService
+namespace WebApiGeneralGrpc.Services.AccountService
 {
     public class AccountService : IAccountService
     {

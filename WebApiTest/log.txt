@@ -16,7 +16,7 @@
 2021-11-11 17:01:31.124 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
 2021-11-11 17:02:07.598 +02:00 [ERR] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
 System.NullReferenceException: Object reference not set to an instance of an object.
-   at WebApiTest.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Services\AdminService\AdminService.cs:line 73
+   at WebApiGeneralGrpc.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Services\AdminService\AdminService.cs:line 73
 2021-11-11 17:02:07.759 +02:00 [ERR] HTTP PUT /api/admin/shop responded 500 in 36651.4025 ms
 System.NotSupportedException: Serialization and deserialization of 'System.Type' instances are not supported and should be avoided since they can lead to security issues. Path: $.TargetSite.DeclaringType.
  ---> System.NotSupportedException: Serialization and deserialization of 'System.Type' instances are not supported and should be avoided since they can lead to security issues.
@@ -91,11 +91,11 @@ System.NotSupportedException: Serialization and deserialization of 'System.Type'
 2021-11-11 17:07:56.229 +02:00 [INF] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
 2021-11-11 17:08:33.752 +02:00 [ERR] UpdateShopAsync - newShop.Id: 7 newShop.Name: Nuts
 System.NullReferenceException: Object reference not set to an instance of an object.
-   at WebApiTest.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
+   at WebApiGeneralGrpc.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
 2021-11-11 17:08:52.177 +02:00 [ERR] HTTP PUT /api/admin/shop responded 500 in 55953.2326 ms
 System.NullReferenceException: Object reference not set to an instance of an object.
-   at WebApiTest.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
-   at WebApiTest.Controllers.AdminController.PutShopItem(ShopDto shopDtoItem)
+   at WebApiGeneralGrpc.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
+   at WebApiGeneralGrpc.Controllers.AdminController.PutShopItem(ShopDto shopDtoItem)
    at lambda_method204(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -117,8 +117,8 @@ System.NullReferenceException: Object reference not set to an instance of an obj
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
 2021-11-11 17:08:52.211 +02:00 [ERR] An unhandled exception has occurred while executing the request.
 System.NullReferenceException: Object reference not set to an instance of an object.
-   at WebApiTest.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
-   at WebApiTest.Controllers.AdminController.PutShopItem(ShopDto shopDtoItem)
+   at WebApiGeneralGrpc.Services.AdminService.AdminService.UpdateShopAsync(ShopDto newShop, String userLogin)
+   at WebApiGeneralGrpc.Controllers.AdminController.PutShopItem(ShopDto shopDtoItem)
    at lambda_method204(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -256,7 +256,7 @@ System.NullReferenceException: Object reference not set to an instance of an obj
 2021-11-23 04:44:50.106 +02:00 [INF] HTTP GET /api/husband/shopsM responded 200 in 1015.5539 ms
 2021-11-23 04:45:45.532 +02:00 [ERR] HTTP GET /api/husband/productsInShopM/2 responded 500 in 41147.7438 ms
 Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
-   at WebApiTest.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\HusbandController.cs:line 74
+   at WebApiGeneralGrpc.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Controllers\HusbandController.cs:line 74
    at lambda_method91(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -276,7 +276,7 @@ Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
 2021-11-23 04:45:45.868 +02:00 [ERR] An unhandled exception has occurred while executing the request.
 Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
-   at WebApiTest.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\HusbandController.cs:line 74
+   at WebApiGeneralGrpc.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Controllers\HusbandController.cs:line 74
    at lambda_method91(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -297,7 +297,7 @@ Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
 2021-11-23 04:46:11.748 +02:00 [ERR] HTTP GET /api/husband/productsInShopM/1 responded 500 in 3037.5827 ms
 Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
-   at WebApiTest.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\HusbandController.cs:line 74
+   at WebApiGeneralGrpc.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Controllers\HusbandController.cs:line 74
    at lambda_method91(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -317,7 +317,7 @@ Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
 2021-11-23 04:46:11.756 +02:00 [ERR] An unhandled exception has occurred while executing the request.
 Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
-   at WebApiTest.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\HusbandController.cs:line 74
+   at WebApiGeneralGrpc.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Controllers\HusbandController.cs:line 74
    at lambda_method91(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -338,7 +338,7 @@ Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
 2021-11-23 04:47:49.874 +02:00 [ERR] HTTP GET /api/husband/productsInShopM/5 responded 500 in 85714.2533 ms
 Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
-   at WebApiTest.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\HusbandController.cs:line 74
+   at WebApiGeneralGrpc.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Controllers\HusbandController.cs:line 74
    at lambda_method91(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -358,7 +358,7 @@ Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
 2021-11-23 04:47:49.886 +02:00 [ERR] An unhandled exception has occurred while executing the request.
 Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
-   at WebApiTest.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\HusbandController.cs:line 74
+   at WebApiGeneralGrpc.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Controllers\HusbandController.cs:line 74
    at lambda_method91(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -379,7 +379,7 @@ Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
    at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware.Invoke(HttpContext context)
 2021-11-23 04:48:39.679 +02:00 [ERR] HTTP GET /api/husband/productsInShopM/5 responded 500 in 41071.1892 ms
 Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
-   at WebApiTest.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\HusbandController.cs:line 74
+   at WebApiGeneralGrpc.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Controllers\HusbandController.cs:line 74
    at lambda_method91(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -399,7 +399,7 @@ Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
    at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
 2021-11-23 04:48:39.685 +02:00 [ERR] An unhandled exception has occurred while executing the request.
 Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
-   at WebApiTest.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiTest\WebApiTest\Controllers\HusbandController.cs:line 74
+   at WebApiGeneralGrpc.Controllers.HusbandController.GetNededProductListInShopM(Int32 shopId) in C:\Users\olger\source\repos\WebApiGeneralGrpc\WebApiGeneralGrpc\Controllers\HusbandController.cs:line 74
    at lambda_method91(Closure , Object )
    at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
    at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
@@ -444,3 +444,6 @@ Grpc.Core.RpcException: Status(StatusCode="Unimplemented", Detail="")
 2021-11-23 14:15:30.428 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjM3NjY5NzI5LCJleHAiOjE2Mzc2NzAzMjksImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.INAJw2ijCIlEYPZl2uFFeYcxAqSl9rU4fIfes30DJ3M 
 2021-11-23 14:15:30.495 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 6857.4699 ms
 2021-11-23 14:15:48.559 +02:00 [INF] HTTP GET /api/husband/productsM responded 200 in 6586.2863 ms
+2021-11-27 02:56:42.303 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 2413.5647 ms
+2021-11-30 15:35:09.695 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 645.0796 ms
+2021-12-01 05:10:29.463 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 2623.3081 ms

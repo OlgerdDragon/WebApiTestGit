@@ -2,12 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApiTest.Models.Dto;
-using WebApiTest.Services.HusbandService;
+using WebApiGeneralGrpc.Models.Dto;
+using WebApiGeneralGrpc.Services.HusbandService;
 using Grpc.Net.Client;
 using HusbandGrpcService;
 
-namespace WebApiTest.Controllers
+namespace WebApiGeneralGrpc.Controllers
 {
     
     [Authorize(Roles = "husband")]

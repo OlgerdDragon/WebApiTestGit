@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "WebApiTest": {
+    "WebApiGeneralGrpc": {
       "commandName": "Project",
       "dotnetRunMessages": "true",
       "launchBrowser": true,

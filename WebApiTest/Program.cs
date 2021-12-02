@@ -10,7 +10,7 @@ using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 
-namespace WebApiTest
+namespace WebApiGeneralGrpc
 {
     public class Program
     {

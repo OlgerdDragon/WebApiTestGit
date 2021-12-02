@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApiTest.Models;
-using WebApiTest.Models.Dto;
-using WebApiTest.Services.WifeService;
+using WebApiGeneralGrpc.Models;
+using WebApiGeneralGrpc.Models.Dto;
+using WebApiGeneralGrpc.Services.WifeService;
 using WifeGrpcService;
 
-namespace WebApiTest.Controllers
+namespace WebApiGeneralGrpc.Controllers
 {
     [Authorize(Roles = "wife")]
     public class WifeController : APIControllerBase

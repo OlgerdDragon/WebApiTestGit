@@ -5,7 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Query;
 
-namespace WebAPITest.XUnitTests.Infra
+namespace WebApiMonolit.XUnitTests.Infra
 {
     internal class TestAsyncQueryProvider<TEntity> : IAsyncQueryProvider
 {

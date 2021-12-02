@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using WebApiTest.Models;
+using WebApiGeneralGrpc.Models;
 
-namespace WebApiTest.Data
+namespace WebApiGeneralGrpc.Data
 {
     public class TownContext : DbContext
     {

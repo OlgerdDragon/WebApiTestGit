@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApiTest.Data;
+using WebApiGeneralGrpc.Data;
 
-namespace WebApiTest.Migrations
+namespace WebApiGeneralGrpc.Migrations
 {
     [DbContext(typeof(TownContext))]
     [Migration("20211011174731_RealBD")]
@@ -20,7 +20,7 @@ namespace WebApiTest.Migrations
                 .HasAnnotation("ProductVersion", "5.0.10")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("WebApiTest.Models.Admin", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Admin", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -41,7 +41,7 @@ namespace WebApiTest.Migrations
                     b.ToTable("Admins");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Husband", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Husband", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -68,7 +68,7 @@ namespace WebApiTest.Migrations
                     b.ToTable("Husbands");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Person", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Person", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -89,7 +89,7 @@ namespace WebApiTest.Migrations
                     b.ToTable("Persons");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Product", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -112,7 +112,7 @@ namespace WebApiTest.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Shop", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Shop", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -127,7 +127,7 @@ namespace WebApiTest.Migrations
                     b.ToTable("Shops");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.WantedProduct", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.WantedProduct", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -152,7 +152,7 @@ namespace WebApiTest.Migrations
                     b.ToTable("WantedProducts");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Wife", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Wife", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -173,28 +173,28 @@ namespace WebApiTest.Migrations
                     b.ToTable("Wifes");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Admin", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Admin", b =>
                 {
-                    b.HasOne("WebApiTest.Models.Person", "Persons")
+                    b.HasOne("WebApiGeneralGrpc.Models.Person", "Persons")
                         .WithOne("Admins")
-                        .HasForeignKey("WebApiTest.Models.Admin", "PersonId")
+                        .HasForeignKey("WebApiGeneralGrpc.Models.Admin", "PersonId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Persons");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Husband", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Husband", b =>
                 {
-                    b.HasOne("WebApiTest.Models.Person", "Persons")
+                    b.HasOne("WebApiGeneralGrpc.Models.Person", "Persons")
                         .WithOne("Husbands")
-                        .HasForeignKey("WebApiTest.Models.Husband", "PersonId")
+                        .HasForeignKey("WebApiGeneralGrpc.Models.Husband", "PersonId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WebApiTest.Models.Wife", "Wifes")
+                    b.HasOne("WebApiGeneralGrpc.Models.Wife", "Wifes")
                         .WithOne("Husbands")
-                        .HasForeignKey("WebApiTest.Models.Husband", "WifeId")
+                        .HasForeignKey("WebApiGeneralGrpc.Models.Husband", "WifeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -203,9 +203,9 @@ namespace WebApiTest.Migrations
                     b.Navigation("Wifes");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Product", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Product", b =>
                 {
-                    b.HasOne("WebApiTest.Models.Shop", "Shops")
+                    b.HasOne("WebApiGeneralGrpc.Models.Shop", "Shops")
                         .WithMany("Products")
                         .HasForeignKey("ShopId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -214,15 +214,15 @@ namespace WebApiTest.Migrations
                     b.Navigation("Shops");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.WantedProduct", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.WantedProduct", b =>
                 {
-                    b.HasOne("WebApiTest.Models.Product", "Products")
+                    b.HasOne("WebApiGeneralGrpc.Models.Product", "Products")
                         .WithMany("WantedProducts")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("WebApiTest.Models.Wife", "Wifes")
+                    b.HasOne("WebApiGeneralGrpc.Models.Wife", "Wifes")
                         .WithMany("WantedProducts")
                         .HasForeignKey("WifeId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -233,18 +233,18 @@ namespace WebApiTest.Migrations
                     b.Navigation("Wifes");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Wife", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Wife", b =>
                 {
-                    b.HasOne("WebApiTest.Models.Person", "Persons")
+                    b.HasOne("WebApiGeneralGrpc.Models.Person", "Persons")
                         .WithOne("Wifes")
-                        .HasForeignKey("WebApiTest.Models.Wife", "PersonId")
+                        .HasForeignKey("WebApiGeneralGrpc.Models.Wife", "PersonId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Persons");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Person", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Person", b =>
                 {
                     b.Navigation("Admins");
 
@@ -253,17 +253,17 @@ namespace WebApiTest.Migrations
                     b.Navigation("Wifes");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Product", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Product", b =>
                 {
                     b.Navigation("WantedProducts");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Shop", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Shop", b =>
                 {
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("WebApiTest.Models.Wife", b =>
+            modelBuilder.Entity("WebApiGeneralGrpc.Models.Wife", b =>
                 {
                     b.Navigation("Husbands");
 

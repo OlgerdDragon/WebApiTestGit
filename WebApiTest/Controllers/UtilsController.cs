@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using WebApiTest.Services.UtilsService;
+using WebApiGeneralGrpc.Services.UtilsService;
 
-namespace WebApiTest.Controllers
+namespace WebApiGeneralGrpc.Controllers
 {
     public class UtilsController : APIControllerBase
     {

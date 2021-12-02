@@ -6,15 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
-using WebApiTest.Data;
-using WebApiTest.Services.AccountService;
-using WebApiTest.Services.AdminService;
+using WebApiMonolit.Data;
+using WebApiMonolit.Services.AccountService;
+using WebApiMonolit.Services.AdminService;
 using Microsoft.EntityFrameworkCore;
-using WebApiTest.Models;
-using WebAPITest.XUnitTests.Extensions;
-using WebAPITest.XUnitTests.Infra;
+using WebApiMonolit.Models;
+using WebApiMonolit.XUnitTests.Extensions;
+using WebApiMonolit.XUnitTests.Infra;
 
-namespace WebAPITest.XUnitTests.Common
+namespace WebApiMonolit.XUnitTests.Common
 {
     public class AccountServiceTests
     {

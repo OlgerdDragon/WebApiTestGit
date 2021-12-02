@@ -3,10 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31624.102
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiTest", "WebApiTest\WebApiTest.csproj", "{68373ADF-5E8E-49EE-B580-BC47BC7B1EA6}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebAPITest.XUnitTests", "WebAPITest.XUnitTests\WebAPITest.XUnitTests.csproj", "{07EA4E52-9A22-4907-8A5C-843801BB225D}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HusbandGrpcService", "HusbandGrpcService\HusbandGrpcService.csproj", "{FB4732D8-AFC3-40A4-96B1-0F8AC8B74F28}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminGrpcService", "AdminGrpcService\AdminGrpcService.csproj", "{B9C48EB9-CAAE-40AE-B147-C832C843923D}"
@@ -15,9 +11,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WifeGrpcService", "WifeGrpc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WifeGrpcService.XUnitTests", "WifeGrpcService.XUnitTests\WifeGrpcService.XUnitTests.csproj", "{EDF929D4-19F0-47DD-A9BB-7F055C69D2AD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HusbandGrpcService.XUnitTests", "HusbandGrpcService.XUnitTests\HusbandGrpcService.XUnitTests.csproj", "{0D5E46E0-CA49-45BB-B0BC-8B17134734AE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HusbandGrpcService.XUnitTests", "HusbandGrpcService.XUnitTests\HusbandGrpcService.XUnitTests.csproj", "{0D5E46E0-CA49-45BB-B0BC-8B17134734AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdminGrpcService.XUnitTests", "AdminGrpcService.XUnitTests\AdminGrpcService.XUnitTests.csproj", "{82A48B56-0050-4DB5-9555-0A3A3C42D117}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdminGrpcService.XUnitTests", "AdminGrpcService.XUnitTests\AdminGrpcService.XUnitTests.csproj", "{82A48B56-0050-4DB5-9555-0A3A3C42D117}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiMonolit", "WebApiMonolit\WebApiMonolit.csproj", "{1D1B9F57-38E6-4934-98EC-660212C4EC95}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiGeneralGrpc", "WebApiTest\WebApiGeneralGrpc.csproj", "{D772D08F-0182-404C-AA06-3CB8ADE10A05}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiMonolit.XUnitTests", "WebAPITest.XUnitTests\WebApiMonolit.XUnitTests.csproj", "{791BC205-533C-44E6-A86C-55D34B188D58}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApiGeneralGrpcTests.IntegrationXUnitTest", "WebApiGeneralGrpc.IntegrationXUnitTest\WebApiGeneralGrpcTests.IntegrationXUnitTest.csproj", "{F827F98D-FA0F-4A18-AF7E-109A776F6D4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -25,14 +29,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{68373ADF-5E8E-49EE-B580-BC47BC7B1EA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68373ADF-5E8E-49EE-B580-BC47BC7B1EA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68373ADF-5E8E-49EE-B580-BC47BC7B1EA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68373ADF-5E8E-49EE-B580-BC47BC7B1EA6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{07EA4E52-9A22-4907-8A5C-843801BB225D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{07EA4E52-9A22-4907-8A5C-843801BB225D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{07EA4E52-9A22-4907-8A5C-843801BB225D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{07EA4E52-9A22-4907-8A5C-843801BB225D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FB4732D8-AFC3-40A4-96B1-0F8AC8B74F28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FB4732D8-AFC3-40A4-96B1-0F8AC8B74F28}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB4732D8-AFC3-40A4-96B1-0F8AC8B74F28}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -57,6 +53,22 @@ Global
 		{82A48B56-0050-4DB5-9555-0A3A3C42D117}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{82A48B56-0050-4DB5-9555-0A3A3C42D117}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{82A48B56-0050-4DB5-9555-0A3A3C42D117}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D1B9F57-38E6-4934-98EC-660212C4EC95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D1B9F57-38E6-4934-98EC-660212C4EC95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D1B9F57-38E6-4934-98EC-660212C4EC95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D1B9F57-38E6-4934-98EC-660212C4EC95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D772D08F-0182-404C-AA06-3CB8ADE10A05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D772D08F-0182-404C-AA06-3CB8ADE10A05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D772D08F-0182-404C-AA06-3CB8ADE10A05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D772D08F-0182-404C-AA06-3CB8ADE10A05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{791BC205-533C-44E6-A86C-55D34B188D58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{791BC205-533C-44E6-A86C-55D34B188D58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{791BC205-533C-44E6-A86C-55D34B188D58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{791BC205-533C-44E6-A86C-55D34B188D58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F827F98D-FA0F-4A18-AF7E-109A776F6D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F827F98D-FA0F-4A18-AF7E-109A776F6D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F827F98D-FA0F-4A18-AF7E-109A776F6D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F827F98D-FA0F-4A18-AF7E-109A776F6D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

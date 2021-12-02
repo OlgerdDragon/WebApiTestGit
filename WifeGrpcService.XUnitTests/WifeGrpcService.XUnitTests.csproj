@@ -30,7 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApiTest\WebApiTest.csproj" />
+    <ProjectReference Include="..\WebApiTest\WebApiGeneralGrpc.csproj" />
     <ProjectReference Include="..\WifeGrpcService\WifeGrpcService.csproj" />
   </ItemGroup>
 

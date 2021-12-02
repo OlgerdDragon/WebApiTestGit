@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace WebApiTest.Migrations
+namespace WebApiGeneralGrpc.Migrations
 {
     public partial class RealBD : Migration
     {

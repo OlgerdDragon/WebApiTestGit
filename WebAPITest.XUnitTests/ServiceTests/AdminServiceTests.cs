@@ -1,24 +1,17 @@
 ﻿using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 using Moq;
-using WebApiTest.Data;
-using WebApiTest.Services.AccountService;
-using WebApiTest.Services.AdminService;
+using WebApiMonolit.Data;
+using WebApiMonolit.Services.AdminService;
 using Microsoft.EntityFrameworkCore;
-using WebApiTest.Models;
-using WebApiTest.Controllers;
-using WebApiTest.Models.Dto;
-using WebAPITest.XUnitTests.Extensions;
-using WebAPITest.XUnitTests.Infra;
+using WebApiMonolit.Models;
+using WebApiMonolit.Models.Dto;
+using WebApiMonolit.XUnitTests.Extensions;
 
 
-namespace WebAPITest.XUnitTests.Common
+namespace WebApiMonolit.XUnitTests.Common
 {
     public class AdminServiceTests
     {

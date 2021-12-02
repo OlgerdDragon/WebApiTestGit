@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace WebApiTest.Models
+namespace WebApiGeneralGrpc.Models
 {
     public class Shop
     {

@@ -8,11 +8,11 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
-using WebApiTest.Data;
-using WebApiTest.Models;
-using WebApiTest.Models.Dto;
+using WebApiGeneralGrpc.Data;
+using WebApiGeneralGrpc.Models;
+using WebApiGeneralGrpc.Models.Dto;
 
-namespace WebApiTest.Services.HusbandService
+namespace WebApiGeneralGrpc.Services.HusbandService
 {
     public class HusbandService : IHusbandService
     {

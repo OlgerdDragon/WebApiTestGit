@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApiTest.Services.AdminService;
-using WebApiTest.Models.Dto;
+using WebApiGeneralGrpc.Services.AdminService;
+using WebApiGeneralGrpc.Models.Dto;
 using System.Net.Http;
 
 using Microsoft.AspNetCore.Authorization;
@@ -12,9 +12,9 @@ using System.Linq;
 using Grpc.Net.Client;
 using AdminGrpcService;
 
-namespace WebApiTest.Controllers
+namespace WebApiGeneralGrpc.Controllers
 {
-    [Authorize(Roles = "admin")]
+    //[Authorize(Roles = "admin")]
 
     public class AdminController : APIControllerBase
     {

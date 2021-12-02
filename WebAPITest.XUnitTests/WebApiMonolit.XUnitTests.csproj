@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebApiTest\WebApiTest.csproj" />
+    <ProjectReference Include="..\WebApiMonolit\WebApiMonolit.csproj" />
   </ItemGroup>
 
 </Project>

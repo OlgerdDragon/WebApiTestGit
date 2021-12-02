@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WebApiTest.Models.Dto
+namespace WebApiGeneralGrpc.Models.Dto
 {
     public class EntryAccountDto
     {

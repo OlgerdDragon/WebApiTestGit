@@ -1,4 +1,4 @@
-﻿namespace WebApiTest.Models
+﻿namespace WebApiGeneralGrpc.Models
 {
     public class Admin
     {

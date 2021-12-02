@@ -31,7 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdminGrpcService\AdminGrpcService.csproj" />
-    <ProjectReference Include="..\WebApiTest\WebApiTest.csproj" />
+    <ProjectReference Include="..\WebApiTest\WebApiGeneralGrpc.csproj" />
   </ItemGroup>
 
 </Project>

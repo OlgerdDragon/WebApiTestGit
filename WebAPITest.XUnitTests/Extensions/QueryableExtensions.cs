@@ -3,9 +3,9 @@ using System.Linq;
 using System.Threading;
 using Microsoft.EntityFrameworkCore;
 using Moq;
-using WebAPITest.XUnitTests.Infra;
+using WebApiMonolit.XUnitTests.Infra;
 
-namespace WebAPITest.XUnitTests.Extensions
+namespace WebApiMonolit.XUnitTests.Extensions
 {
     internal static class QueryableExtensions
     {

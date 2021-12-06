@@ -1,16 +1,12 @@
 using Moq;
 using Xunit;
-using System;
-using Grpc.Net.Client;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
-using WebApiGeneralGrpc.Controllers;
 using HusbandGrpcService.Data;
 using HusbandGrpcService.Services;
 using HusbandGrpcService.Models;
-using HusbandGrpcService.Models.Dto;
 using HusbandGrpcService.XUnitTests.Extensions;
 using Grpc.Core;
 

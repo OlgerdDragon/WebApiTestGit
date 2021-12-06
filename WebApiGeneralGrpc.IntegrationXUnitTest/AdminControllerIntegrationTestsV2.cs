@@ -12,7 +12,7 @@ using FluentAssertions;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
 {
-    public class AccountControllerIntegrationTestsV2 : BaseIntegrationTestsV2
+    public class AdminControllerIntegrationTestsV2 : BaseIntegrationTestsV2
     {
         [Fact]
         public async Task GetAll_WithoutAnyPosts_ReturnsEmptyResponse()

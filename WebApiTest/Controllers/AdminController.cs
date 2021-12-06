@@ -11,6 +11,7 @@ using System.Security.Claims;
 using System.Linq;
 using Grpc.Net.Client;
 using AdminGrpcService;
+using AdminGrpcService.Services;
 
 namespace WebApiGeneralGrpc.Controllers
 {
@@ -19,12 +20,9 @@ namespace WebApiGeneralGrpc.Controllers
     public class AdminController : APIControllerBase
     {
         private readonly IAdminService _adminService;
-        
-        public AdminController(IAdminService adminService)
-        {
-            _adminService = adminService;
-        }
-
+        private readonly AdminGreeterService _adminGreeterService;
+        static GrpcChannel channels = GrpcChannel.ForAddress("https://localhost:5001");
+        public AdminGreeter.AdminGreeterClient adminServiceClient = new AdminGreeter.AdminGreeterClient(channels);
 
         [HttpGet("Hello")]
         public string Get()
@@ -35,10 +33,7 @@ namespace WebApiGeneralGrpc.Controllers
         [HttpGet("ShopsM")]
         public async Task<ActionResult<ListOfShopDto>> GetShopItemsM()
         {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-
-            var shopItems = await adminService.GetShopsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            var shopItems = await adminServiceClient.GetShopsAsync(new UserLoginRequest() { UserLogin = userLogin });
             if (!shopItems.Successfully)
                 return BadRequest(shopItems.ErrorMessage);
             return shopItems.Element;

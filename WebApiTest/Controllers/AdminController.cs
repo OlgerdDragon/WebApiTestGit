@@ -22,7 +22,13 @@ namespace WebApiGeneralGrpc.Controllers
         private readonly IAdminService _adminService;
         private readonly AdminGreeterService _adminGreeterService;
         static GrpcChannel channels = GrpcChannel.ForAddress("https://localhost:5001");
-        public AdminGreeter.AdminGreeterClient adminServiceClient = new AdminGreeter.AdminGreeterClient(channels);
+        public AdminGreeter.AdminGreeterClient adminServiceClient;
+
+        public AdminController()
+        {
+            adminServiceClient = new AdminGreeter.AdminGreeterClient(channels);
+        }
+
 
         [HttpGet("Hello")]
         public string Get()

@@ -50,8 +50,8 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
             
             var adminHost = new WebApplicationFactory<WebApiGeneralGrpc.Startup>().WithWebHostBuilder(_ => { });
             var httpClient = webHost.CreateClient();
-            
-            var response = await httpClient.GetAsync("Api/Admin/ShopsM");  
+
+            var response = await httpClient.GetAsync("Api/Admin/ShopsM");
             
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         }
@@ -93,8 +93,8 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
             var userLoginReques = new UserLoginRequest() { UserLogin = userLogin };
             var getShopReply = await _adminService.GetShops(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
-            _greeterClient.Setup(p => p.GetShopsAsync(userLoginReques, null, null, default(System.Threading.CancellationToken)))
-                .Returns(getShopReply);
+            //_greeterClient.Setup(p => p.GetShopsAsync(userLoginReques, null, null, default(System.Threading.CancellationToken)))
+            //    .Returns(getShopReply);
 
             _adminControllerMock.Setup(p => p.adminServiceClient).Returns(_greeterClient.Object);
             var element = _adminControllerMock.Object.GetShopItemsM();
@@ -108,7 +108,10 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
         [Fact]
         public void Shops_ClientAndClient()
         { 
-        }
+
+
+
+        } 
         
     }
 }

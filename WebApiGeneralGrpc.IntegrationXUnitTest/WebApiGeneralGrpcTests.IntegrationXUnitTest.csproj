@@ -8,6 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="FluentAssertions" Version="6.2.0" />
+    <PackageReference Include="Google.Protobuf" Version="3.19.1" />
+    <PackageReference Include="Grpc" Version="2.41.1" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Grpc.Net.Client" Version="2.40.0" />
+    <PackageReference Include="Grpc.Tools" Version="2.41.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="5.0.12" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.9.4" />

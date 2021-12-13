@@ -11,7 +11,7 @@ using AdminGrpcService.Models;
 
 namespace AdminGrpcService.Services
 {
-    public class AdminGreeterService : AdminGreeter.AdminGreeterBase
+    public class AdminGreeterService : AdminGreeter.AdminGreeterBase, IAdminGreeterService
     {
 
         private readonly TownContext _context;

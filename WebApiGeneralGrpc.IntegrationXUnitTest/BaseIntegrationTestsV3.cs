@@ -84,12 +84,14 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
                 HttpClients = httpClients;
             }
 
+
             public HttpClient CreateClient(string name) =>
                 HttpClients.GetValueOrDefault(name)
                 ?? HttpClients.GetValueOrDefault("default")
                 ?? throw new InvalidOperationException(
                     $"HTTP client is not found for client with name {name}");
         }
+         
 
 
         

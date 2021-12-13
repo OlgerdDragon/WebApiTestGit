@@ -61,5 +61,5 @@
     <ProjectReference Include="..\HusbandGrpcService\HusbandGrpcService.csproj" />
     <ProjectReference Include="..\WifeGrpcService\WifeGrpcService.csproj" />
   </ItemGroup>
-
+  
 </Project>

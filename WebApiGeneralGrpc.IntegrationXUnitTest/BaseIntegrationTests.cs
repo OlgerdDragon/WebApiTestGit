@@ -5,16 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WebApiGeneralGrpc;
+using WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
 {
     public class BaseIntegrationTests
     {
-        public readonly WebApplicationFactory<Startup> webHost;
+        public readonly TestWebApplicationFactory<Startup> factory;
         public BaseIntegrationTests()
         {
-            webHost = new WebApplicationFactory<Startup>().WithWebHostBuilder(_ => { });
-
+            factory = new();
+            
         }
 
     }

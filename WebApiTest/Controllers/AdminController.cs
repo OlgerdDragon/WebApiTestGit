@@ -1,17 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApiGeneralGrpc.Services.AdminService;
-using WebApiGeneralGrpc.Models.Dto;
-using System.Net.Http;
-
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
-using System.Linq;
-using Grpc.Net.Client;
 using AdminGrpcService;
-using AdminGrpcService.Services;
+using WebApiGeneralGrpc.Models.Dto;
+
+using WebApiGeneralGrpc.Services.AdminService;
 
 namespace WebApiGeneralGrpc.Controllers
 {
@@ -19,16 +11,12 @@ namespace WebApiGeneralGrpc.Controllers
 
     public class AdminController : APIControllerBase
     {
-        private readonly IAdminService _adminService;
-        private readonly AdminGreeterService _adminGreeterService;
-        static GrpcChannel channels = GrpcChannel.ForAddress("https://localhost:5001");
-        public AdminGreeter.AdminGreeterClient adminServiceClient;
+        private readonly AdminGreeter.AdminGreeterClient _adminServiceClient;
 
-        public AdminController()
+        public AdminController(IAdminServiceFactory adminServiceFactory)
         {
-            adminServiceClient = new AdminGreeter.AdminGreeterClient(channels);
+            _adminServiceClient = adminServiceFactory.GetGrpcClient();
         }
-
 
         [HttpGet("Hello")]
         public string Get()
@@ -36,91 +24,51 @@ namespace WebApiGeneralGrpc.Controllers
             return "Hello Admin!";
         }
 
-        [HttpGet("ShopsM")]
-        public async Task<ActionResult<ListOfShopDto>> GetShopItemsM()
+        [HttpGet("Shops")]
+        public async Task<ActionResult<ListOfShopDto>> GetShopItems()
         {
-            var shopItems = await adminServiceClient.GetShopsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            var shopItems = await _adminServiceClient.GetShopsAsync(new UserLoginRequest() { UserLogin = userLogin });
             if (!shopItems.Successfully)
                 return BadRequest(shopItems.ErrorMessage);
-            return shopItems.Element;
+            return Ok(shopItems.Element);
         }
-        [HttpGet("Shops")]
-        public async Task<ActionResult<IEnumerable<ShopDto>>> GetShopItems()
-        {
-            
-            var shopItems = await _adminService.GetShopsAsync();
-            if (!shopItems.Successfully) 
-                return BadRequest(shopItems.ExceptionMessage);
-            return shopItems.Element;
-        }
-        [HttpGet("ProductsM")]
+       
+        [HttpGet("Products")]
         public async Task<ActionResult<ListOfProductDto>> GetProductItemsM()
         {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
 
-            var productItems = await adminService.GetProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
+            var productItems = await _adminServiceClient.GetProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
             if (!productItems.Successfully)
                 return BadRequest(productItems.ErrorMessage);
-            return productItems.Element;
+            return Ok(productItems.Element);
         }
-        [HttpGet("Products")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductItems() 
+     
+        [HttpGet("Shop/{id}")]
+        public async Task<ActionResult<ShopDtoMessage>> GetShopItem(int id)
         {
-            var productItems = await _adminService.GetProductsAsync();
-            if (!productItems.Successfully) 
-                return BadRequest(productItems.ExceptionMessage);
-            return productItems.Element;
-        }
-        [HttpGet("ShopM/{id}")]
-        public async Task<ActionResult<ShopDtoMessage>> GetShopItemM(int id)
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-
-            var shopItem = await adminService.GetShopAsync(new ItemRequest { Id = id, UserLogin = userLogin});
+            var shopItem = await _adminServiceClient.GetShopAsync(new ItemRequest { Id = id, UserLogin = userLogin});
             if (!shopItem.Successfully)
                 return BadRequest(shopItem.ErrorMessage);
             if(shopItem.Element.Id == 0)
                 return NotFound();
-            return shopItem.Element;
+            return Ok(shopItem.Element);
         }
-        [HttpGet("Shop/{id}")]
-        public async Task<ActionResult<ShopDto>> GetShopItem(int id)
+        
+        [HttpGet("Product/{id}")]
+        public async Task<ActionResult<ProductDtoMessage>> GetProductItem(int id)
         {
-            var shopItem = await _adminService.GetShopAsync(id);
-            if (!shopItem.Successfully) 
-                return BadRequest(shopItem.ExceptionMessage);
-            return shopItem.Element ?? NotFound();
-        }
-        [HttpGet("ProductM/{id}")]
-        public async Task<ActionResult<ProductDtoMessage>> GetProductItemM(int id)
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-
-            var productItem = await adminService.GetProductAsync(new ItemRequest { Id = id, UserLogin = userLogin });
+            var productItem = await _adminServiceClient.GetProductAsync(new ItemRequest { Id = id, UserLogin = userLogin });
             if (!productItem.Successfully)
                 return BadRequest(productItem.ErrorMessage);
             if (productItem.Element.Id == 0)
                 return NotFound();
-            return productItem.Element;
+            return Ok(productItem.Element);
         }
-        [HttpGet("Product/{id}")]
-        public async Task<ActionResult<ProductDto>> GetProductItem(int id)
-        {
-            var productItem = await _adminService.GetProductAsync(id);
-            if (!productItem.Successfully) 
-                return BadRequest(productItem.ExceptionMessage);
-            return productItem.Element ?? NotFound();
-        }
-        [HttpDelete("ShopM/{id}")]
+        
+        [HttpDelete("Shop/{id}")]
         public async Task<IActionResult> DeleteShopItemM(int id)
         {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-
-            var shopItem = await adminService.RemoveShopAsync(new ItemRequest { Id = id, UserLogin = userLogin });
+            var shopItem = await _adminServiceClient.RemoveShopAsync(new ItemRequest { Id = id, UserLogin = userLogin });
             if (!shopItem.Successfully)
                 return BadRequest(shopItem.ErrorMessage);
             if (shopItem.Element)
@@ -129,25 +77,11 @@ namespace WebApiGeneralGrpc.Controllers
             }
             return NotFound();
         }
-        [HttpDelete("Shop/{id}")]
-        public async Task<IActionResult> DeleteShopItem(int id)
+        
+        [HttpDelete("Product/{id}")]
+        public async Task<IActionResult> DeleteProductItem(int id)
         {
-            var shopItem = await _adminService.RemoveShop(id, userLogin);
-            if (!shopItem.Successfully) 
-                return BadRequest(shopItem.ExceptionMessage);
-            if (shopItem.Element)
-            {
-                return NoContent();
-            }
-            return NotFound();
-        }
-        [HttpDelete("ProductM/{id}")]
-        public async Task<IActionResult> DeleteProductItemM(int id)
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-
-            var productItem = await adminService.RemoveProductAsync(new ItemRequest { Id = id, UserLogin = userLogin });
+            var productItem = await _adminServiceClient.RemoveProductAsync(new ItemRequest { Id = id, UserLogin = userLogin });
             if (!productItem.Successfully)
                 return BadRequest(productItem.ErrorMessage);
             if (productItem.Element)
@@ -156,25 +90,11 @@ namespace WebApiGeneralGrpc.Controllers
             }
             return NotFound();
         }
-        [HttpDelete("Product/{id}")]
-        public async Task<IActionResult> DeleteProductItem(int id)
-        {
-            var productItem = await _adminService.RemoveProduct(id, userLogin);
-            if (!productItem.Successfully) 
-                return BadRequest(productItem.ExceptionMessage);
-            if (productItem.Element)
-            {
-                return  NoContent();
-            }
-            return NotFound();
-        }
-        [HttpPut("ShopM")]
+      
+        [HttpPut("Shop")]
         public async Task<ActionResult<ShopDto>> PutShopItemM(ShopDtoMessage shopDtoItemMessage)
         {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-            
-            var shopItem = await adminService.UpdateShopAsync(new ShopRequest {ShopDtoMessage = shopDtoItemMessage, UserLogin = userLogin});
+            var shopItem = await _adminServiceClient.UpdateShopAsync(new ShopRequest {ShopDtoMessage = shopDtoItemMessage, UserLogin = userLogin});
             if (shopItem.Element.Id == 0)
                 return BadRequest(Json(shopItem.Element).Value);
             if (!shopItem.Successfully)
@@ -185,27 +105,11 @@ namespace WebApiGeneralGrpc.Controllers
             new { id = shopDtoItemMessage.Id },
             shopDtoItemMessage);
         }
-        [HttpPut("Shop")]
-        public async Task<ActionResult<ShopDto>> PutShopItem(ShopDto shopDtoItem)
+       
+        [HttpPut("Product")]
+        public async Task<ActionResult<ProductDto>> PutProductItem(ProductDtoMessage productDtoItemMessage)
         {
-            var shopItem = await _adminService.UpdateShopAsync(shopDtoItem, userLogin);
-            if (shopItem.Element.Id == 0)
-                return BadRequest(Json(shopItem.Element).Value);
-            if (!shopItem.Successfully) 
-                return BadRequest(shopItem.ExceptionMessage);
-
-            return CreatedAtAction(
-            nameof(GetShopItem),
-            new { id = shopDtoItem.Id },
-            shopDtoItem);
-        }
-        [HttpPut("ProductM")]
-        public async Task<ActionResult<ProductDto>> PutProductItemM(ProductDtoMessage productDtoItemMessage)
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-
-            var productItem = await adminService.UpdateProductAsync(new ProductRequest { ProductDtoMessage = productDtoItemMessage, UserLogin = userLogin });
+            var productItem = await _adminServiceClient.UpdateProductAsync(new ProductRequest { ProductDtoMessage = productDtoItemMessage, UserLogin = userLogin });
             if (productItem.Element.Id == 0)
                 return BadRequest(Json(productItem.Element).Value);
             if (!productItem.Successfully)
@@ -216,27 +120,11 @@ namespace WebApiGeneralGrpc.Controllers
             new { id = productDtoItemMessage.Id },
             productDtoItemMessage);
         }
-        [HttpPut("Product")]
-        public async Task<ActionResult<ProductDto>> PutProductItem(ProductDto productDtoItem)
+        
+        [HttpPost("Product")]
+        public async Task<ActionResult<ProductDto>> AddProductItem(ProductDtoMessage productDtoItemMessage)
         {
-            var productItem = await _adminService.UpdateProductAsync(productDtoItem, userLogin);
-            if (productItem.Element.Id == 0)
-                return BadRequest(Json(productItem.Element).Value);
-            if (!productItem.Successfully) 
-                return BadRequest(productItem.ExceptionMessage);
-
-            return CreatedAtAction(
-            nameof(GetShopItem),
-            new { id = productDtoItem.Id },
-            productDtoItem);
-        }
-        [HttpPost("ProductM")]
-        public async Task<ActionResult<ProductDto>> AddProductItemM(ProductDtoMessage productDtoItemMessage)
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-
-            var product = await adminService.AddProductAsync(new ProductRequest { ProductDtoMessage = productDtoItemMessage, UserLogin = userLogin });
+            var product = await _adminServiceClient.AddProductAsync(new ProductRequest { ProductDtoMessage = productDtoItemMessage, UserLogin = userLogin });
             if (!product.Element)
                 return BadRequest();
             if (!product.Successfully)
@@ -247,27 +135,11 @@ namespace WebApiGeneralGrpc.Controllers
                 new { id = productDtoItemMessage.Id },
                 productDtoItemMessage);
         }
-        [HttpPost("Product")]
-        public async Task<ActionResult<ProductDto>> AddProductItem(ProductDto productDtoItem)
+        
+        [HttpPost("Shop")]
+        public async Task<ActionResult<ShopDto>> AddShopItem(ShopDtoMessage shopDtoItemMessage)
         {
-            var product = await _adminService.AddProduct(productDtoItem, userLogin);
-            if (!product.Element)
-                return BadRequest();
-            if (!product.Successfully) 
-                return BadRequest(product.ExceptionMessage);
-
-            return CreatedAtAction(
-                nameof(GetProductItem),
-                new { id = productDtoItem.Id },
-                productDtoItem);
-        }
-        [HttpPost("ShopM")]
-        public async Task<ActionResult<ShopDto>> AddShopItemM(ShopDtoMessage shopDtoItemMessage)
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var adminService = new AdminGreeter.AdminGreeterClient(channel);
-
-            var shop = await adminService.AddShopAsync(new ShopRequest { ShopDtoMessage = shopDtoItemMessage, UserLogin = userLogin });
+            var shop = await _adminServiceClient.AddShopAsync(new ShopRequest { ShopDtoMessage = shopDtoItemMessage, UserLogin = userLogin });
             if (!shop.Successfully)
                 return BadRequest(shop.ErrorMessage);
 
@@ -276,18 +148,7 @@ namespace WebApiGeneralGrpc.Controllers
             new { id = shopDtoItemMessage.Id },
             shopDtoItemMessage);
         }
-        [HttpPost("Shop")]
-        public async Task<ActionResult<ShopDto>> AddShopItem(ShopDto shopDtoItem)
-        { 
-            var shop = await _adminService.AddShop(shopDtoItem, userLogin);
-            if (!shop.Successfully) 
-                return BadRequest(shop.ExceptionMessage);
-
-            return CreatedAtAction(
-            nameof(GetShopItem),
-            new { id = shopDtoItem.Id },
-            shopDtoItem);
-        }
+       
         
         
     }

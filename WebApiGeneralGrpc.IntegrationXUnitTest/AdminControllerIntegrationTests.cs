@@ -22,7 +22,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
 {
     public class AdminControllerIntegrationTests : BaseIntegrationTests
     {
-        private AdminGreeterService _adminService;
+        /*private AdminGreeterService _adminService;
         private AdminController _adminController;
         //private IAdminService _adminService;
 
@@ -49,7 +49,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
         {
             
             var adminHost = new WebApplicationFactory<WebApiGeneralGrpc.Startup>().WithWebHostBuilder(_ => { });
-            var httpClient = webHost.CreateClient();
+            var httpClient = factory.CreateClient();
 
             var response = await httpClient.GetAsync("Api/Admin/ShopsM");
             
@@ -111,7 +111,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
 
 
 
-        } 
+        } */
         
     }
 }

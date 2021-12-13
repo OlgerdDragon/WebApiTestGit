@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using AdminGrpcService.Data;
 using AdminGrpcService.Models.Dto;
 using AdminGrpcService.Models;
+using Google.Protobuf.WellKnownTypes;
 
 namespace AdminGrpcService.Services
 {
@@ -20,6 +21,11 @@ namespace AdminGrpcService.Services
         {
             _context = context;
             _logger = logger;
+        }
+
+        public override Task<BoolValue> Health(Empty _, ServerCallContext context)
+        {
+            return Task.FromResult(new BoolValue() { Value = true });
         }
 
         public override async Task<GetProductsReply> GetProducts(UserLoginRequest request, ServerCallContext context)

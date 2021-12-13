@@ -12,11 +12,14 @@ using WebApiGeneralGrpc.Services.WifeService;
 using WebApiGeneralGrpc.Services.AccountService;
 using WebApiGeneralGrpc.Services.UtilsService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
+using WebApiGeneralGrpc.Health;
 
 namespace WebApiGeneralGrpc
 {
@@ -30,6 +33,8 @@ namespace WebApiGeneralGrpc
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<IAdminService, AdminService>();
+            services.AddScoped<IAdminServiceFactory, AdminServiceFactory>();
+            
             services.AddScoped<IHusbandService, HusbandService>();
             services.AddScoped<IWifeService, WifeService>();
             services.AddScoped<IAccountService, AccountService>();
@@ -63,7 +68,10 @@ namespace WebApiGeneralGrpc
                         };
                     });
             services.AddHttpContextAccessor();
-            services.AddControllersWithViews();
+
+            services.AddHealthChecks()
+                .AddCheck("Service", () => HealthCheckResult.Healthy())
+                .AddCheck<AdminHealthCheck>("Admin");
         }
         private void LoggingConfiguration()
         {
@@ -99,6 +107,16 @@ namespace WebApiGeneralGrpc
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapDefaultControllerRoute();
+                endpoints.MapHealthChecks("/health/Service",
+                    new HealthCheckOptions
+                    {
+                        Predicate = registration => registration.Name.Equals("Service")
+                    });
+                endpoints.MapHealthChecks("/health/Admin",
+                    new HealthCheckOptions
+                    {
+                        Predicate = registration => registration.Name.Equals("Admin")
+                    });
             });
         }
     }

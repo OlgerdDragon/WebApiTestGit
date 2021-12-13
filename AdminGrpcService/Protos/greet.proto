@@ -2,6 +2,9 @@ syntax = "proto3";
 
 option csharp_namespace = "AdminGrpcService";
 
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
 package greet;
 
 // The greeting service definition.
@@ -17,6 +20,7 @@ service AdminGreeter{
   rpc RemoveShop (ItemRequest) returns (BoolReply);
   rpc AddShop (ShopRequest) returns (BoolReply);
   rpc AddProduct (ProductRequest) returns (BoolReply);
+  rpc Health (google.protobuf.Empty) returns (google.protobuf.BoolValue);
 }
 
 // The request message 

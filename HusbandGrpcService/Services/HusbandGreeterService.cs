@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using HusbandGrpcService.Data;
 using HusbandGrpcService.Models.Dto;
 using HusbandGrpcService.Models;
+using Google.Protobuf.WellKnownTypes;
 
 namespace HusbandGrpcService.Services
 {
-    public class HusbandGreeterService : HusbandGreeter.HusbandGreeterBase
+    public class HusbandGreeterService : HusbandGreeter.HusbandGreeterBase, IHusbandGreeterService
     {
 
         private readonly TownContext _context; 
@@ -21,7 +22,10 @@ namespace HusbandGrpcService.Services
             _context = context;
             _logger = logger;
         }
-
+        public override Task<BoolValue> Health(Empty _, ServerCallContext context)
+        {
+            return Task.FromResult(new BoolValue() { Value = true });
+        }
         public override async Task<GetWantedProductsReply> GetWantedProducts(UserLoginRequest request, ServerCallContext context)
         {
             try

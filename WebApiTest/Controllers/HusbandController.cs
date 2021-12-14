@@ -1,25 +1,21 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebApiGeneralGrpc.Models.Dto;
 using WebApiGeneralGrpc.Services.HusbandService;
-using Grpc.Net.Client;
 using HusbandGrpcService;
 
 namespace WebApiGeneralGrpc.Controllers
 {
     
-    [Authorize(Roles = "husband")]
+    //[Authorize(Roles = "husband")]
     
     public class HusbandController : APIControllerBase
     {
-        private readonly IHusbandService _husbandService;
-        
+        private readonly HusbandGreeter.HusbandGreeterClient _husbandServiceClient;
 
-        public HusbandController(IHusbandService husbandService)
+        public HusbandController(IHusbandServiceFactory husbandServiceFactory)
         {
-            _husbandService = husbandService;
+            _husbandServiceClient = husbandServiceFactory.GetGrpcClient();
         }
 
         [HttpGet]
@@ -27,63 +23,31 @@ namespace WebApiGeneralGrpc.Controllers
         {
             return "Hello Husband!";
         }
-        [HttpGet("ProductsM")]
-        public async Task<ActionResult<ListOfWantedProductDto>> GetNeededProductListM()
+        [HttpGet("Products")]
+        public async Task<ActionResult<ListOfWantedProductDto>> GetNeededProductList()
         {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-
-            var neededProductList = await husbandService.GetWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin});
+            var neededProductList = await _husbandServiceClient.GetWantedProductsAsync(new UserLoginRequest() { UserLogin = userLogin});
             if (!neededProductList.Successfully)
                 return BadRequest(neededProductList.ErrorMessage);
             return neededProductList.Element;
         }
-        [HttpGet("Products")]
-        public async Task<ActionResult<IEnumerable<WantedProductDto>>> GetNeededProductList()
+        [HttpGet("Shops")]
+        public async Task<ActionResult<ListOfShopDto>> GetNeededShopList()
         {
-            var neededProductList = await _husbandService.GetWantedProductsAsync(userLogin);
-            if (!neededProductList.Successfully) 
-                return BadRequest(neededProductList.ExceptionMessage);
-            return neededProductList.Element;
-        }
-        [HttpGet("ShopsM")]
-        public async Task<ActionResult<ListOfShopDto>> GetNeededShopListM()
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-
-            var neededShopList = await husbandService.GetShopsForVisitAsync(new UserLoginRequest() { UserLogin = userLogin });
+            var neededShopList = await _husbandServiceClient.GetShopsForVisitAsync(new UserLoginRequest() { UserLogin = userLogin });
             if (!neededShopList.Successfully)
                 return BadRequest(neededShopList.ErrorMessage);
             return neededShopList.Element;
         }
-        [HttpGet("Shops")]
-        public async Task<ActionResult<IEnumerable<ShopDto>>> GetNeededShopList()
+        [HttpGet("ProductsInShop/{shopId}")]
+        public async Task<ActionResult<ListOfProductDto>> GetNededProductListInShop(int shopId)
         {
-            var neededShopList = await _husbandService.GetShopsForVisitAsync(userLogin);
-            if (!neededShopList.Successfully) 
-                return BadRequest(neededShopList.ExceptionMessage);
-            return neededShopList.Element;
-        }
-        [HttpGet("ProductsInShopM/{shopId}")]
-        public async Task<ActionResult<ListOfProductDto>> GetNededProductListInShopM(int shopId)
-        {
-            using var channel = GrpcChannel.ForAddress("https://localhost:5001");
-            var husbandService = new HusbandGreeter.HusbandGreeterClient(channel);
-
-            var nededProductListInShop = await husbandService.GetProductsInShopAsync(new GetProductsInShopRequest() { ShopId = shopId, UserLogin = userLogin });
+            var nededProductListInShop = await _husbandServiceClient.GetProductsInShopAsync(new GetProductsInShopRequest() { ShopId = shopId, UserLogin = userLogin });
             if (!nededProductListInShop.Successfully)
                 return BadRequest(nededProductListInShop.ErrorMessage);
             return nededProductListInShop.Element;
         }
 
-        [HttpGet("ProductsInShop/{shopId}")]
-        public async Task<ActionResult<IEnumerable<ProductDto>>> GetNededProductListInShop(int shopId)
-        {
-            var nededProductListInShop = await _husbandService.GetProductsInShopAsync(shopId, userLogin);
-            if (!nededProductListInShop.Successfully) 
-                return BadRequest(nededProductListInShop.ExceptionMessage);
-            return nededProductListInShop.Element;
-        }
+       
 }
 }

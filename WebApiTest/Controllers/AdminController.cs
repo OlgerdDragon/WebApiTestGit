@@ -34,7 +34,7 @@ namespace WebApiGeneralGrpc.Controllers
         }
        
         [HttpGet("Products")]
-        public async Task<ActionResult<ListOfProductDto>> GetProductItemsM()
+        public async Task<ActionResult<ListOfProductDto>> GetProductItems()
         {
 
             var productItems = await _adminServiceClient.GetProductsAsync(new UserLoginRequest() { UserLogin = userLogin });
@@ -66,7 +66,7 @@ namespace WebApiGeneralGrpc.Controllers
         }
         
         [HttpDelete("Shop/{id}")]
-        public async Task<IActionResult> DeleteShopItemM(int id)
+        public async Task<IActionResult> DeleteShopItem(int id)
         {
             var shopItem = await _adminServiceClient.RemoveShopAsync(new ItemRequest { Id = id, UserLogin = userLogin });
             if (!shopItem.Successfully)
@@ -92,7 +92,7 @@ namespace WebApiGeneralGrpc.Controllers
         }
       
         [HttpPut("Shop")]
-        public async Task<ActionResult<ShopDto>> PutShopItemM(ShopDtoMessage shopDtoItemMessage)
+        public async Task<ActionResult<ShopDto>> PutShopItem(ShopDtoMessage shopDtoItemMessage)
         {
             var shopItem = await _adminServiceClient.UpdateShopAsync(new ShopRequest {ShopDtoMessage = shopDtoItemMessage, UserLogin = userLogin});
             if (shopItem.Element.Id == 0)

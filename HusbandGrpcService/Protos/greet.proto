@@ -2,6 +2,9 @@ syntax = "proto3";
 
 option csharp_namespace = "HusbandGrpcService";
 
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/empty.proto";
+
 package greet;
 
 // The greeting service definition.
@@ -10,6 +13,7 @@ service HusbandGreeter {
   rpc GetWantedProducts (UserLoginRequest) returns (GetWantedProductsReply);
   rpc GetShopsForVisit (UserLoginRequest) returns (GetShopsForVisitReply);
   rpc GetProductsInShop (GetProductsInShopRequest) returns (GetProductsInShopReply);
+  rpc Health (google.protobuf.Empty) returns (google.protobuf.BoolValue);
 }
 
 // The request message 

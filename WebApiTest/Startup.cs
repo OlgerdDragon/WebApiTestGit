@@ -32,11 +32,8 @@ namespace WebApiGeneralGrpc
         public IConfiguration Configuration { get; }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IAdminService, AdminService>();
             services.AddScoped<IAdminServiceFactory, AdminServiceFactory>();
-            
-            services.AddScoped<IHusbandService, HusbandService>();
-            services.AddScoped<IWifeService, WifeService>();
+            services.AddScoped<IHusbandServiceFactory, HusbandServiceFactory>();
             services.AddScoped<IAccountService, AccountService>();
             services.AddScoped<IUtilsService, UtilsService>();
 
@@ -68,10 +65,14 @@ namespace WebApiGeneralGrpc
                         };
                     });
             services.AddHttpContextAccessor();
-
+            
             services.AddHealthChecks()
                 .AddCheck("Service", () => HealthCheckResult.Healthy())
-                .AddCheck<AdminHealthCheck>("Admin");
+                .AddCheck<AdminHealthCheck>("Admin")
+                .AddCheck<HusbandHealthCheck>("Husband")
+                .AddCheck<WifeHealthCheck>("Wife"); 
+            
+               
         }
         private void LoggingConfiguration()
         {
@@ -117,6 +118,16 @@ namespace WebApiGeneralGrpc
                     {
                         Predicate = registration => registration.Name.Equals("Admin")
                     });
+                endpoints.MapHealthChecks("/health/Husband",
+                   new HealthCheckOptions
+                   {
+                       Predicate = registration => registration.Name.Equals("Husband")
+                   });
+                endpoints.MapHealthChecks("/health/Wife",
+                   new HealthCheckOptions
+                   {
+                       Predicate = registration => registration.Name.Equals("Wife")
+                   });
             });
         }
     }

@@ -56,6 +56,8 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
         //[Fact]
         //public async Task PutShopItem_ConnectionTests()
         //{
+        //    HttpStringContent content
+        //           = new HttpStringContent("")
         //    var client = factory.CreateDefaultClient();
         //    var res = await client.PutAsync("Api/Admin/Shop", httpContent);
         //    Assert.True(res.IsSuccessStatusCode);

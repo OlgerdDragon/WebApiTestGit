@@ -1,6 +1,10 @@
-﻿using System;
+﻿using AdminGrpcService;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -12,8 +16,22 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
         [Fact]
         public async Task GetWantedProducts_ConnectionTests()
         {
+            var message = new ProductDtoMessage { Id = 1, Name = "Milk", Price = 100, ShopId = 1 };
+            var myContent = JsonConvert.SerializeObject(message);
+            var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+            var byteContent = new ByteArrayContent(buffer);
+            byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+
+
+
+
+            
             var client = factory.CreateDefaultClient();
-            var res = await client.GetAsync("Api/Wife/Products");
+            var resAdd = await client.PostAsync("Api/Admin/Product", byteContent);
+            var z = resAdd.Content;
+           
+            var res = await client.GetAsync("Api/Admin/Products");
             Assert.True(res.IsSuccessStatusCode);
         }
         [Fact]
@@ -24,32 +42,12 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
             Assert.True(res.IsSuccessStatusCode);
         }
         [Fact]
-        public async Task GetWantedProductItem_ConnectionTests()
-        {
-            var client = factory.CreateDefaultClient();
-            var res = await client.GetAsync("Api/Wife/Product/1");
-            Assert.True(res.IsSuccessStatusCode);
-        }
-        //[Fact]
-        //public async Task CreateWantedProductItem_ConnectionTests()
-        //{
-        //    var client = factory.CreateDefaultClient();
-        //    var res = await client.PostAsync("Api/Wife/Products");
-        //    Assert.True(res.IsSuccessStatusCode);
-        //}
-        [Fact]
-        public async Task DeleteWantedProductItem_ConnectionTests()
-        {
-            var client = factory.CreateDefaultClient();
-            var res = await client.DeleteAsync("Api/Wife/Product/1");
-            Assert.True(res.IsSuccessStatusCode);
-        }
-        [Fact]
         public async Task DeleteAllProductItem_ConnectionTests()
         {
             var client = factory.CreateDefaultClient();
             var res = await client.DeleteAsync("Api/Wife/Products");
             Assert.True(res.IsSuccessStatusCode);
         }
+        
     }
 }

@@ -49,7 +49,6 @@ namespace WebApiGeneralGrpc.Controllers
                 return NotFound();
             return wantedProduct.Element;
         }
-
         
         [HttpPost("Product/{id}")]
         public async Task<ActionResult<WantedProductDtoMessage>> CreateWantedProductItem(int id)

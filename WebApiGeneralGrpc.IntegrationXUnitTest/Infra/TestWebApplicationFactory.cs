@@ -28,7 +28,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("Tests");
-            
+
             //builder.ConfigureServices(services =>
             //{
             //    var descriptor = services.SingleOrDefault
@@ -44,7 +44,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 
             //    var serviceProvider = services.BuildServiceProvider();
 
-                
+
             //    using var scope = serviceProvider.CreateScope();
 
             //    var db = scope.ServiceProvider.GetRequiredService<TownContext>();
@@ -52,8 +52,8 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
             //                 <ILogger<TestWebApplicationFactory<TStartup>>>();
 
             //    db.Database.EnsureCreated();
-                
-                
+
+
             //});
             builder.ConfigureServices(services =>
             {
@@ -83,6 +83,15 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
                 }
                 //services.RemoveAll(typeof(TownContext));
                 //services.AddDbContext<TownContext>(options => { options.UseInMemoryDatabase("TestDb"); });
+
+
+                //services.RemoveAll(typeof(TownContext));
+                //var options = new DbContextOptionsBuilder<TownContext>()
+                //                  .UseInMemoryDatabase("TestDb2")
+                //                  .Options;
+                //var context = new TownContext(options);
+                //context.Database.EnsureCreated();
+                //services.AddDbContext<TownContext>(options);
 
                 services.AddScoped<IAdminServiceFactory, TestAdminServiceFactory>();
                 services.AddScoped<IHusbandServiceFactory, TestHusbandServiceFactory>();

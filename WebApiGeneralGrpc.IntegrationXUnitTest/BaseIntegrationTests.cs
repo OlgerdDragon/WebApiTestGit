@@ -9,8 +9,6 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
         public BaseIntegrationTests()
         {
             factory = new();
-            
         }
-
     }
 }

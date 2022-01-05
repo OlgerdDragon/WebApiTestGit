@@ -10,7 +10,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
     {
         public AdminGreeter.AdminGreeterClient GetGrpcClient()
         {
-            var admin = new WebApplicationFactory<AdminGrpcService.Startup>();
+            var admin = new TestWebApplicationFactory<AdminGrpcService.Startup>();
             var client = admin.CreateDefaultClient();
             var channels = GrpcChannel.ForAddress(client.BaseAddress, new GrpcChannelOptions
             {

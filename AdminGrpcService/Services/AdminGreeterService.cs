@@ -271,6 +271,17 @@ namespace AdminGrpcService.Services
                     }
                 }
                 var result = new BoolReply { Element = status, Successfully = true };
+
+                // for test
+                var products = await _context.Products.Select(i => new ProductDtoMessage
+                {
+                    Id = i.Id,
+                    Name = i.Name,
+                    Price = i.Price,
+                    ShopId = i.ShopId
+                }).ToListAsync();
+                //
+
                 return result;
             }
             catch (Exception ex)

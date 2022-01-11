@@ -30,10 +30,6 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
 
-
-
-
-
             var client = factory.CreateDefaultClient();
             var resAdd = await client.PostAsync("Api/Admin/Product", byteContent);
             var z = resAdd.Content;

@@ -2,10 +2,13 @@ using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
+using System.Reflection;
+using AdminGrpcService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
@@ -68,19 +71,23 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 
 
             //});
+
+
             builder.ConfigureServices(services =>
             {
-                services.RemoveAll(typeof(DbContextOptions<TownContext>));
-                services.RemoveAll(typeof(TownContext));
-                services.RemoveAll(typeof(IServiceCollection));
-                services.AddDbContext<TownContext>(options => { options.UseInMemoryDatabase("TestDb"); });
+                //services.RemoveAll(typeof(DbContextOptions<TownContext>));
+                //services.RemoveAll(typeof(TownContext));
+                //services.RemoveAll(typeof(IServiceCollection));
+                //services.AddDbContext<TownContext>(options => { options.UseInMemoryDatabase("TestDb1"); });
 
                 services.RemoveAll(typeof(IServiceProvider));
                 services.AddSingleton((serviceProvider) =>
                 {
-                    var optionsBuilder = new DbContextOptionsBuilder<TownContext>().UseInMemoryDatabase("orders");
+                    var optionsBuilder = new DbContextOptionsBuilder<TownContext>().UseInMemoryDatabase("orders1");
                     return optionsBuilder.Options;
                 });
+                services.AddScoped<TownContext>();
+                services.AddMvc();
             });
 
 
@@ -147,13 +154,12 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 
 
 
-                services.RemoveAll(typeof(DbContextOptions<TownContext>));
-                services.RemoveAll(typeof(TownContext));
-                services.RemoveAll(typeof(IServiceCollection));
+                //services.RemoveAll(typeof(DbContextOptions<TownContext>));
+                //services.RemoveAll(typeof(TownContext));
+                //services.RemoveAll(typeof(IServiceCollection));
+                //services.AddDbContext<TownContext>(options => { options.UseInMemoryDatabase("TestDb"); });
+
                 services.RemoveAll(typeof(IServiceProvider));
-                services.AddDbContext<TownContext>(options => { options.UseInMemoryDatabase("TestDb"); });
-
-
                 //services.AddSingleton(typeof(IRepository), typeof(InMemoryRepository));
                 services.AddSingleton((serviceProvider) =>
                 {
@@ -162,7 +168,28 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
                 });
 
 
-
+                //var descriptorBd = services.SingleOrDefault(
+                //d => d.ServiceType ==
+                //    typeof(DbContextOptions<TownContext>));
+                //if (descriptorBd != null)
+                //    services.Remove(descriptorBd);
+                //services.AddDbContext<TownContext>(options =>
+                //{
+                //    options.UseInMemoryDatabase("InMemoryEmployeeTest");
+                //});
+                //var sp = services.BuildServiceProvider();
+                //using (var scope = sp.CreateScope())
+                //using (var appContext = scope.ServiceProvider.GetRequiredService<TownContext>())
+                //{
+                //    try
+                //    {
+                //        appContext.Database.EnsureCreated();
+                //    }
+                //    catch (Exception ex)
+                //    {
+                //        throw;
+                //    }
+                //}
 
 
                 services.AddScoped<IAdminServiceFactory, TestAdminServiceFactory>();

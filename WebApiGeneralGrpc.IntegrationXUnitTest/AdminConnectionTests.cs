@@ -23,7 +23,8 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
         [Fact]
         public async Task GetWantedProducts_ConnectionTests()
         {
-            var message = new ProductDtoMessage { Name = "Milk", Price = 100, ShopId = 1 };
+            var message = new ProductDtoMessage { Id = 1, Name = "Milk", Price = 100, ShopId = 1 };
+
             var myContent = JsonConvert.SerializeObject(message);
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);

@@ -1,5 +1,5 @@
 using WifeGrpcService;
-using AdminGrpcService.Models;
+using WifeGrpcService.Models;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Mvc.Testing;
 using WebApiGeneralGrpc.Services.WifeService;
@@ -10,7 +10,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
     {
         public WifeGreeter.WifeGreeterClient GetGrpcClient()
         {
-            var wife = new WebApplicationFactory<WifeGrpcService.Startup>();
+            var wife = new TestWifeWebApplicationFactory<WifeGrpcService.Startup>();
             var client = wife.CreateDefaultClient();
             var channels = GrpcChannel.ForAddress(client.BaseAddress, new GrpcChannelOptions
             {

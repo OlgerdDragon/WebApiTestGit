@@ -5,7 +5,7 @@ using AdminGrpcService.Models;
 
 namespace AdminGrpcService.Data
 {
-    public class TownContext : DbContext
+    public class AdminTownContext : DbContext
     {
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Husband> Husbands { get; set; }
@@ -15,7 +15,7 @@ namespace AdminGrpcService.Data
         public virtual DbSet<Wife> Wifes { get; set; }
         public virtual DbSet<Person> Persons { get; set; }
 
-        public TownContext(DbContextOptions<TownContext> options)
+        public AdminTownContext(DbContextOptions<AdminTownContext> options)
            : base(options)
         {
 

@@ -15,9 +15,9 @@ namespace AdminGrpcService.Services
     public class AdminGreeterService : AdminGreeter.AdminGreeterBase, IAdminGreeterService
     {
 
-        private readonly TownContext _context;
+        private readonly AdminTownContext _context;
         private readonly ILogger<AdminGreeterService> _logger;
-        public AdminGreeterService(TownContext context, ILogger<AdminGreeterService> logger)
+        public AdminGreeterService(AdminTownContext context, ILogger<AdminGreeterService> logger)
         {
             _context = context;
             _logger = logger;

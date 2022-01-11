@@ -29,7 +29,7 @@ namespace AdminGrpcService
             services.AddGrpc();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
-            services.AddDbContext<TownContext>(options => options
+            services.AddDbContext<AdminTownContext>(options => options
                 .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
         }
         private void LoggingConfiguration()

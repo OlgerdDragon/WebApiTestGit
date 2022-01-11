@@ -10,7 +10,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
     {
         public HusbandGreeter.HusbandGreeterClient GetGrpcClient()
         {
-            var husband = new WebApplicationFactory<HusbandGrpcService.Startup>();
+            var husband = new TestHusbandWebApplicationFactory<HusbandGrpcService.Startup>();
             var client = husband.CreateDefaultClient();
             var channels = GrpcChannel.ForAddress(client.BaseAddress, new GrpcChannelOptions
             {

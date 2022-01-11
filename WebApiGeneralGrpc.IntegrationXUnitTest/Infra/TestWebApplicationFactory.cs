@@ -154,20 +154,23 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 
 
 
-                //services.RemoveAll(typeof(DbContextOptions<TownContext>));
-                //services.RemoveAll(typeof(TownContext));
-                //services.RemoveAll(typeof(IServiceCollection));
+                services.RemoveAll(typeof(DbContextOptions<TownContext>));
+                services.RemoveAll(typeof(TownContext));
+                services.RemoveAll(typeof(IServiceCollection));
                 //services.AddDbContext<TownContext>(options => { options.UseInMemoryDatabase("TestDb"); });
 
                 services.RemoveAll(typeof(IServiceProvider));
                 //services.AddSingleton(typeof(IRepository), typeof(InMemoryRepository));
-                services.AddSingleton((serviceProvider) =>
+                //services.AddSingleton((serviceProvider) =>
+                //{
+                //    var optionsBuilder = new DbContextOptionsBuilder<TownContext>().UseInMemoryDatabase("orders");
+                //    return optionsBuilder.Options;
+                //});
+
+                services.AddDbContext<TownContext>((options, context) =>
                 {
-                    var optionsBuilder = new DbContextOptionsBuilder<TownContext>().UseInMemoryDatabase("orders");
-                    return optionsBuilder.Options;
+                    context.UseInMemoryDatabase("IdentityDatabase");
                 });
-
-
                 //var descriptorBd = services.SingleOrDefault(
                 //d => d.ServiceType ==
                 //    typeof(DbContextOptions<TownContext>));

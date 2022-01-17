@@ -14,6 +14,11 @@ service HusbandGreeter {
   rpc GetShopsForVisit (UserLoginRequest) returns (GetShopsForVisitReply);
   rpc GetProductsInShop (GetProductsInShopRequest) returns (GetProductsInShopReply);
   rpc Health (google.protobuf.Empty) returns (google.protobuf.BoolValue);
+  rpc GetTotalAmountWantedProducts (UserLoginRequest) returns (GetTotalAmountWantedProductsReply);
+  rpc AddWantedProduct (ItemRequest) returns (WantedProductReply);
+  rpc GetWantedProductItem (ItemRequest) returns (WantedProductReply);
+  rpc RemoveWantedProduct (ItemRequest) returns (BoolReply);
+  rpc RemoveAllWantedProducts (UserLoginRequest) returns (BoolReply);
 }
 
 // The request message 
@@ -22,6 +27,10 @@ message UserLoginRequest {
 }
 message GetProductsInShopRequest {
   int32 ShopId = 1; 
+  string UserLogin = 2;
+}
+message ItemRequest {
+  int32 Id =1;
   string UserLogin = 2;
 }
 
@@ -69,4 +78,21 @@ message ProductDtoMessage {
         string Name = 2;
         int32 Price = 3;
         int32 ShopId = 4;
+}
+
+message GetTotalAmountWantedProductsReply {
+   bool Successfully = 1;
+   int32 Element =2;
+   string ErrorMessage = 3;
+}
+
+message BoolReply {
+   bool Successfully = 1;
+   bool Element =2;
+   string ErrorMessage = 3;
+}
+message WantedProductReply {
+   bool Successfully = 1;
+   WantedProductDtoMessage Element =2;
+   string ErrorMessage = 3;
 }

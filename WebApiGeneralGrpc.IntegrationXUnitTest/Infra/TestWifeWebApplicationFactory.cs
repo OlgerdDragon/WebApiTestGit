@@ -1,9 +1,9 @@
 using System.Linq;
-using WifeGrpcService.Data;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using TownContextForWebService;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 {
@@ -26,7 +26,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
                 }
 
                 services.AddDbContext<TownContext>
-                  ((_, context) => context.UseInMemoryDatabase("InMemoryDbForTesting"));
+                  ((_, context) => context = TestUseInMemoryDatabase.Test);
 
                 var serviceProvider = services.BuildServiceProvider();
 

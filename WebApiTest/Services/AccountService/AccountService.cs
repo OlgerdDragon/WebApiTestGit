@@ -9,13 +9,9 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using WebApiGeneralGrpc.Data;
-using WebApiGeneralGrpc.Models;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Serilog.Core;
-using Serilog.Events;
-using Microsoft.Extensions.Configuration;
-using Serilog;
+using TownContextForWebService;
+using TownContextForWebService.Models;
 
 namespace WebApiGeneralGrpc.Services.AccountService
 {

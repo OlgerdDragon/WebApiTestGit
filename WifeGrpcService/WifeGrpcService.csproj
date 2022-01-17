@@ -39,6 +39,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\HusbandGrpcService\HusbandGrpcService.csproj" />
+    <ProjectReference Include="..\TownContextForWebService\TownContextForWebService.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Protobuf Include="Protos\greet.proto" GrpcServices="WifeGreeterService" />
   </ItemGroup>
 

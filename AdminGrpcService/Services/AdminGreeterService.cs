@@ -9,15 +9,17 @@ using AdminGrpcService.Data;
 using AdminGrpcService.Models.Dto;
 using AdminGrpcService.Models;
 using Google.Protobuf.WellKnownTypes;
+using TownContextForWebService;
+using TownContextForWebService.Models;
 
 namespace AdminGrpcService.Services
 {
     public class AdminGreeterService : AdminGreeter.AdminGreeterBase, IAdminGreeterService
     {
 
-        private readonly AdminTownContext _context;
+        private readonly TownContext _context;
         private readonly ILogger<AdminGreeterService> _logger;
-        public AdminGreeterService(AdminTownContext context, ILogger<AdminGreeterService> logger)
+        public AdminGreeterService(TownContext context, ILogger<AdminGreeterService> logger)
         {
             _context = context;
             _logger = logger;
@@ -370,5 +372,65 @@ namespace AdminGrpcService.Services
                 return new Result<Product>(ex);
             }
         }
+
+        public override async Task<GetShopsForVisitReply> GetShopsForVisit(GetShopsForVisitRequest request, ServerCallContext context)
+        {
+            try
+            {
+                var neededProductList = request.WantedProductList.WantedProductDtoMessage.ToList();
+                var neededShopList = new List<ShopDtoMessage>();
+                foreach (var neededProduct in neededProductList)
+                {
+                    var productSearched = await FindProductAsync(neededProduct.ProductId);
+                    var shopSearched = await FindShopAsync(productSearched.Element.ShopId);
+                    var shopSearchedDto = ShopDto.ItemShopDTOMessage(shopSearched.Element);
+                    if (!neededShopList.Contains(shopSearchedDto))
+                        neededShopList.Add(shopSearchedDto);
+                    _logger.LogDebug($"GetShopsForVisitAsync userLogin: {request.UserLogin} - List.Add(shop) - shopSearchedDto.Id: {shopSearchedDto.Id} shopSearchedDto.Name: {shopSearchedDto.Name}");
+                }
+                var result = new GetShopsForVisitReply { Element = new ListOfShopDto() };
+                result.Element.ShopDtoMessage.AddRange(neededShopList);
+                result.Successfully = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "GetShopsForVisitAsync");
+                return new GetShopsForVisitReply { ErrorMessage = ex.Message, Successfully = false };
+            }
+        }
+        public override async Task<GetProductsInShopReply> GetProductsInShop(GetProductsInShopRequest request, ServerCallContext context)
+        {
+            try
+            {
+                _logger.LogDebug($"GetProductsInShopAsync  userLogin: {request.UserLogin} - ShopId: {request.ShopId} ");
+                var neededProductList = request.WantedProductList.WantedProductDtoMessage.ToList();
+                var productInShop = new List<ProductDtoMessage>();
+
+                foreach (var neededProduct in neededProductList)
+                {
+                    _logger.LogDebug($"GetProductsInShopAsync - neededProduct.Id: {neededProduct.Id} neededProduct.BoughtStatus: {neededProduct.BoughtStatus} neededProduct.ProductId: {neededProduct.ProductId} neededProduct.WifeId: {neededProduct.WifeId}");
+                    var productSearched = await FindProductAsync(neededProduct.ProductId);
+                    if (productSearched.Element.ShopId == request.ShopId)
+                    {
+                        var productDto = ProductDto.ItemProductDTOMessage(productSearched.Element);
+                        productInShop.Add(productDto);
+                        _logger.LogDebug($"GetProductsInShopAsync List.Add(product) - product.Id: {productDto.Id} product.Name: {productDto.Name} product.Price: {productDto.Price} product.ShopId: {productDto.ShopId}");
+                    }
+                    else _logger.LogDebug($"GetProductsInShopAsync List.Add(product) - Not added");
+                }
+                var result = new GetProductsInShopReply { Element = new ListOfProductDto() };
+                result.Element.ProductDtoMessage.AddRange(productInShop);
+                result.Successfully = true;
+                return result;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"GetProductsInShopAsync userLogin: {request.UserLogin}  - ShopId: { request.ShopId}");
+                return new GetProductsInShopReply { ErrorMessage = ex.Message, Successfully = false };
+            }
+        }
+        
+
     }
 }

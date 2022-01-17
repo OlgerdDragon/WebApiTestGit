@@ -1,4 +1,5 @@
-﻿
+﻿using TownContextForWebService.Models;
+
 namespace WebApiGeneralGrpc.Models.Dto
 {
     public class WantedProductDto

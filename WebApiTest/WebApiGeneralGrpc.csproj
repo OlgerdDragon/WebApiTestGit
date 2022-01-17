@@ -59,6 +59,7 @@
   <ItemGroup>
     <ProjectReference Include="..\AdminGrpcService\AdminGrpcService.csproj" />
     <ProjectReference Include="..\HusbandGrpcService\HusbandGrpcService.csproj" />
+    <ProjectReference Include="..\TownContextForWebService\TownContextForWebService.csproj" />
     <ProjectReference Include="..\WifeGrpcService\WifeGrpcService.csproj" />
   </ItemGroup>
   

@@ -1,4 +1,5 @@
-﻿
+﻿using TownContextForWebService.Models;
+
 namespace AdminGrpcService.Models.Dto
 {
     public class WantedProductDto

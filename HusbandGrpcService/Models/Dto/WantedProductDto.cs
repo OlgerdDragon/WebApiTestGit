@@ -1,4 +1,5 @@
-﻿
+﻿using TownContextForWebService.Models;
+
 namespace HusbandGrpcService.Models.Dto
 {
     public class WantedProductDto
@@ -27,6 +28,20 @@ namespace HusbandGrpcService.Models.Dto
             ProductId = productItem.Id,
             WifeId = 1
             
+        };
+        public static WantedProduct ConvertProductInWantedProductDtoMessage(AdminGrpcService.ProductDtoMessage productItem) => new WantedProduct
+        {
+            BoughtStatus = false,
+            ProductId = productItem.Id,
+            WifeId = 1
+
+        };
+        public static WantedProductDtoMessage ItemWantedProductDTOMessage(WantedProduct wantedProductItem) => new WantedProductDtoMessage
+        {
+            Id = wantedProductItem.Id,
+            BoughtStatus = wantedProductItem.BoughtStatus,
+            ProductId = wantedProductItem.ProductId,
+            WifeId = wantedProductItem.WifeId
         };
     }
     

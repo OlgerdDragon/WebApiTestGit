@@ -3,15 +3,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using AdminGrpcService.Services;
-using AdminGrpcService.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using TownContextForWebService;
 
 namespace AdminGrpcService
 {
@@ -29,7 +24,7 @@ namespace AdminGrpcService
             services.AddGrpc();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
-            services.AddDbContext<AdminTownContext>(options => options
+            services.AddDbContext<TownContext>(options => options
                 .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
         }
         private void LoggingConfiguration()

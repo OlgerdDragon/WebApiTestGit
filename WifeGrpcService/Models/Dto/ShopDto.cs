@@ -1,4 +1,5 @@
-﻿
+﻿using TownContextForWebService.Models;
+
 namespace WifeGrpcService.Models.Dto
 {
     public class ShopDto

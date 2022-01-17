@@ -1,28 +1,27 @@
-using System;
 using System.Collections.Concurrent;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
-using AdminGrpcService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Logging;
-using Moq;
-using Nest;
-using NUnit.Framework;
-using WebApiGeneralGrpc.Data;
-using WebApiGeneralGrpc.Models;
+using TownContextForWebService;
 using WebApiGeneralGrpc.Services.AdminService;
 using WebApiGeneralGrpc.Services.HusbandService;
 using WebApiGeneralGrpc.Services.WifeService;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 {
+    public class TestUseInMemoryDatabase
+    {
+        public static DbContextOptionsBuilder TestInMemory { get; set; }
+        public static void SetInMemory(DbContextOptionsBuilder context)
+        {
+            TestInMemory = context.UseInMemoryDatabase("InMemoryDbForTesting");
+        }
+    }
+
     public class TestWebApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup: class
     {
@@ -42,7 +41,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
                 {
                     services.Remove(descriptor);
                 }
-
+                
                 services.AddDbContext<TownContext>
                   ((_, context) => context.UseInMemoryDatabase("InMemoryDbForTesting"));
 

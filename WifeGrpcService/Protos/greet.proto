@@ -12,7 +12,7 @@ service WifeGreeter {
   // Sends a greeting
   rpc GetWantedProducts (UserLoginRequest) returns (GetWantedProductsReply);
   rpc GetTotalAmountWantedProducts (UserLoginRequest) returns (GetTotalAmountWantedProductsReply);
-  rpc AddProduct (ItemRequest) returns (WantedProductReply);
+  rpc AddWantedProduct (ItemRequest) returns (WantedProductReply);
   rpc GetWantedProductItem (ItemRequest) returns (WantedProductReply);
   rpc RemoveWantedProduct (ItemRequest) returns (BoolReply);
   rpc RemoveAllWantedProducts (UserLoginRequest) returns (BoolReply);

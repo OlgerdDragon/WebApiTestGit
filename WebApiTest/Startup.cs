@@ -5,10 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-using WebApiGeneralGrpc.Data;
 using WebApiGeneralGrpc.Services.AdminService;
 using WebApiGeneralGrpc.Services.HusbandService;
-using WebApiGeneralGrpc.Services.WifeService;
 using WebApiGeneralGrpc.Services.AccountService;
 using WebApiGeneralGrpc.Services.UtilsService;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,6 +18,8 @@ using Serilog.Events;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using WebApiGeneralGrpc.Health;
+using TownContextForWebService;
+
 
 namespace WebApiGeneralGrpc
 {

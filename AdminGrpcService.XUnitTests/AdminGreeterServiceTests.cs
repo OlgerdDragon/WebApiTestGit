@@ -16,7 +16,7 @@ namespace AdminGrpcService.XUnitTests
     public class AdminGreeterServiceTests
     {
         private AdminGreeterService _adminService;
-        private Mock<AdminTownContext> _context = new Mock<AdminTownContext>(new DbContextOptions<AdminTownContext>());
+        private Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
         private Mock<ServerCallContext> serverCallContext = new Mock<ServerCallContext>();
         private Mock<ILogger<AdminGreeterService>> _logger = new Mock<ILogger<AdminGreeterService>>();
 

@@ -8,6 +8,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
+using WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
 {
@@ -29,6 +30,8 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest
             var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+            
 
 
             var client = factory.CreateDefaultClient();

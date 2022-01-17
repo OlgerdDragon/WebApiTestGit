@@ -3,15 +3,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using HusbandGrpcService.Data;
+using TownContextForWebService;
 using Microsoft.EntityFrameworkCore;
-using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using HusbandGrpcService.Services;
+using HusbandGrpcService.Services.AdminService;
 
 namespace HusbandGrpcService
 {
@@ -27,6 +23,7 @@ namespace HusbandGrpcService
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddGrpc();
+            services.AddScoped<IAdminServiceFactory, AdminServiceFactory>();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
             services.AddDbContext<TownContext>(options => options

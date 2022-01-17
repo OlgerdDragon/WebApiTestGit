@@ -15,6 +15,7 @@ namespace AdminGrpcService.Services
         public Task<BoolReply> RemoveShop(ItemRequest request, ServerCallContext context);       
         public Task<BoolReply> AddProduct(ProductRequest request, ServerCallContext context);
         public Task<BoolReply> AddShop(ShopRequest request, ServerCallContext context);
-        
+        public Task<GetProductsInShopReply> GetProductsInShop(GetProductsInShopRequest request, ServerCallContext context);
+        public Task<GetShopsForVisitReply> GetShopsForVisit(GetShopsForVisitRequest request, ServerCallContext context);
     }
 }

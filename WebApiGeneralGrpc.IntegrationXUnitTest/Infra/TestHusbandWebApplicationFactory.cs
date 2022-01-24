@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.TestHost;
+using HusbandGrpcService.Services.AdminService;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 {
@@ -26,7 +28,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
                 }
 
                 services.AddDbContext<TownContext>
-                  ((_, context) => context = TestUseInMemoryDatabase.Test);
+                  ((_, context) => context.UseInMemoryDatabase("InMemoryDbForTestingHusband"));
 
                 var serviceProvider = services.BuildServiceProvider();
 
@@ -39,6 +41,18 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 
 
             });
+
+            builder.ConfigureTestServices(services =>
+            {
+                var descriptorAdmin = services.SingleOrDefault(d => d.ServiceType == typeof(IAdminServiceFactory));
+                if (descriptorAdmin != null)
+                {
+                    services.Remove(descriptorAdmin);
+                }
+
+                services.AddScoped<IAdminServiceFactory, TestAdminServiceFactoryInsideHusband>();
+            });
+
         }
     }
 }

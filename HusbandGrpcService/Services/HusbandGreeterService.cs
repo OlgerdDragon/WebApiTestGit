@@ -78,6 +78,7 @@ namespace HusbandGrpcService.Services
                 var result = new GetShopsForVisitReply
                 {
                     Successfully = getProductsInShopReplyHusband.Successfully,
+                    Element = new ListOfShopDto()
                 };
                 result.Element.ShopDtoMessage.AddRange(resulList);
                 return result;
@@ -117,6 +118,7 @@ namespace HusbandGrpcService.Services
                 var result = new GetProductsInShopReply
                 {
                     Successfully = getProductsInShopReplyHusband.Successfully,
+                    Element = new ListOfProductDto()
                 };
                 result.Element.ProductDtoMessage.AddRange(resulList);    
                 return result;

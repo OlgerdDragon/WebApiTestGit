@@ -1,10 +1,10 @@
 using HusbandGrpcService;
 using Grpc.Net.Client;
-using WebApiGeneralGrpc.Services.HusbandService;
+using WifeGrpcService.Services.HusbandService;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 {
-    public class TestHusbandServiceFactory : IHusbandServiceFactory
+    public class TestHusbandServiceFactoryInsideWife: IHusbandServiceFactory
     {
         public HusbandGreeter.HusbandGreeterClient GetGrpcClient()
         {
@@ -14,7 +14,7 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
             {
                 HttpClient = client
             });
-            var husbandServiceClient = new HusbandGreeter.HusbandGreeterClient(channels);
+            var husbandServiceClient = new HusbandGreeter.HusbandGreeterClient (channels);
             return husbandServiceClient;
         }
     }

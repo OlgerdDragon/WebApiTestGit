@@ -11,7 +11,6 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
     public class TestAdminWebApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup: class
     {
-       
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
             builder.UseEnvironment("Tests");
@@ -26,8 +25,13 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
                     services.Remove(descriptor);
                 }
 
+                
                 services.AddDbContext<TownContext>
-                  ((_, context) => context = TestUseInMemoryDatabase.Test);
+                  ((_, context) => 
+                      context.UseInMemoryDatabase("InMemoryDbForTestingAdmin")
+                      );
+                
+                
 
                 var serviceProvider = services.BuildServiceProvider();
 

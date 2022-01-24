@@ -53,7 +53,7 @@ namespace WebApiGeneralGrpc.Controllers
         [HttpPost("Product/{id}")]
         public async Task<ActionResult<WantedProductDtoMessage>> CreateWantedProductItem(int id)
         {
-            var product = await _wifeServiceClient.AddProductAsync(new ItemRequest() { Id = id, UserLogin = userLogin });
+            var product = await _wifeServiceClient.AddWantedProductAsync(new ItemRequest() { Id = id, UserLogin = userLogin });
             if (!product.Successfully)
                 return BadRequest(product.ErrorMessage);
             var wantedProductDtoItem = product.Element;

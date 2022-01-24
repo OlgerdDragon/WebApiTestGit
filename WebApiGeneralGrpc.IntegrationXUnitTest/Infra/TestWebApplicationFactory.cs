@@ -13,15 +13,7 @@ using WebApiGeneralGrpc.Services.WifeService;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 {
-    public class TestUseInMemoryDatabase
-    {
-        public static DbContextOptionsBuilder TestInMemory { get; set; }
-        public static void SetInMemory(DbContextOptionsBuilder context)
-        {
-            TestInMemory = context.UseInMemoryDatabase("InMemoryDbForTesting");
-        }
-    }
-
+    
     public class TestWebApplicationFactory<TStartup>
         : WebApplicationFactory<TStartup> where TStartup: class
     {

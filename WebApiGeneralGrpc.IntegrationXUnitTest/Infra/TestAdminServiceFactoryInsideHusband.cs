@@ -1,16 +1,16 @@
 using AdminGrpcService;
 using Grpc.Net.Client;
-using WebApiGeneralGrpc.Services.AdminService;
+using HusbandGrpcService.Services.AdminService;
 
 namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
 {
-    public class TestAdminServiceFactory:IAdminServiceFactory
+    public class TestAdminServiceFactoryInsideHusband : IAdminServiceFactory
     {
         public AdminGreeter.AdminGreeterClient GetGrpcClient()
         {
-            
-            var  admin = new TestAdminWebApplicationFactory<AdminGrpcService.Startup>();
-            
+
+            var admin = new TestAdminWebApplicationFactory<AdminGrpcService.Startup>();
+
             var client = admin.CreateDefaultClient();
             var channels = GrpcChannel.ForAddress(client.BaseAddress, new GrpcChannelOptions
             {
@@ -20,5 +20,4 @@ namespace WebApiGeneralGrpcTests.IntegrationXUnitTest.Infra
             return adminServiceClient;
         }
     }
-   
 }

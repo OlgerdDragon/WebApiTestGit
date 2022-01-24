@@ -85,7 +85,6 @@ namespace WifeGrpcService.Services
                     Id = wantedProductReplyHusband.Element.Id,
                     BoughtStatus = wantedProductReplyHusband.Element.BoughtStatus,
                     ProductId = wantedProductReplyHusband.Element.ProductId,
-                    WifeId = wantedProductReplyHusband.Element.WifeId
                 };
                 _logger.LogInformation($"AddProduct(id) userLogin: {request.UserLogin} id: {request.Id} return - wantedProductDTO.Id: {wantedProductDtoMessage.Id} wantedProductDTO.ProductId: {wantedProductDtoMessage.ProductId}");
                 return new WantedProductReply { Element = wantedProductDtoMessage, Successfully = wantedProductReplyHusband.Successfully };

@@ -1,6 +1,6 @@
 using HusbandService;
 using Grpc.Net.Client;
-using WifeService.Services.HusbandService;
+using WifeService.Services.HusbandServiceFactory;
 
 namespace WebApiGeneral.IntegrationTests.Infra
 {

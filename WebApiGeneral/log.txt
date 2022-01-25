@@ -9,3 +9,4 @@
 2022-01-25 12:43:43.385 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 5038.5108 ms
 2022-01-25 12:51:17.130 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 219.1266 ms
 2022-01-25 12:57:19.047 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 213.3195 ms
+2022-01-25 13:04:54.605 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 211.6000 ms

@@ -7,7 +7,7 @@ namespace WebApiGeneralGrpc.Services.AdminService
     {
         public AdminGreeter.AdminGreeterClient GetGrpcClient()
         {
-            var channels = GrpcChannel.ForAddress("https://localhost:5001");
+            var channels = GrpcChannel.ForAddress("https://localhost:5003");
             var adminServiceClient = new AdminGreeter.AdminGreeterClient(channels);
             return adminServiceClient;
         }

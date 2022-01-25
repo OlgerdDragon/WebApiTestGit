@@ -7,7 +7,7 @@ namespace WifeGrpcService.Services.HusbandService
     {
         public HusbandGreeter.HusbandGreeterClient GetGrpcClient()
         {
-            var channels = GrpcChannel.ForAddress("https://localhost:5001");
+            var channels = GrpcChannel.ForAddress("https://localhost:5005");
             var husbandServiceClient = new HusbandGreeter.HusbandGreeterClient(channels);
             return husbandServiceClient;
         }

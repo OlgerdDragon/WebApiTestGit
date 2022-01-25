@@ -69,51 +69,51 @@ namespace WifeGrpcService.XUnitTests
             result.Successfully = true;
             return result;
         }
-        private AsyncUnaryCall<HusbandGrpcService.GetWantedProductsReply> GetWantedProductsReplyHusbandAsync()
-        {
-            var result = new HusbandGrpcService.GetWantedProductsReply { Element = new HusbandGrpcService.ListOfWantedProductDto() };
-            var data = new List<HusbandGrpcService.WantedProductDtoMessage>
-                {
-                    new()
-                    {
-                        Id = 1,
-                        BoughtStatus = false,
-                        ProductId = 1,
-                        WifeId = 1
-                    }
-                };
-            result.Element.WantedProductDtoMessage.AddRange(data);
-            result.Successfully = true;
-            return result;
-        }
-        [Fact]
-        public async Task GetWantedProductsAsync_ShouldReturnOneWantedProduct_WhenHaveOneWantedProducts()
-        {
-            //Arrange
-            _husbandServiceClent.Setup(p => p.GetWantedProducts(It.IsAny<HusbandGrpcService.UserLoginRequest>(), It.IsAny<CallOptions>()))
-                .Returns(GetWantedProductsReplyHusband());
+        //private AsyncUnaryCall<HusbandGrpcService.GetWantedProductsReply> GetWantedProductsReplyHusbandAsync()
+        //{
+        //    var result = new HusbandGrpcService.GetWantedProductsReply { Element = new HusbandGrpcService.ListOfWantedProductDto() };
+        //    var data = new List<HusbandGrpcService.WantedProductDtoMessage>
+        //        {
+        //            new()
+        //            {
+        //                Id = 1,
+        //                BoughtStatus = false,
+        //                ProductId = 1,
+        //                WifeId = 1
+        //            }
+        //        };
+        //    result.Element.WantedProductDtoMessage.AddRange(data);
+        //    result.Successfully = true;
+        //    return result;
+        //}
+        //[Fact]
+        //public async Task GetWantedProductsAsync_ShouldReturnOneWantedProduct_WhenHaveOneWantedProducts()
+        //{
+        //    //Arrange
+        //    _husbandServiceClent.Setup(p => p.GetWantedProducts(It.IsAny<HusbandGrpcService.UserLoginRequest>(), It.IsAny<CallOptions>()))
+        //        .Returns(GetWantedProductsReplyHusband());
 
-            var test = new AsyncUnaryCall<HusbandGrpcService.GetWantedProductsReply>();
+        //    var test = new AsyncUnaryCall<HusbandGrpcService.GetWantedProductsReply>();
 
-            _husbandServiceClent.Setup(p => p.GetWantedProductsAsync(It.IsAny<HusbandGrpcService.UserLoginRequest>(), It.IsAny<CallOptions>()))
-               .Returns();
-            //_context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
+        //    _husbandServiceClent.Setup(p => p.GetWantedProductsAsync(It.IsAny<HusbandGrpcService.UserLoginRequest>(), It.IsAny<CallOptions>()))
+        //       .Returns();
+        //    //_context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
-            //Act
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
-            _wifeGreeterService._husbandServiceClient = _husbandServiceClent.Object;
-            var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
+        //    //Act
+        //    _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+        //    _wifeGreeterService._husbandServiceClient = _husbandServiceClent.Object;
+        //    var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
-            //Assert
-            var some = false;
-            if (realData.Element.WantedProductDtoMessage.Count == 1
-                    && realData.Element.WantedProductDtoMessage[0].Id == 1
-                    && realData.Element.WantedProductDtoMessage[0].BoughtStatus == false
-                    && realData.Element.WantedProductDtoMessage[0].ProductId == 1
-                    && realData.Element.WantedProductDtoMessage[0].WifeId == 1) some = true;
+        //    //Assert
+        //    var some = false;
+        //    if (realData.Element.WantedProductDtoMessage.Count == 1
+        //            && realData.Element.WantedProductDtoMessage[0].Id == 1
+        //            && realData.Element.WantedProductDtoMessage[0].BoughtStatus == false
+        //            && realData.Element.WantedProductDtoMessage[0].ProductId == 1
+        //            && realData.Element.WantedProductDtoMessage[0].WifeId == 1) some = true;
 
-            Assert.True(some);
-        }
+        //    Assert.True(some);
+        //}
         [Fact]
         public async Task GetWantedProductsAsync_ShouldReturnZeroList_WhenHaveZeroWantedProducts()
         {

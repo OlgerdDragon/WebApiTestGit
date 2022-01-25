@@ -8,15 +8,15 @@ using AdminService.Services;
 using AdminService.Models.Dto;
 using AdminService.Tests.Extensions;
 using Grpc.Core;
-using TownContextForWebService;
-using TownContextForWebService.Models;
+using DbApiContextForService;
+using DbApiContextForService.Models;
 
 namespace AdminService.Tests
 {
     public class AdminGreeterServiceTests
     {
         private AdminGreeterService _adminService;
-        private Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
+        private Mock<DbApiContext> _context = new Mock<DbApiContext>(new DbContextOptions<DbApiContext>());
         private Mock<ServerCallContext> serverCallContext = new Mock<ServerCallContext>();
         private Mock<ILogger<AdminGreeterService>> _logger = new Mock<ILogger<AdminGreeterService>>();
 

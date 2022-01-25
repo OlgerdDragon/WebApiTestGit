@@ -40,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TownContextForWebService\TownContextForWebService.csproj" />
+    <ProjectReference Include="..\DbApiContextForService\DbApiContextForService.csproj" />
   </ItemGroup>
 
   <ItemGroup>

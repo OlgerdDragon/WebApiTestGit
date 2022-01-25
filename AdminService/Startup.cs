@@ -6,7 +6,7 @@ using Microsoft.Extensions.Hosting;
 using AdminService.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using TownContextForWebService;
+using DbApiContextForService;
 
 namespace AdminService
 {
@@ -24,7 +24,7 @@ namespace AdminService
             services.AddGrpc();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
-            services.AddDbContext<TownContext>(options => options
+            services.AddDbContext<DbApiContext>(options => options
                 .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
         }
         private void LoggingConfiguration()

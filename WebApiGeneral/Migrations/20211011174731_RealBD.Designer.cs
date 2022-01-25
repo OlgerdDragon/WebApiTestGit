@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using TownContextForWebService;
+using DbApiContextForService;
 
 namespace WebApiGeneral.Migrations
 {
-    [DbContext(typeof(TownContext))]
+    [DbContext(typeof(DbApiContext))]
     [Migration("20211011174731_RealBD")]
     partial class RealBD
     {

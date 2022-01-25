@@ -1,4 +1,4 @@
-﻿using TownContextForWebService.Models;
+﻿using DbApiContextForService.Models;
 
 namespace WifeService.Models.Dto
 {

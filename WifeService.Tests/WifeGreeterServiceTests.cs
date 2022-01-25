@@ -7,8 +7,8 @@ using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using WifeService.Services;
 using WifeService.Tests.Extensions;
-using TownContextForWebService;
-using TownContextForWebService.Models;
+using DbApiContextForService;
+using DbApiContextForService.Models;
 using Grpc.Core;
 using WifeService.Services.HusbandServiceFactory;
 using HusbandService;
@@ -42,8 +42,8 @@ namespace WifeService.Tests
         private WifeGreeterService _wifeGreeterService;
         private Mock<IHusbandServiceFactory> _husbandServiceFactory = new Mock<IHusbandServiceFactory>();
         private Mock<HusbandGreeter.HusbandGreeterClient> _husbandServiceClent = new Mock<HusbandGreeter.HusbandGreeterClient>();
-        private Mock<DbContextOptions<TownContext>> _optionsTown = new Mock<DbContextOptions<TownContext>>();
-        private Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
+        private Mock<DbContextOptions<DbApiContext>> _optionsTown = new Mock<DbContextOptions<DbApiContext>>();
+        private Mock<DbApiContext> _context = new Mock<DbApiContext>(new DbContextOptions<DbApiContext>());
         private Mock<ServerCallContext> serverCallContext = new Mock<ServerCallContext>();
         private Mock<ILogger<WifeGreeterService>> _logger = new Mock<ILogger<WifeGreeterService>>();
 

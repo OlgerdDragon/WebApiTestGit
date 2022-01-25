@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdminService\AdminService.csproj" />
-    <ProjectReference Include="..\TownContextForWebService\TownContextForWebService.csproj" />
+    <ProjectReference Include="..\DbApiContextForService\DbApiContextForService.csproj" />
   </ItemGroup>
 
 </Project>

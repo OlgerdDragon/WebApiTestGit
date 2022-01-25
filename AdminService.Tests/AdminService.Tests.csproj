@@ -31,6 +31,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdminService\AdminService.csproj" />
+    <ProjectReference Include="..\DbApiContextForService\DbApiContextForService.csproj" />
   </ItemGroup>
 
 </Project>

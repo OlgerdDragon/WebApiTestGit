@@ -7,3 +7,5 @@
 2022-01-25 12:43:25.376 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2NDMxMDc0MDUsImV4cCI6MTY0MzEwODAwNSwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.MZ7UOeSghPr8pvqDi3LNzRK7M9HeEQKYSwJIiOaBR6g 
 2022-01-25 12:43:25.378 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 102.7560 ms
 2022-01-25 12:43:43.385 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 5038.5108 ms
+2022-01-25 12:51:17.130 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 219.1266 ms
+2022-01-25 12:57:19.047 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 213.3195 ms

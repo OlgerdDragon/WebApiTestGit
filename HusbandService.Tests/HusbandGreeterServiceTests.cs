@@ -7,16 +7,16 @@ using Microsoft.EntityFrameworkCore;
 using HusbandService.Services;
 using HusbandService.Tests.Extensions;
 using Grpc.Core;
-using TownContextForWebService;
-using TownContextForWebService.Models;
+using DbApiContextForService;
+using DbApiContextForService.Models;
 
 namespace HusbandService.Tests
 {
     public class HusbandGreeterServiceTests
     {
         private HusbandGreeterService _husbandService;
-        private Mock<DbContextOptions<TownContext>> _optionsTown = new Mock<DbContextOptions<TownContext>>();
-        private Mock<TownContext> _context = new Mock<TownContext>(new DbContextOptions<TownContext>());
+        private Mock<DbContextOptions<DbApiContext>> _optionsTown = new Mock<DbContextOptions<DbApiContext>>();
+        private Mock<DbApiContext> _context = new Mock<DbApiContext>(new DbContextOptions<DbApiContext>());
         private Mock<ServerCallContext> serverCallContext = new Mock<ServerCallContext>();
         private Mock<ILogger<HusbandGreeterService>> _logger = new Mock<ILogger<HusbandGreeterService>>();
 

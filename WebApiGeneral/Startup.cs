@@ -18,7 +18,7 @@ using Serilog.Events;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using WebApiGeneral.Health;
-using TownContextForWebService;
+using DbApiContextForService;
 
 
 namespace WebApiGeneral
@@ -41,7 +41,7 @@ namespace WebApiGeneral
             services.AddControllers();
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
 
-            services.AddDbContext<TownContext>(options => options
+            services.AddDbContext<DbApiContext>(options => options
                 .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
             
             services.AddSwaggerGen(c =>

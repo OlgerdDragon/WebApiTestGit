@@ -8,17 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using AdminService.Data;
 using AdminService.Models.Dto;
 using Google.Protobuf.WellKnownTypes;
-using TownContextForWebService;
-using TownContextForWebService.Models;
+using DbApiContextForService;
+using DbApiContextForService.Models;
 
 namespace AdminService.Services
 {
     public class AdminGreeterService : AdminGreeter.AdminGreeterBase, IAdminGreeterService
     {
 
-        private readonly TownContext _context;
+        private readonly DbApiContext _context;
         private readonly ILogger<AdminGreeterService> _logger;
-        public AdminGreeterService(TownContext context, ILogger<AdminGreeterService> logger)
+        public AdminGreeterService(DbApiContext context, ILogger<AdminGreeterService> logger)
         {
             _context = context;
             _logger = logger;

@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DbApiContextForService\DbApiContextForService.csproj" />
     <ProjectReference Include="..\HusbandService\HusbandService.csproj" />
     <ProjectReference Include="..\HusbandService\HusbandService.csproj" />
   </ItemGroup>

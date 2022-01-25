@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TownContextForWebService.Models
+namespace DbApiContextForService.Models
 {
     public class Shop
     {

@@ -40,6 +40,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AdminService\AdminService.csproj" />
+    <ProjectReference Include="..\DbApiContextForService\DbApiContextForService.csproj" />
     <ProjectReference Include="..\HusbandService\HusbandService.csproj" />
     <ProjectReference Include="..\WebApiGeneral\WebApiGeneral.csproj" />
     <ProjectReference Include="..\WifeService\WifeService.csproj" />

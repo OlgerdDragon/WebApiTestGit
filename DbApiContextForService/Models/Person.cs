@@ -1,5 +1,5 @@
 ﻿
-namespace TownContextForWebService.Models
+namespace DbApiContextForService.Models
 {
     public class Person
     {

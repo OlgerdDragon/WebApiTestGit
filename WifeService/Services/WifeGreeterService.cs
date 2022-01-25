@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using WifeService.Data;
 using WifeService.Models.Dto;
-using TownContextForWebService;
-using TownContextForWebService.Models;
+using DbApiContextForService;
+using DbApiContextForService.Models;
 using Google.Protobuf.WellKnownTypes;
 using HusbandService;
 using WifeService.Services.HusbandServiceFactory;
@@ -17,10 +17,10 @@ namespace WifeService.Services
 {
     public class WifeGreeterService : WifeGreeter.WifeGreeterBase, IWifeGreeterService
     {
-        private readonly TownContext _context;
+        private readonly DbApiContext _context;
         private readonly ILogger<WifeGreeterService> _logger;
         public HusbandGreeter.HusbandGreeterClient _husbandServiceClient;
-        public WifeGreeterService(TownContext context, ILogger<WifeGreeterService> logger, IHusbandServiceFactory husbandServiceFactory)
+        public WifeGreeterService(DbApiContext context, ILogger<WifeGreeterService> logger, IHusbandServiceFactory husbandServiceFactory)
         {
             _context = context;
             _logger = logger;

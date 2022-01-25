@@ -1,5 +1,5 @@
 using System.Linq;
-using TownContextForWebService;
+using DbApiContextForService;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -20,14 +20,14 @@ namespace WebApiGeneral.IntegrationTests.Infra
             builder.ConfigureServices(services =>
             {
                 var descriptor = services.SingleOrDefault
-                   (d => d.ServiceType == typeof(DbContextOptions<TownContext>));
+                   (d => d.ServiceType == typeof(DbContextOptions<DbApiContext>));
 
                 if (descriptor != null)
                 {
                     services.Remove(descriptor);
                 }
 
-                services.AddDbContext<TownContext>
+                services.AddDbContext<DbApiContext>
                   ((_, context) => context.UseInMemoryDatabase("InMemoryDbForTestingHusband"));
 
                 var serviceProvider = services.BuildServiceProvider();
@@ -35,7 +35,7 @@ namespace WebApiGeneral.IntegrationTests.Infra
 
                 using var scope = serviceProvider.CreateScope();
 
-                var db = scope.ServiceProvider.GetRequiredService<TownContext>();
+                var db = scope.ServiceProvider.GetRequiredService<DbApiContext>();
 
                 db.Database.EnsureCreated();
 

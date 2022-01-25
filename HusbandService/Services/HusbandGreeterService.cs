@@ -8,8 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using HusbandService.Data;
 using HusbandService.Models.Dto;
 using Google.Protobuf.WellKnownTypes;
-using TownContextForWebService;
-using TownContextForWebService.Models;
+using DbApiContextForService;
+using DbApiContextForService.Models;
 using AdminService;
 using HusbandService.Services.AdminServiceFactory;
 
@@ -18,11 +18,11 @@ namespace HusbandService.Services
     public class HusbandGreeterService : HusbandGreeter.HusbandGreeterBase, IHusbandGreeterService
     {
 
-        private readonly TownContext _context; 
+        private readonly DbApiContext _context; 
         private readonly ILogger<HusbandGreeterService> _logger;
         private readonly AdminGreeter.AdminGreeterClient _adminServiceClient;
 
-        public HusbandGreeterService(TownContext context, ILogger<HusbandGreeterService> logger, IAdminServiceFactory adminServiceFactory)
+        public HusbandGreeterService(DbApiContext context, ILogger<HusbandGreeterService> logger, IAdminServiceFactory adminServiceFactory)
         {
             _context = context;
             _logger = logger;

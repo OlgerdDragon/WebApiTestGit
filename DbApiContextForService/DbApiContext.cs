@@ -1,11 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using TownContextForWebService.Models;
+using DbApiContextForService.Models;
 
-namespace TownContextForWebService
+namespace DbApiContextForService
 {
-    public class TownContext : DbContext
+    public class DbApiContext : DbContext
     {
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Husband> Husbands { get; set; }
@@ -15,7 +15,7 @@ namespace TownContextForWebService
         public virtual DbSet<Wife> Wifes { get; set; }
         public virtual DbSet<Person> Persons { get; set; }
 
-        public TownContext(DbContextOptions<TownContext> options)
+        public DbApiContext(DbContextOptions<DbApiContext> options)
            : base(options)
         {
 

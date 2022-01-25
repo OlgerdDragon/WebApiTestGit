@@ -10,18 +10,18 @@ using System.Text;
 using System.Threading.Tasks;
 using WebApiGeneral.Data;
 using Microsoft.Extensions.Logging;
-using TownContextForWebService;
-using TownContextForWebService.Models;
+using DbApiContextForService;
+using DbApiContextForService.Models;
 
 namespace WebApiGeneral.Services.AccountService
 {
     public class AccountService : IAccountService
     {
-        private readonly TownContext _context;
+        private readonly DbApiContext _context;
         private readonly ILogger<AccountService> _logger;
 
 
-        public AccountService(TownContext context, ILogger<AccountService> logger)
+        public AccountService(DbApiContext context, ILogger<AccountService> logger)
         {
             _context = context;
             _logger = logger;

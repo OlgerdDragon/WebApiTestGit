@@ -2,11 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using TownContextForWebService;
+using DbApiContextForService;
 
 namespace WebApiGeneral.Migrations
 {
-    [DbContext(typeof(TownContext))]
+    [DbContext(typeof(DbApiContext))]
     partial class TownContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

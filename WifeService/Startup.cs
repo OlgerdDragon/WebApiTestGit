@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using TownContextForWebService;
+using DbApiContextForService;
 using WifeService.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -26,7 +26,7 @@ namespace WifeService
             services.AddScoped<IHusbandServiceFactory, HusbandServiceFactory>();
 
             var connectionString = Configuration.GetSection("ConnectionStrings")?["DbConnection"] ?? "";
-            services.AddDbContext<TownContext>(options => options
+            services.AddDbContext<DbApiContext>(options => options
                 .UseSqlServer(connectionString, sqlOptions => { sqlOptions.EnableRetryOnFailure(); }));
         }
         private void LoggingConfiguration()

@@ -1,0 +1,9 @@
+2022-01-25 11:04:25.966 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 289.5289 ms
+2022-01-25 12:21:40.209 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 243.0635 ms
+2022-01-25 12:40:25.417 +02:00 [INF] HTTP GET /api/todoitems responded 404 in 185.4308 ms
+2022-01-25 12:42:44.546 +02:00 [INF] Token return - username: husband@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaHVzYmFuZEBnbWFpbC5jb20iLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJodXNiYW5kIiwibmJmIjoxNjQzMTA3MzY0LCJleHAiOjE2NDMxMDc5NjQsImlzcyI6Ik15QXV0aFNlcnZlciIsImF1ZCI6Ik15QXV0aENsaWVudCJ9.-qdzjWOEoebzzDbsouNdzU0XNkFCzrKAIqRiggMyyJA 
+2022-01-25 12:42:44.602 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 6349.5885 ms
+2022-01-25 12:43:08.824 +02:00 [INF] HTTP GET /api/husband/productsM responded 404 in 175.7962 ms
+2022-01-25 12:43:25.376 +02:00 [INF] Token return - username: admin@gmail.com access_token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYWRtaW5AZ21haWwuY29tIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiYWRtaW4iLCJuYmYiOjE2NDMxMDc0MDUsImV4cCI6MTY0MzEwODAwNSwiaXNzIjoiTXlBdXRoU2VydmVyIiwiYXVkIjoiTXlBdXRoQ2xpZW50In0.MZ7UOeSghPr8pvqDi3LNzRK7M9HeEQKYSwJIiOaBR6g 
+2022-01-25 12:43:25.378 +02:00 [INF] HTTP POST /api/account/Token responded 200 in 102.7560 ms
+2022-01-25 12:43:43.385 +02:00 [INF] HTTP GET /api/admin/shops responded 200 in 5038.5108 ms

@@ -20,7 +20,7 @@ namespace HusbandService.Services
 
         private readonly DbApiContext _context; 
         private readonly ILogger<HusbandGreeterService> _logger;
-        private readonly AdminGreeter.AdminGreeterClient _adminServiceClient;
+        public AdminGreeter.AdminGreeterClient _adminServiceClient;
 
         public HusbandGreeterService(DbApiContext context, ILogger<HusbandGreeterService> logger, IAdminServiceFactory adminServiceFactory)
         {
@@ -59,25 +59,46 @@ namespace HusbandService.Services
             try
             {
                 var wantedProductList = GetWantedProducts().Element;
-                var wantedProdutListRequest = new global::AdminService.GetShopsForVisitRequest { WantedProductList = new global::AdminService.ListOfWantedProductDto() };
+                if (wantedProductList.Count == 0)
+                {
+                    return new GetShopsForVisitReply
+                    {
+                        Element = new ListOfShopDto(),
+                        Successfully = true
+                    };
+                }
+
+                var wantedProdutListRequest = new AdminService.GetShopsForVisitRequest { WantedProductList = new global::AdminService.ListOfWantedProductDto() };
                 wantedProdutListRequest.WantedProductList.WantedProductDtoMessage.AddRange(wantedProductList);
-                var getProductsInShopReplyHusband = await _adminServiceClient.GetShopsForVisitAsync(new AdminService.GetShopsForVisitRequest()
+                var getShopsForVisitReplyAdmin = await _adminServiceClient.GetShopsForVisitAsync(new AdminService.GetShopsForVisitRequest()
                 {
                     UserLogin = request.UserLogin,
                     WantedProductList = wantedProdutListRequest.WantedProductList
                 });
-                var replyList = getProductsInShopReplyHusband.Element.ShopDtoMessage.ToList();
+                if (getShopsForVisitReplyAdmin.Successfully == false)
+                {
+                    _logger.LogError($"GetShopsForVisit userLogin: {request.UserLogin} - ErrorMessage: {getShopsForVisitReplyAdmin.ErrorMessage}");
+                    return new GetShopsForVisitReply
+                    {
+                        ErrorMessage = getShopsForVisitReplyAdmin.ErrorMessage,
+                        Successfully = getShopsForVisitReplyAdmin.Successfully
+                    };
+                }
+
+
+                var replyList = getShopsForVisitReplyAdmin.Element.ShopDtoMessage.ToList();
                 var resulList = new List<ShopDtoMessage>();
                 foreach (var replyItem in replyList)
                 {
                     resulList.Add(new ShopDtoMessage
                     {
                         Id = replyItem.Id,
+                        Name = replyItem.Name
                     });
                 }
                 var result = new GetShopsForVisitReply
                 {
-                    Successfully = getProductsInShopReplyHusband.Successfully,
+                    Successfully = getShopsForVisitReplyAdmin.Successfully,
                     Element = new ListOfShopDto()
                 };
                 result.Element.ShopDtoMessage.AddRange(resulList);
@@ -93,17 +114,36 @@ namespace HusbandService.Services
         {
             try
             {
-                _logger.LogDebug($"GetProductsInShopAsync  userLogin: {request.UserLogin} - ShopId: {request.ShopId} ");
+                _logger.LogDebug($"GetProductsInShop  userLogin: {request.UserLogin} - ShopId: {request.ShopId} ");
                 var wantedProductList = GetWantedProducts().Element;
-                var wantedProdutListRequest = new global::AdminService.GetProductsInShopRequest { WantedProductList = new global::AdminService.ListOfWantedProductDto() };
+                if (wantedProductList.Count == 0)
+                {
+                    return new GetProductsInShopReply 
+                    { 
+                        Element = new ListOfProductDto(),
+                        Successfully = true
+                    };
+                }
+
+                var wantedProdutListRequest = new AdminService.GetProductsInShopRequest { WantedProductList = new AdminService.ListOfWantedProductDto() };
                 wantedProdutListRequest.WantedProductList.WantedProductDtoMessage.AddRange(wantedProductList);
-                var getProductsInShopReplyHusband = await _adminServiceClient.GetProductsInShopAsync(new AdminService.GetProductsInShopRequest()
+                var getProductsInShopReplyAdmin = await _adminServiceClient.GetProductsInShopAsync(new AdminService.GetProductsInShopRequest()
                 {
                     ShopId = request.ShopId,
                     UserLogin = request.UserLogin,
                     WantedProductList = wantedProdutListRequest.WantedProductList
                 });
-                var replyList = getProductsInShopReplyHusband.Element.ProductDtoMessage.ToList();
+                if (getProductsInShopReplyAdmin.Successfully == false)
+                {
+                    _logger.LogError($"GetProductsInShop userLogin: {request.UserLogin}  - ShopId: {request.ShopId} ErrorMessage: {getProductsInShopReplyAdmin.ErrorMessage}");
+                    return new GetProductsInShopReply
+                    {
+                        ErrorMessage = getProductsInShopReplyAdmin.ErrorMessage,
+                        Successfully = getProductsInShopReplyAdmin.Successfully
+                    };
+                }
+
+                var replyList = getProductsInShopReplyAdmin.Element.ProductDtoMessage.ToList();
                 var resulList = new List<ProductDtoMessage>();
                 foreach (var replyItem in replyList)
                 {
@@ -117,7 +157,7 @@ namespace HusbandService.Services
                 }
                 var result = new GetProductsInShopReply
                 {
-                    Successfully = getProductsInShopReplyHusband.Successfully,
+                    Successfully = getProductsInShopReplyAdmin.Successfully,
                     Element = new ListOfProductDto()
                 };
                 result.Element.ProductDtoMessage.AddRange(resulList);    
@@ -125,12 +165,12 @@ namespace HusbandService.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"GetProductsInShopAsync userLogin: {request.UserLogin}  - ShopId: { request.ShopId}");
+                _logger.LogError(ex, $"GetProductsInShop userLogin: {request.UserLogin}  - ShopId: { request.ShopId}");
                 return new GetProductsInShopReply { ErrorMessage = ex.Message, Successfully = false };
             }
         }
         
-        Result<List<global::AdminService.WantedProductDtoMessage>> GetWantedProducts()
+        Result<List<AdminService.WantedProductDtoMessage>> GetWantedProducts()
         {
             try
             {
@@ -198,7 +238,12 @@ namespace HusbandService.Services
                 int totalAmount = 0;
                 foreach (var item in _wantedProductsList)
                 {
-                    var product = await _adminServiceClient.GetProductAsync(new AdminService.ItemRequest {Id = item.ProductId, UserLogin = request.UserLogin } );
+                    var product = await _adminServiceClient.GetProductAsync(
+                        new AdminService.ItemRequest 
+                        {
+                            Id = item.ProductId, 
+                            UserLogin = request.UserLogin 
+                        } );
                     totalAmount += product.Element.Price;
                     _logger.LogDebug($"GetTotalAmountWantedProductsAsync - _totalAmount: {totalAmount} item.ProductId:{item.ProductId} product.Price{product.Element.Price}");
                 }
@@ -220,12 +265,12 @@ namespace HusbandService.Services
                 var productItem = await _adminServiceClient.GetProductAsync(new AdminService.ItemRequest { Id = id, UserLogin = request.UserLogin });
                 if (!productItem.Successfully)
                 {
-                    _logger.LogError(productItem.ErrorMessage, $"AddProduct id: {id} UserLogin: {request.UserLogin}");
+                    _logger.LogError(productItem.ErrorMessage, $"AddWantedProduct id: {id} UserLogin: {request.UserLogin}");
                     return new WantedProductReply { ErrorMessage = productItem.ErrorMessage, Successfully = false };
                 }
                 if (productItem.Element == null)
                 {
-                    _logger.LogDebug($"AddProduct userLogin: {request.UserLogin} id: {id} return  null object. Product not found");
+                    _logger.LogDebug($"AddWantedProduct userLogin: {request.UserLogin} id: {id} return  null object. Product not found");
                     return new WantedProductReply { Element = new WantedProductDtoMessage(), Successfully = true };
                 }
                 var wantedProductItem = WantedProductDto.ConvertProductInWantedProductDtoMessage(productItem.Element);
@@ -234,12 +279,12 @@ namespace HusbandService.Services
 
                 var wantedProductDtoMessage = WantedProductDto.ItemWantedProductDTOMessage(wantedProductItem);
 
-                _logger.LogInformation($"AddProduct(id) userLogin: {request.UserLogin} id: {id} return - wantedProductDTO.Id: {wantedProductDtoMessage.Id} wantedProductDTO.ProductId: {wantedProductDtoMessage.ProductId}");
+                _logger.LogInformation($"AddWantedProduct userLogin: {request.UserLogin} id: {id} return - wantedProductDTO.Id: {wantedProductDtoMessage.Id} wantedProductDTO.ProductId: {wantedProductDtoMessage.ProductId}");
                 return new WantedProductReply { Element = wantedProductDtoMessage, Successfully = true };
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"AddProduct id: {request.Id} UserLogin: {request.UserLogin}");
+                _logger.LogError(ex, $"AddWantedProduct id: {request.Id} UserLogin: {request.UserLogin}");
                 return new WantedProductReply { ErrorMessage = ex.Message, Successfully = false };
             }
         }

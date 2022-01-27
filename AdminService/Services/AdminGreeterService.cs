@@ -166,7 +166,7 @@ namespace AdminService.Services
                         _logger.LogError(productItem.ExceptionMessage, $"GetProductAsync id: {id}");
                         return new ProductReply { ErrorMessage = productItem.ExceptionMessage.Message, Successfully = false };
                     }
-                    return null;
+                    return new ProductReply { Successfully = true };
                 }
 
                 var productDtoMessage = ProductDto.ItemProductDTOMessage(productItem.Element);

@@ -82,6 +82,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.GetProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
@@ -132,6 +133,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShops(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
@@ -182,8 +184,8 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
             //Assert
-            var expected = 0;
-            Assert.Equal(expected, realData.Element.Id);
+            Assert.False(realData.Successfully);
+            Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
         public async Task UpdateShopAsync_ShouldReturnNullShopDto_WhenNotHaveShopDto()
@@ -208,8 +210,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
             //Assert 
-            var expected = 0;
-            Assert.Equal(expected, realData.Element.Id);
+            Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
         public async Task UpdateShopAsync_ShouldReturnNullException_WhenNotHaveShops()
@@ -227,6 +228,7 @@ namespace AdminService.Tests
             var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
 
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
@@ -282,8 +284,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
-            var expected = 0;
-            Assert.Equal(expected, realData.Element.Id);
+            Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
         public async Task UpdateProductAsync_ShouldReturnNullProductDto_WhenNotHaveProductDto()
@@ -312,8 +313,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
-            var expected = 0;
-            Assert.Equal(expected, realData.Element.Id);
+            Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
         public async Task UpdateProductAsync_ShouldReturnNullException_WhenNotHaveShops()
@@ -331,6 +331,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
@@ -698,14 +699,14 @@ namespace AdminService.Tests
         {
             //Arrange
             var dataProduct = new List<Product>();
-            var productId = 1;
             _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
             //Act
-            var itemRquest = new ItemRequest { Id = productId, UserLogin = userLogin };
+            var itemRquest = new ItemRequest { Id = 1, UserLogin = userLogin };
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.GetProduct(itemRquest, serverCallContext.Object);
             //Assert
-            Assert.Null(realData);
+            Assert.True(realData.Successfully);
+            Assert.Null(realData.Element);
         }
         [Fact]
         public async Task GetProductAsync_ShouldReturnNullException_WhenNotHaveShops()
@@ -718,6 +719,289 @@ namespace AdminService.Tests
             var realData = await _adminService.GetProduct(itemRquest, serverCallContext.Object);
             //Assert
             Assert.NotNull(realData.ErrorMessage);
+        }
+
+
+
+
+
+
+
+
+        [Fact]
+        public async Task GetShopsForVisitAsync_ShouldReturnOneProduct_When1()
+        {
+            //Arrange
+            var shop = new Shop
+            {
+                Id = 1,
+                Name = "ATB"
+            };
+            _context.Setup(p => p.Shops.FindAsync(shop.Id)).Returns(new ValueTask<Shop>(shop));
+            var product = new Product
+            {
+                Id = 1,
+                Name = "Milk",
+                Price = 100,
+                ShopId = 1
+            };
+            _context.Setup(p => p.Products.FindAsync(product.Id)).Returns(new ValueTask<Product>(product));
+            
+            //Act
+            var getShopsForVisitRequest = new GetShopsForVisitRequest 
+            { 
+                WantedProductList = new ListOfWantedProductDto(),
+                UserLogin = userLogin 
+            };
+            var wantedProductDtoList = new List<WantedProductDtoMessage>
+            { 
+                new WantedProductDtoMessage
+                {
+                    Id =1,                    
+                    BoughtStatus =false,
+                    ProductId = 1,
+                    WifeId = 1
+                }
+            };
+            getShopsForVisitRequest.WantedProductList.WantedProductDtoMessage.AddRange(wantedProductDtoList);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShopsForVisit(getShopsForVisitRequest, serverCallContext.Object);
+            
+            //Assert
+            Assert.True(realData.Successfully);
+            Assert.Single(realData.Element.ShopDtoMessage);
+            Assert.Equal(1, realData.Element.ShopDtoMessage[0].Id);
+            Assert.Equal("ATB", realData.Element.ShopDtoMessage[0].Name);
+        }
+        [Fact]
+        public async Task GetShopsForVisitAsync_ShouldReturnException_WhenNotHaveProduct()
+        {
+            //Arrange
+            var shop = new Shop
+            {
+                Id = 1,
+                Name = "ATB"
+            };
+            _context.Setup(p => p.Shops.FindAsync(shop.Id)).Returns(new ValueTask<Shop>(shop));
+            var dataProduct = new List<Product>();
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+            
+            //Act
+            var getShopsForVisitRequest = new GetShopsForVisitRequest
+            {
+                WantedProductList = new ListOfWantedProductDto(),
+                UserLogin = userLogin
+            };
+            var wantedProductDtoList = new List<WantedProductDtoMessage>
+            {
+                new WantedProductDtoMessage
+                {
+                    Id =1,
+                    BoughtStatus =false,
+                    ProductId = 1,
+                    WifeId = 1
+                }
+            };
+            getShopsForVisitRequest.WantedProductList.WantedProductDtoMessage.AddRange(wantedProductDtoList);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShopsForVisit(getShopsForVisitRequest, serverCallContext.Object);
+            
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task GetShopsForVisitAsync_ShouldReturnException_WhenNotHaveShop()
+        {
+            //Arrange
+            var shop = new List<Shop>();
+            _context.Setup(p => p.Shops).Returns(shop.BuildMockDbSet());
+            var product = new Product
+            {
+                Id = 1,
+                Name = "Milk",
+                Price = 100,
+                ShopId = 1
+            };
+            _context.Setup(p => p.Products.FindAsync(product.Id)).Returns(new ValueTask<Product>(product));
+            var dataProduct = new List<Product>();
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+            
+            //Act
+            var getShopsForVisitRequest = new GetShopsForVisitRequest
+            {
+                WantedProductList = new ListOfWantedProductDto(),
+                UserLogin = userLogin
+            };
+            var wantedProductDtoList = new List<WantedProductDtoMessage>
+            {
+                new WantedProductDtoMessage
+                {
+                    Id =1,
+                    BoughtStatus =false,
+                    ProductId = 1,
+                    WifeId = 1
+                }
+            };
+            getShopsForVisitRequest.WantedProductList.WantedProductDtoMessage.AddRange(wantedProductDtoList);
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShopsForVisit(getShopsForVisitRequest, serverCallContext.Object);
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task GetShopsForVisitAsync_ShouldReturnException_WhenHaveException()
+        {
+            //Arrange
+            var getShopsForVisitRequest = new GetShopsForVisitRequest
+            {
+                WantedProductList = new ListOfWantedProductDto(),
+                UserLogin = userLogin
+            };
+            var wantedProductDtoList = new List<WantedProductDtoMessage>
+            {
+                new WantedProductDtoMessage
+                {
+                    Id =1,
+                    BoughtStatus =false,
+                    ProductId = 1,
+                    WifeId = 1
+                }
+            };
+            getShopsForVisitRequest.WantedProductList.WantedProductDtoMessage.AddRange(wantedProductDtoList);
+
+            //Act
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetShopsForVisit(getShopsForVisitRequest, serverCallContext.Object);
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+        [Fact]
+        public async Task GetProductsInShop_ShouldReturnOneProduct_When1()
+        {
+            //Arrange
+            var shop = new Shop
+            {
+                Id = 1,
+                Name = "ATB"
+            };
+            _context.Setup(p => p.Shops.FindAsync(shop.Id)).Returns(new ValueTask<Shop>(shop));
+            var product = new Product
+            {
+                Id = 1,
+                Name = "Milk",
+                Price = 100,
+                ShopId = 1
+            };
+            _context.Setup(p => p.Products.FindAsync(product.Id)).Returns(new ValueTask<Product>(product));
+
+            //Act
+            var getShopsForVisitRequest = GetProductsInShopRequest();
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProductsInShop(getShopsForVisitRequest, serverCallContext.Object);
+
+            //Assert
+            Assert.True(realData.Successfully);
+            Assert.Single(realData.Element.ProductDtoMessage);
+            Assert.Equal(1, realData.Element.ProductDtoMessage[0].Id);
+            Assert.Equal("Milk", realData.Element.ProductDtoMessage[0].Name);
+            Assert.Equal(100, realData.Element.ProductDtoMessage[0].Price);
+            Assert.Equal(1, realData.Element.ProductDtoMessage[0].ShopId);
+        }
+        [Fact]
+        public async Task GetProductsInShop_ShouldReturnException_WhenNotHaveProduct()
+        {
+            //Arrange
+            var shop = new Shop
+            {
+                Id = 1,
+                Name = "ATB"
+            };
+            _context.Setup(p => p.Shops.FindAsync(shop.Id)).Returns(new ValueTask<Shop>(shop));
+            var dataProduct = new List<Product>();
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+
+            //Act
+            var getShopsForVisitRequest = GetProductsInShopRequest();
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProductsInShop(getShopsForVisitRequest, serverCallContext.Object);
+
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task GetProductsInShop_ShouldReturnException_WhenNotHaveShop()
+        {
+            //Arrange
+            var shop = new List<Shop>();
+            _context.Setup(p => p.Shops).Returns(shop.BuildMockDbSet());
+            var product = new Product
+            {
+                Id = 1,
+                Name = "Milk",
+                Price = 100,
+                ShopId = 1
+            };
+            _context.Setup(p => p.Products.FindAsync(product.Id)).Returns(new ValueTask<Product>(product));
+            var dataProduct = new List<Product>();
+            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+
+            //Act
+            var getShopsForVisitRequest = GetProductsInShopRequest();
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProductsInShop(getShopsForVisitRequest, serverCallContext.Object);
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task GetProductsInShop_ShouldReturnException_WhenHaveException()
+        {
+            //Arrange
+            var getShopsForVisitRequest = GetProductsInShopRequest();
+
+            //Act
+            _adminService = new AdminGreeterService(_context.Object, _logger.Object);
+            var realData = await _adminService.GetProductsInShop(getShopsForVisitRequest, serverCallContext.Object);
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        private GetProductsInShopRequest GetProductsInShopRequest()
+        {
+            var getProductsInShopRequest = new GetProductsInShopRequest
+            {
+                ShopId = 1,
+                WantedProductList = new ListOfWantedProductDto(),
+                UserLogin = userLogin
+            };
+            var wantedProductDtoList = new List<WantedProductDtoMessage>
+            {
+                new WantedProductDtoMessage
+                {
+                    Id =1,
+                    BoughtStatus =false,
+                    ProductId = 1,
+                    WifeId = 1
+                }
+            };
+            getProductsInShopRequest.WantedProductList.WantedProductDtoMessage.AddRange(wantedProductDtoList);
+            return getProductsInShopRequest;
         }
     }
 }

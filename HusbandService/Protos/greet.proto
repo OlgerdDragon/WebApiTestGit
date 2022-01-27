@@ -82,7 +82,7 @@ message ProductDtoMessage {
 
 message GetTotalAmountWantedProductsReply {
    bool Successfully = 1;
-   int32 Element =2;
+   int32 Element = 2;
    string ErrorMessage = 3;
 }
 

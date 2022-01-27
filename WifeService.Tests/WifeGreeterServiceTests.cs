@@ -6,42 +6,21 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using WifeService.Services;
-using WifeService.Tests.Extensions;
 using DbApiContextForService;
-using DbApiContextForService.Models;
 using Grpc.Core;
 using WifeService.Services.HusbandServiceFactory;
 using HusbandService;
 
 namespace WifeService.Tests
 {
-    //public class HusbandGreeterClientTest : HusbandGreeter.HusbandGreeterClient
-    //{
-    //    public override AsyncUnaryCall<HusbandService.GetWantedProductsReply> GetWantedProductsAsync(HusbandService.UserLoginRequest request, CallOptions options)
-    //    {
-    //        var result = new HusbandService.GetWantedProductsReply { Element = new HusbandService.ListOfWantedProductDto() };
-    //        var data = new List<HusbandService.WantedProductDtoMessage>
-    //            {
-    //                new()
-    //                {
-    //                    Id = 1,
-    //                    BoughtStatus = false,
-    //                    ProductId = 1,
-    //                    WifeId = 1
-    //                }
-    //            };
-    //        result.Element.WantedProductDtoMessage.AddRange(data);
-    //        result.Successfully = true;
-    //        return result;
-    //    }
-    //}
+    
     public class WifeGreeterServiceTests
     {
 
 
         private WifeGreeterService _wifeGreeterService;
         private Mock<IHusbandServiceFactory> _husbandServiceFactory = new Mock<IHusbandServiceFactory>();
-        private Mock<HusbandGreeter.HusbandGreeterClient> _husbandServiceClent = new Mock<HusbandGreeter.HusbandGreeterClient>();
+        private Mock<HusbandGreeter.HusbandGreeterClient> _husbandServiceClient = new Mock<HusbandGreeter.HusbandGreeterClient>();
         private Mock<DbContextOptions<DbApiContext>> _optionsTown = new Mock<DbContextOptions<DbApiContext>>();
         private Mock<DbApiContext> _context = new Mock<DbApiContext>(new DbContextOptions<DbApiContext>());
         private Mock<ServerCallContext> serverCallContext = new Mock<ServerCallContext>();
@@ -52,167 +31,235 @@ namespace WifeService.Tests
         {
 
         }
+                
+        private HusbandService.GetWantedProductsReply GetWantedProductsReplyHusband(List<HusbandService.WantedProductDtoMessage> data)
+        {
+            var result = new HusbandService.GetWantedProductsReply { Element = new HusbandService.ListOfWantedProductDto() };
+            result.Element.WantedProductDtoMessage.AddRange(data);
+            result.Successfully = true;
+            return result;
+        }
         private HusbandService.GetWantedProductsReply GetWantedProductsReplyHusband()
         {
-            var result = new HusbandService.GetWantedProductsReply { Element = new HusbandService.ListOfWantedProductDto() };
-            var data = new List<HusbandService.WantedProductDtoMessage>
-                {
-                    new()
-                    {
-                        Id = 1,
-                        BoughtStatus = false,
-                        ProductId = 1,
-                        WifeId = 1
-                    }
-                };
-            result.Element.WantedProductDtoMessage.AddRange(data);
-            result.Successfully = true;
+            var result = new HusbandService.GetWantedProductsReply
+            {
+                Successfully = false,
+                ErrorMessage = new Mock<Exception>().ToString()
+            };
             return result;
         }
-        
-        private HusbandService.GetWantedProductsReply GetWantedProductsReplyHusbandAsync()
+        private HusbandService.GetTotalAmountWantedProductsReply GetTotalAmountWantedProductsReplyHusband(int data)
         {
-            var result = new HusbandService.GetWantedProductsReply { Element = new HusbandService.ListOfWantedProductDto() };
-            var data = new List<HusbandService.WantedProductDtoMessage>
-                {
-                    new()
-                    {
-                        Id = 1,
-                        BoughtStatus = false,
-                        ProductId = 1,
-                        WifeId = 1
-                    }
-                };
-            result.Element.WantedProductDtoMessage.AddRange(data);
-            result.Successfully = true;
+            var result = new HusbandService.GetTotalAmountWantedProductsReply
+            {
+                Element = data,
+                Successfully =true
+            };
             return result;
         }
-
+        private HusbandService.GetTotalAmountWantedProductsReply GetTotalAmountWantedProductsReplyHusband()
+        {
+            var result = new HusbandService.GetTotalAmountWantedProductsReply
+            {
+                Successfully = false,
+                ErrorMessage = new Mock<Exception>().ToString()
+            };
+            return result;
+        }
+        private HusbandService.BoolReply BoolReplyHusband(bool data)
+        {
+            var result = new HusbandService.BoolReply
+            {
+                Element = data,
+                Successfully = true
+            };
+            return result;
+        }
+        private HusbandService.BoolReply BoolReplyHusband()
+        {
+            var result = new HusbandService.BoolReply
+            {
+                Successfully = false,
+                ErrorMessage = new Mock<Exception>().ToString()
+            };
+            return result;
+        }
+        private HusbandService.WantedProductReply WantedProductReplyHusband(HusbandService.WantedProductDtoMessage data)
+        {
+            var result = new HusbandService.WantedProductReply
+            {
+                Element = data,
+                Successfully = true
+            };
+            return result;
+        }
+        private HusbandService.WantedProductReply WantedProductReplyHusband()
+        {
+            var result = new HusbandService.WantedProductReply
+            {
+                Successfully = false,
+                ErrorMessage = new Mock<Exception>().ToString()
+            };
+            return result;
+        }
         private AsyncUnaryCall<T> GetAsyncUnaryCall<T>(T response)
         {
             return new AsyncUnaryCall<T>(
                 Task.FromResult(response),
                 _ => Task.FromResult(new Metadata()), _ => new Status(), _ => new Metadata(), _ => { }, null);
         }
-
         [Fact]
         public async Task GetWantedProductsAsync_ShouldReturnOneWantedProduct_WhenHaveOneWantedProducts()
         {
             //Arrange
-            var resp = GetAsyncUnaryCall(GetWantedProductsReplyHusbandAsync());
+            var data = new List<HusbandService.WantedProductDtoMessage>
+                {
+                    new()
+                    {
+                        Id = 1,
+                        BoughtStatus = false,
+                        ProductId = 1,
+                        WifeId = 1
+                    }
+                };
+            var resp = GetAsyncUnaryCall(GetWantedProductsReplyHusband(data));
 
-            _husbandServiceClent.Setup(p =>
+            _husbandServiceClient.Setup(p =>
                     p.GetWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
                 .Returns(resp);
-            //_context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
 
             //Act
-            _wifeGreeterService =
+            _wifeGreeterService = 
                 new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
-            _wifeGreeterService._husbandServiceClient = _husbandServiceClent.Object;
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin },
                 serverCallContext.Object);
 
             //Assert
-
+            Assert.True(realData.Successfully);
             Assert.Single(realData.Element.WantedProductDtoMessage);
             Assert.Equal(1, realData.Element.WantedProductDtoMessage[0].Id);
-            Assert.True(realData.Element.WantedProductDtoMessage[0].BoughtStatus);
+            Assert.False(realData.Element.WantedProductDtoMessage[0].BoughtStatus);
             Assert.Equal(1, realData.Element.WantedProductDtoMessage[0].ProductId);
             Assert.Equal(1, realData.Element.WantedProductDtoMessage[0].WifeId);
         }
-
-
-
-
-
-
-
-
-        /*[Fact]
+        [Fact]
         public async Task GetWantedProductsAsync_ShouldReturnZeroList_WhenHaveZeroWantedProducts()
         {
             //Arrange
-            var data = new List<WantedProduct>();
-            _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
+            var data = new List<HusbandService.WantedProductDtoMessage>();
+            var resp = GetAsyncUnaryCall(GetWantedProductsReplyHusband(data));
 
-            //Act 
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _husbandServiceClient.Setup(p =>
+                    p.GetWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
+                .Returns(resp);
+
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
-            var some = false;
-            if (realData.Element.WantedProductDtoMessage.Count == 0)
-                some = true;
-
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Empty(realData.Element.WantedProductDtoMessage);
         }
         [Fact]
-        public async Task GetWantedProductsAsync_ShouldReturnNullException_WhenNotHaveWantedProducts()
+        public async Task GetWantedProductsAsync_ShouldReturnException_WhenHusbandReturnException()
+        {
+            //Arrange
+            var resp = GetAsyncUnaryCall(GetWantedProductsReplyHusband());
+
+            _husbandServiceClient.Setup(p =>
+                    p.GetWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
+                .Returns(resp);
+
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
+            var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
+
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task GetWantedProductsAsync_ShouldReturnException_WhenHaveException()
         {
             //Arrange
 
-            //Act 
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.GetWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
-
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
         public async Task GetTotalAmountWantedProductsAsync_ShouldReturn100_WhenHaveOneWantedProducts()
         {
             //Arrange
-            var dataWantedProduct = new List<WantedProduct>
-            {
-                new()
-                {
-                    Id = 1,
-                    BoughtStatus = false,
-                    ProductId = 1,
-                    WifeId = 1
-                }
-            };
-            var product = new Product
-            {
-                Id = 1,
-                Name = "Milk",
-                Price = 100,
-                ShopId = 1
-            };
+            var data = 100;
+            var resp = GetAsyncUnaryCall(GetTotalAmountWantedProductsReplyHusband(data));
+            _husbandServiceClient.Setup(p =>
+                    p.GetTotalAmountWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
+                .Returns(resp);
 
-            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
-            _context.Setup(p => p.Products.FindAsync(dataWantedProduct[0].ProductId)).Returns(new ValueTask<Product>(product));
-
-            //Act 
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.GetTotalAmountWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
-            int expected = 100;
-            Assert.Equal(expected, realData.Element);
+            Assert.True(realData.Successfully);
+            Assert.Equal(100, realData.Element);
         }
         [Fact]
         public async Task GetTotalAmountWantedProductsAsync_ShouldReturn0_WhenHaveZeroWantedProducts()
         {
             //Arrange
-            var dataWantedProduct = new List<WantedProduct>();
-            var dataProduct = new List<Product>();
-
-            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
-            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+            var data = 0;
+            var resp = GetAsyncUnaryCall(GetTotalAmountWantedProductsReplyHusband(data));
+            _husbandServiceClient.Setup(p =>
+                    p.GetTotalAmountWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
+                .Returns(resp);
 
             //Act
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.GetTotalAmountWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
-            int expected = 0;
-            Assert.Equal(expected, realData.Element);
+            Assert.True(realData.Successfully);
+            Assert.Equal(0, realData.Element);
         }
         [Fact]
-        public async Task GetTotalAmountWantedProductsAsync_ShouldReturnNullException_WhenNotHaveWantedProducts()
+        public async Task GetTotalAmountWantedProductsAsync_ShouldReturnException_WhenHusbandReturnException()
+        {
+            //Arrange
+            var resp = GetAsyncUnaryCall(GetTotalAmountWantedProductsReplyHusband());
+            _husbandServiceClient.Setup(p =>
+                    p.GetTotalAmountWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
+                .Returns(resp);
+            
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
+            var realData = await _wifeGreeterService.GetTotalAmountWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
+
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task GetTotalAmountWantedProductsAsync_ShouldReturnException_WhenHaveException()
         {
             //Arrange
 
@@ -221,248 +268,333 @@ namespace WifeService.Tests
             var realData = await _wifeGreeterService.GetTotalAmountWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
-
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
         public async Task RemoveWantedProduct_ShouldReturnTrue_WhenOneWantedProducts()
         {
             //Arrange
-            var dataWantedProduct = new List<WantedProduct>
-            {
-                new()
-                {
-                    Id = 1,
-                    BoughtStatus = false,
-                    ProductId = 1,
-                    WifeId = 1
-                }
-            };
-            var wantedproduct = new WantedProduct
-            {
-                Id = 1,
-                BoughtStatus = false,
-                ProductId = 1,
-                WifeId = 1
-            };
-            var wantedProductId = 1;
-            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
-            _context.Setup(p => p.WantedProducts.FindAsync(wantedProductId)).Returns(new ValueTask<WantedProduct>(wantedproduct));
+            var data = true;
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(BoolReplyHusband(data));
+            _husbandServiceClient.Setup(p =>
+                    p.RemoveWantedProductAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
+
             //Act
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.RemoveWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.True(realData.Element);
         }
         [Fact]
         public async Task RemoveWantedProduct_ShouldReturnFalse_WhenZeroWantedProducts()
         {
             //Arrange
-            var data = new List<WantedProduct>();
-            var wantedProductId = 1;
-            _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
+            var data = false;
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(BoolReplyHusband(data));
+            _husbandServiceClient.Setup(p =>
+                    p.RemoveWantedProductAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
 
             //Act
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.RemoveWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.False(realData.Element);
         }
         [Fact]
-        public async Task RemoveWantedProduct_ShouldReturnNullException_WhenNotHaveWantedProducts()
+        public async Task RemoveWantedProduct_ShouldReturnException_WheHusbandReturnException()
         {
             //Arrange
-            var wantedProductId = 1;
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(BoolReplyHusband());
+            _husbandServiceClient.Setup(p =>
+                    p.RemoveWantedProductAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
 
             //Act
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.RemoveWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task RemoveWantedProduct_ShouldReturnException_WhenHaveException()
+        {
+            //Arrange
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            var realData = await _wifeGreeterService.RemoveWantedProduct(itemRequest, serverCallContext.Object);
+
+            //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
         public async Task RemoveAllWantedProducts_ShouldReturnTrue_WhenOneWantedProduct()
         {
             //Arrange
-            var dataWantedProduct = new List<WantedProduct>
-            {
-                new()
-                {
-                    Id = 1,
-                    BoughtStatus = false,
-                    ProductId = 1,
-                    WifeId = 1
-                }
-            };
-
-            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
+            var data = true;
+            var resp = GetAsyncUnaryCall(BoolReplyHusband(data));
+            _husbandServiceClient.Setup(p =>
+                    p.RemoveAllWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
+                .Returns(resp);
 
             //Act
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.RemoveAllWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.True(realData.Element);
         }
         [Fact]
-        public async Task RemoveAllWantedProducts_ShouldReturnTrue_WhenZeroWantedProduct()
+        public async Task RemoveAllWantedProducts_ShouldReturnFalse_WhenZeroWantedProduct()
         {
             //Arrange
-            var data = new List<WantedProduct>();
-            _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
+            var data = false;
+            var resp = GetAsyncUnaryCall(BoolReplyHusband(data));
+            _husbandServiceClient.Setup(p =>
+                    p.RemoveAllWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
+                .Returns(resp);
 
             //Act
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.RemoveAllWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
-            Assert.True(realData.Element);
+            Assert.True(realData.Successfully);
+            Assert.False(realData.Element);
         }
         [Fact]
-        public async Task RemoveAllWantedProducts_ShouldReturnNullException_WhenNotHaveWantedProducts()
+        public async Task RemoveAllWantedProducts_ShouldReturnException_WhenHusbandReturnException()
         {
             //Arrange
+            var resp = GetAsyncUnaryCall(BoolReplyHusband());
+            _husbandServiceClient.Setup(p =>
+                    p.RemoveAllWantedProductsAsync(It.IsAny<HusbandService.UserLoginRequest>(), null, null, default))
+                .Returns(resp);
+
             //Act
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.RemoveAllWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task RemoveAllWantedProducts_ShouldReturnException_WhenHaveException()
+        {
+            //Arrange
+            
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            var realData = await _wifeGreeterService.RemoveAllWantedProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
+
+            //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
         public async Task GetWantedProductItemAsync_ShouldReturnTrue_WhenOneWantedProducts()
         {
             //Arrange
-            var dataWantedProduct = new List<WantedProduct>
-            {
-                new()
-                {
-                    Id = 1,
-                    BoughtStatus = false,
-                    ProductId = 1,
-                    WifeId = 1
-                }
-            };
-            var wantedproduct = new WantedProduct
+            var data = new HusbandService.WantedProductDtoMessage
             {
                 Id = 1,
                 BoughtStatus = false,
                 ProductId = 1,
                 WifeId = 1
             };
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(WantedProductReplyHusband(data));
 
-            var wantedProductId = 1;
-            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
-            _context.Setup(p => p.WantedProducts.FindAsync(wantedProductId)).Returns(new ValueTask<WantedProduct>(wantedproduct));
+            _husbandServiceClient.Setup(p =>
+                    p.GetWantedProductItemAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
+
             //Act
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.GetWantedProductItem(itemRequest, serverCallContext.Object);
 
-            //Assert
-            var actual = realData.Element;
-            var some = false;
-            if (actual.Id == 1
-                    && actual.BoughtStatus == false
-                    && actual.ProductId == 1
-                    && actual.WifeId == 1) some = true;
-
-            Assert.True(some);
+            //Assert            
+            Assert.True(realData.Successfully);
+            Assert.Equal(1, realData.Element.Id);
+            Assert.False(realData.Element.BoughtStatus);
+            Assert.Equal(1, realData.Element.ProductId);
+            Assert.Equal(1, realData.Element.WifeId);
         }
         [Fact]
         public async Task GetWantedProductItemAsync_ShouldReturnNULL_WhenZeroWantedProducts()
         {
             //Arrange
-            var data = new List<WantedProduct>();
-            var wantedProductId = 1;
-            _context.Setup(p => p.WantedProducts).Returns(data.BuildMockDbSet());
+            var data = new HusbandService.WantedProductDtoMessage();
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(WantedProductReplyHusband(data));
 
-            //Act 
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _husbandServiceClient.Setup(p =>
+                    p.GetWantedProductItemAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
+
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.GetWantedProductItem(itemRequest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
-        public async Task GetWantedProductItemAsync_ShouldReturnNullException_WhenNotHaveWantedProducts()
+        public async Task GetWantedProductItemAsync_ShouldReturnException_WhenHusbandReturnException()
         {
             //Arrange
-            var wantedProductId = 1;
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(WantedProductReplyHusband());
+            _husbandServiceClient.Setup(p =>
+                    p.GetWantedProductItemAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
 
-            //Act 
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.GetWantedProductItem(itemRequest, serverCallContext.Object);
 
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task AddProduct_ShouldReturnTrue_WhenAddOneWantedProducts()
+        public async Task GetWantedProductItemAsync_ShouldReturnException_WhenHaveException()
         {
             //Arrange
-            var dataWantedProduct = new List<WantedProduct>();
-            var product = new Product
-            {
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            var realData = await _wifeGreeterService.GetWantedProductItem(itemRequest, serverCallContext.Object);
+
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
+        [Fact]
+        public async Task AddWantedProduct_ShouldReturnTrue_WhenAddOneWantedProducts()
+        {
+            //Arrange
+            var data = new HusbandService.WantedProductDtoMessage 
+            { 
                 Id = 1,
-                Name = "Milk",
-                Price = 100,
-                ShopId = 1
+                BoughtStatus = false,
+                ProductId = 1,
+                WifeId = 1
             };
-            var wantedProductId = 1;
-            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
-            _context.Setup(p => p.Products.FindAsync(wantedProductId)).Returns(new ValueTask<Product>(product));
-            //Act 
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(WantedProductReplyHusband(data));
+
+            _husbandServiceClient.Setup(p =>
+                    p.AddWantedProductAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
+
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.AddWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
-            var some = false;
-            if (realData.Element.ProductId == 1) some = true;
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Equal(1, realData.Element.Id);
+            Assert.False(realData.Element.BoughtStatus);
+            Assert.Equal(1, realData.Element.ProductId);
+            Assert.Equal(1, realData.Element.WifeId);
         }
         [Fact]
-        public async Task AddProduct_ShouldReturnNULL_WhenZeroProducts()
+        public async Task AddWantedProduct_ShouldReturnNULL_WhenZeroProducts()
         {
             //Arrange
-            var wantedProductId = 1;
-            var dataWantedProduct = new List<WantedProduct>();
-            var dataProduct = new List<Product>();
+            var data = new HusbandService.WantedProductDtoMessage();
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(WantedProductReplyHusband(data));
 
-            _context.Setup(p => p.WantedProducts).Returns(dataWantedProduct.BuildMockDbSet());
-            _context.Setup(p => p.Products).Returns(dataProduct.BuildMockDbSet());
+            _husbandServiceClient.Setup(p =>
+                    p.AddWantedProductAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
 
-            //Act 
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.AddWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
-            var expected = 0;
-            Assert.Equal(expected, realData.Element.Id);
+            Assert.True(realData.Successfully);
+            Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
-        public async Task AddProduct_ShouldReturnNullException_WhenNotHaveProducts()
+        public async Task AddWantedProduct_ShouldReturnException_WhenHusbandReturnException()
         {
             //Arrange
-            var wantedProductId = 1;
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+            var resp = GetAsyncUnaryCall(WantedProductReplyHusband());
 
-            //Act 
-            var itemRequest = new ItemRequest { Id = wantedProductId, UserLogin = userLogin };
-            _wifeGreeterService = new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _husbandServiceClient.Setup(p =>
+                    p.AddWantedProductAsync(It.IsAny<HusbandService.ItemRequest>(), null, null, default))
+                .Returns(resp);
+
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            _wifeGreeterService._husbandServiceClient = _husbandServiceClient.Object;
             var realData = await _wifeGreeterService.AddWantedProduct(itemRequest, serverCallContext.Object);
 
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
-        }*/
+        }
+        [Fact]
+        public async Task AddWantedProduct_ShouldReturnException_WhenHaveException()
+        {
+            //Arrange
+            var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
+
+            //Act
+            _wifeGreeterService =
+                new WifeGreeterService(_context.Object, _logger.Object, _husbandServiceFactory.Object);
+            var realData = await _wifeGreeterService.AddWantedProduct(itemRequest, serverCallContext.Object);
+
+            //Assert
+            Assert.False(realData.Successfully);
+            Assert.NotNull(realData.ErrorMessage);
+        }
     }
 }

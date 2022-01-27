@@ -138,7 +138,7 @@ namespace AdminService.Services
                         _logger.LogError(shopItem.ExceptionMessage, $"GetShopAsync id: {id}");
                         return new ShopReply { ErrorMessage = shopItem.ExceptionMessage.Message, Successfully = false };
                     }
-                    return null;
+                    return new ShopReply { Successfully = true };
                 }
                 var shopDtoMessage = ShopDto.ItemShopDTOMessage(shopItem.Element);
                 var result = new ShopReply { Element = shopDtoMessage, Successfully = true };

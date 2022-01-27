@@ -109,7 +109,7 @@ namespace WifeService.Tests
                 _ => Task.FromResult(new Metadata()), _ => new Status(), _ => new Metadata(), _ => { }, null);
         }
         [Fact]
-        public async Task GetWantedProductsAsync_ShouldReturnOneWantedProduct_WhenHaveOneWantedProducts()
+        public async Task GetWantedProducts_ShouldReturnOneWantedProduct_WhenHaveOneWantedProducts()
         {
             //Arrange
             var data = new List<HusbandService.WantedProductDtoMessage>
@@ -144,7 +144,7 @@ namespace WifeService.Tests
             Assert.Equal(1, realData.Element.WantedProductDtoMessage[0].WifeId);
         }
         [Fact]
-        public async Task GetWantedProductsAsync_ShouldReturnZeroList_WhenHaveZeroWantedProducts()
+        public async Task GetWantedProducts_ShouldReturnZeroList_WhenHaveZeroWantedProducts()
         {
             //Arrange
             var data = new List<HusbandService.WantedProductDtoMessage>();
@@ -165,7 +165,7 @@ namespace WifeService.Tests
             Assert.Empty(realData.Element.WantedProductDtoMessage);
         }
         [Fact]
-        public async Task GetWantedProductsAsync_ShouldReturnException_WhenHusbandReturnException()
+        public async Task GetWantedProducts_ShouldReturnException_WhenHusbandReturnException()
         {
             //Arrange
             var resp = GetAsyncUnaryCall(GetWantedProductsReplyHusband());
@@ -185,7 +185,7 @@ namespace WifeService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetWantedProductsAsync_ShouldReturnException_WhenHaveException()
+        public async Task GetWantedProducts_ShouldReturnException_WhenHaveException()
         {
             //Arrange
 
@@ -200,7 +200,7 @@ namespace WifeService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetTotalAmountWantedProductsAsync_ShouldReturn100_WhenHaveOneWantedProducts()
+        public async Task GetTotalAmountWantedProducts_ShouldReturn100_WhenHaveOneWantedProducts()
         {
             //Arrange
             var data = 100;
@@ -220,7 +220,7 @@ namespace WifeService.Tests
             Assert.Equal(100, realData.Element);
         }
         [Fact]
-        public async Task GetTotalAmountWantedProductsAsync_ShouldReturn0_WhenHaveZeroWantedProducts()
+        public async Task GetTotalAmountWantedProducts_ShouldReturn0_WhenHaveZeroWantedProducts()
         {
             //Arrange
             var data = 0;
@@ -240,7 +240,7 @@ namespace WifeService.Tests
             Assert.Equal(0, realData.Element);
         }
         [Fact]
-        public async Task GetTotalAmountWantedProductsAsync_ShouldReturnException_WhenHusbandReturnException()
+        public async Task GetTotalAmountWantedProducts_ShouldReturnException_WhenHusbandReturnException()
         {
             //Arrange
             var resp = GetAsyncUnaryCall(GetTotalAmountWantedProductsReplyHusband());
@@ -259,7 +259,7 @@ namespace WifeService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetTotalAmountWantedProductsAsync_ShouldReturnException_WhenHaveException()
+        public async Task GetTotalAmountWantedProducts_ShouldReturnException_WhenHaveException()
         {
             //Arrange
 
@@ -421,7 +421,7 @@ namespace WifeService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetWantedProductItemAsync_ShouldReturnTrue_WhenOneWantedProducts()
+        public async Task GetWantedProductItem_ShouldReturnTrue_WhenOneWantedProducts()
         {
             //Arrange
             var data = new HusbandService.WantedProductDtoMessage
@@ -452,7 +452,7 @@ namespace WifeService.Tests
             Assert.Equal(1, realData.Element.WifeId);
         }
         [Fact]
-        public async Task GetWantedProductItemAsync_ShouldReturnNULL_WhenZeroWantedProducts()
+        public async Task GetWantedProductItem_ShouldReturnNULL_WhenZeroWantedProducts()
         {
             //Arrange
             var data = new HusbandService.WantedProductDtoMessage();
@@ -474,7 +474,7 @@ namespace WifeService.Tests
             Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
-        public async Task GetWantedProductItemAsync_ShouldReturnException_WhenHusbandReturnException()
+        public async Task GetWantedProductItem_ShouldReturnException_WhenHusbandReturnException()
         {
             //Arrange
             var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };
@@ -494,7 +494,7 @@ namespace WifeService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetWantedProductItemAsync_ShouldReturnException_WhenHaveException()
+        public async Task GetWantedProductItem_ShouldReturnException_WhenHaveException()
         {
             //Arrange
             var itemRequest = new ItemRequest { Id = 1, UserLogin = userLogin };

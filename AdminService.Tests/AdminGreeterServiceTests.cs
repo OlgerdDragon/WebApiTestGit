@@ -26,7 +26,7 @@ namespace AdminService.Tests
             
         }
         [Fact]
-        public async Task GetProductsAsync_ShouldReturnOneProduct_WhenHaveOneProduct()
+        public async Task GetProducts_ShouldReturnOneProduct_WhenHaveOneProduct()
         {
             //Arrange
             var data = new List<Product>
@@ -34,12 +34,11 @@ namespace AdminService.Tests
                 new()
                 {
                     Id=1,
-                    Name = "Salo",
+                    Name = "Milk",
                     Price = 100,
                     ShopId = 1
                 }
             };
-
             _context.Setup(p => p.Products).Returns(data.BuildMockDbSet());
 
             //Act
@@ -47,17 +46,15 @@ namespace AdminService.Tests
             var realData = await _adminService.GetProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
-            var some = false;
-            if (realData.Element.ProductDtoMessage.Count == 1
-                    && realData.Element.ProductDtoMessage[0].Id == 1
-                    && realData.Element.ProductDtoMessage[0].Name == "Salo"
-                    && realData.Element.ProductDtoMessage[0].Price == 100
-                    && realData.Element.ProductDtoMessage[0].ShopId == 1) some = true;
-
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Single(realData.Element.ProductDtoMessage);
+            Assert.Equal(1, realData.Element.ProductDtoMessage[0].Id);
+            Assert.Equal("Milk", realData.Element.ProductDtoMessage[0].Name);
+            Assert.Equal(100, realData.Element.ProductDtoMessage[0].Price);
+            Assert.Equal(1, realData.Element.ProductDtoMessage[0].ShopId);
         }
         [Fact]
-        public async Task GetProductsAsync_ShouldReturnZeroList_WhenHaveZeroProducts()
+        public async Task GetProducts_ShouldReturnZeroList_WhenHaveZeroProducts()
         {
             //Arrange
             var data = new List<Product>();
@@ -68,14 +65,11 @@ namespace AdminService.Tests
             var realData = await _adminService.GetProducts(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
 
             //Assert
-            var some = false;
-            if (realData.Element.ProductDtoMessage.Count == 0)
-                some = true;
-
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Empty(realData.Element.ProductDtoMessage);
         }
         [Fact]
-        public async Task GetProductsAsync_ShouldReturnNullException_WhenNotHaveProducts()
+        public async Task GetProducts_ShouldReturnNullException_WhenNotHaveProducts()
         {
             //Arrange
             //Act
@@ -86,7 +80,7 @@ namespace AdminService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetShopsAsync_ShouldReturnOneShop_WhenHaveOneShops()
+        public async Task GetShops_ShouldReturnOneShop_WhenHaveOneShops()
         {
             //Arrange
             var data = new List<Shop>
@@ -102,16 +96,13 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShops(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
             //Assert
-            var some = false;
-            if (realData.Element.ShopDtoMessage.Count == 1)
-            {
-                if (realData.Element.ShopDtoMessage[0].Id == 1 
-                    && realData.Element.ShopDtoMessage[0].Name == "Metro") some = true;
-            }
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Single(realData.Element.ShopDtoMessage);
+            Assert.Equal(1, realData.Element.ShopDtoMessage[0].Id);
+            Assert.Equal("Metro", realData.Element.ShopDtoMessage[0].Name);
         }
         [Fact]
-        public async Task GetShopsAsync_ShouldReturnZeroList_WhenHaveZeroShops()
+        public async Task GetShops_ShouldReturnZeroList_WhenHaveZeroShops()
         {
             //Arrange
             var data = new List<Shop>();
@@ -120,13 +111,11 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShops(new UserLoginRequest() { UserLogin = userLogin }, serverCallContext.Object);
             //Assert
-            var some = false;
-            if (realData.Element.ShopDtoMessage.Count == 0)
-                some = true;
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Empty(realData.Element.ShopDtoMessage);
         }
         [Fact]
-        public async Task GetShopsAsync_ShouldReturnNullException_WhenNotHaveShops()
+        public async Task GetShops_ShouldReturnNullException_WhenNotHaveShops()
         {
             //Arrange
             //Act
@@ -137,7 +126,7 @@ namespace AdminService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task UpdateShopAsync_ShouldReturnOneShop_WhenHaveOneShops()
+        public async Task UpdateShop_ShouldReturnOneShop_WhenHaveOneShops()
         {
             //Arrange
             var data = new List<Shop>
@@ -160,13 +149,10 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
             //Assert
-            var some = false;
-            if (realData.Element.Id == 1
-                && realData.Element.Name == "Metro") some = true;
-            Assert.True(some);
+            
         }
         [Fact]
-        public async Task UpdateShopAsync_ShouldReturnNullShopDto_WhenNullShopDto()
+        public async Task UpdateShop_ShouldReturnNullShopDto_WhenNullShopDto()
         {
             //Arrange
             var dataShop = new List<Shop>
@@ -188,7 +174,7 @@ namespace AdminService.Tests
             Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
-        public async Task UpdateShopAsync_ShouldReturnNullShopDto_WhenNotHaveShopDto()
+        public async Task UpdateShop_ShouldReturnNullShopDto_WhenNotHaveShopDto()
         {
             //Arrange
             var dataShop = new List<Shop>
@@ -210,10 +196,11 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateShop(shopRequest, serverCallContext.Object);
             //Assert 
+            Assert.False(realData.Successfully);
             Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
-        public async Task UpdateShopAsync_ShouldReturnNullException_WhenNotHaveShops()
+        public async Task UpdateShop_ShouldReturnNullException_WhenNotHaveShops()
         {
             //Arrange
             var shopDto = new ShopDtoMessage
@@ -232,7 +219,7 @@ namespace AdminService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task UpdateProductAsync_ShouldReturnOneShop_WhenHaveOneShops()
+        public async Task UpdateProduct_ShouldReturnOneShop_WhenHaveOneShops()
         {
             //Arrange
             var data = new List<Product>
@@ -258,13 +245,12 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
-            var some = false;
-            if (realData.Element.Id == 1
-                && realData.Element.Name == "Metro") some = true;
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Equal(1, realData.Element.Id);
+            Assert.Equal("Metro", realData.Element.Name);
         }
         [Fact]
-        public async Task UpdateProductAsync_ShouldReturnNullProductDto_WhenNullProductDto()
+        public async Task UpdateProduct_ShouldReturnNullProductDto_WhenNullProductDto()
         {
             //Arrange
             var data = new List<Product>
@@ -284,10 +270,11 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
-        public async Task UpdateProductAsync_ShouldReturnNullProductDto_WhenNotHaveProductDto()
+        public async Task UpdateProduct_ShouldReturnNullProductDto_WhenNotHaveProductDto()
         {
             //Arrange
             var data = new List<Product>
@@ -313,10 +300,11 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.UpdateProduct(productRequest, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.Equal(0, realData.Element.Id);
         }
         [Fact]
-        public async Task UpdateProductAsync_ShouldReturnNullException_WhenNotHaveShops()
+        public async Task UpdateProduct_ShouldReturnNullException_WhenNotHaveShops()
         {
             //Arrange
             var producDto = new ProductDtoMessage
@@ -360,7 +348,7 @@ namespace AdminService.Tests
             var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
-
+            Assert.True(realData.Successfully);
             Assert.True(realData.Element);
         }
         [Fact]
@@ -384,6 +372,7 @@ namespace AdminService.Tests
             var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.False(realData.Element);
         }
         [Fact]
@@ -404,6 +393,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.False(realData.Element);
         }
         [Fact]
@@ -422,6 +412,7 @@ namespace AdminService.Tests
             var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.False(realData.Element);
         }
         [Fact]
@@ -443,6 +434,7 @@ namespace AdminService.Tests
             var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.False(realData.Element);
         }
         [Fact]
@@ -464,6 +456,7 @@ namespace AdminService.Tests
             var realData = await _adminService.AddProduct(productRequest, serverCallContext.Object);
 
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
@@ -485,6 +478,7 @@ namespace AdminService.Tests
             var realData = await _adminService.AddShop(shopRequest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.True(realData.Element);
         }
         [Fact]
@@ -501,6 +495,7 @@ namespace AdminService.Tests
             var realData = await _adminService.AddShop(shopRequest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.False(realData.Element);
         }
         [Fact]
@@ -517,6 +512,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.AddShop(shopRequest, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
@@ -537,6 +533,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.RemoveProduct(itemRquest, serverCallContext.Object);
             //Assert
+            Assert.True(realData.Successfully);
             Assert.True(realData.Element);
         }
         [Fact]
@@ -551,6 +548,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.RemoveProduct(itemRquest, serverCallContext.Object);
             //Assert
+            Assert.True(realData.Successfully);
             Assert.False(realData.Element);
         }
         [Fact]
@@ -571,6 +569,7 @@ namespace AdminService.Tests
             var realData = await _adminService.RemoveProduct(itemRquest, serverCallContext.Object);
 
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
@@ -591,6 +590,7 @@ namespace AdminService.Tests
             var realData = await _adminService.RemoveShop(itemRquest, serverCallContext.Object);
 
             //Assert
+            Assert.True(realData.Successfully);
             Assert.True(realData.Element);
         }
         [Fact]
@@ -605,6 +605,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.RemoveShop(itemRquest, serverCallContext.Object);
             //Assert
+            Assert.True(realData.Successfully);
             Assert.False(realData.Element);
         }
         [Fact]
@@ -617,16 +618,17 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.RemoveShop(itemRquest, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetShopAsync_ShouldReturnOneShopDto_When1()
+        public async Task GetShop_ShouldReturnOneShopDto_When1()
         {
             //Arrange
             var shop = new Shop
             {
                 Id = 1,
-                Name = "ATB"
+                Name = "Metro"
             };
             var shopId = 1;
             _context.Setup(p => p.Shops.FindAsync(shopId)).Returns(new ValueTask<Shop>(shop));
@@ -637,13 +639,12 @@ namespace AdminService.Tests
             var realData = await _adminService.GetShop(itemRquest, serverCallContext.Object);
 
             //Assert
-            var some = false;
-            if (realData.Element.Id == 1
-                && realData.Element.Name == "ATB") some = true;
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Equal(1, realData.Element.Id);
+            Assert.Equal("Metro", realData.Element.Name);
         }
         [Fact]
-        public async Task GetShopAsync_ShouldReturnNULL_WhenNotHaveNeededShop()
+        public async Task GetShop_ShouldReturnNULL_WhenNotHaveNeededShop()
         {
             //Arrange
             var dataShop = new List<Shop>();
@@ -654,10 +655,11 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.GetShop(itemRquest, serverCallContext.Object);
             //Assert
-            Assert.Null(realData);
+            Assert.True(realData.Successfully);
+            Assert.Null(realData.Element);
         }
         [Fact]
-        public async Task GetShopAsync_ShouldReturnNullException_WhenNotHaveShops()
+        public async Task GetShop_ShouldReturnNullException_WhenNotHaveShops()
         {
             //Arrange
             var shopId = 1;
@@ -667,10 +669,11 @@ namespace AdminService.Tests
             var realData = await _adminService.GetShop(itemRquest, serverCallContext.Object);
 
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetProductAsync_ShouldReturnOneProduct_When1()
+        public async Task GetProduct_ShouldReturnOneProduct_When1()
         {
             //Arrange
             var product = new Product
@@ -682,20 +685,21 @@ namespace AdminService.Tests
             };
             var productId = 1;
             _context.Setup(p => p.Products.FindAsync(productId)).Returns(new ValueTask<Product>(product));
+
             //Act
             var itemRquest = new ItemRequest { Id = productId, UserLogin = userLogin };
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.GetProduct(itemRquest, serverCallContext.Object);
+
             //Assert
-            var some = false;
-            if (realData.Element.Id == 1
-                && realData.Element.Name == "Milk"
-                && realData.Element.Price == 100
-                && realData.Element.ShopId == 1) some = true;
-            Assert.True(some);
+            Assert.True(realData.Successfully);
+            Assert.Equal(1, realData.Element.Id);
+            Assert.Equal("Milk", realData.Element.Name);
+            Assert.Equal(100, realData.Element.Price);
+            Assert.Equal(1, realData.Element.ShopId);
         }
         [Fact]
-        public async Task GetProductAsync_ShouldReturnNULL_WhenNotHaveNeededProduct()
+        public async Task GetProduct_ShouldReturnNULL_WhenNotHaveNeededProduct()
         {
             //Arrange
             var dataProduct = new List<Product>();
@@ -709,7 +713,7 @@ namespace AdminService.Tests
             Assert.Null(realData.Element);
         }
         [Fact]
-        public async Task GetProductAsync_ShouldReturnNullException_WhenNotHaveShops()
+        public async Task GetProduct_ShouldReturnNullException_WhenNotHaveShops()
         {
             //Arrange
             var productId = 1;
@@ -718,6 +722,7 @@ namespace AdminService.Tests
             _adminService = new AdminGreeterService(_context.Object, _logger.Object);
             var realData = await _adminService.GetProduct(itemRquest, serverCallContext.Object);
             //Assert
+            Assert.False(realData.Successfully);
             Assert.NotNull(realData.ErrorMessage);
         }
 
@@ -729,7 +734,7 @@ namespace AdminService.Tests
 
 
         [Fact]
-        public async Task GetShopsForVisitAsync_ShouldReturnOneProduct_When1()
+        public async Task GetShopsForVisit_ShouldReturnOneProduct_When1()
         {
             //Arrange
             var shop = new Shop
@@ -774,7 +779,7 @@ namespace AdminService.Tests
             Assert.Equal("ATB", realData.Element.ShopDtoMessage[0].Name);
         }
         [Fact]
-        public async Task GetShopsForVisitAsync_ShouldReturnException_WhenNotHaveProduct()
+        public async Task GetShopsForVisit_ShouldReturnException_WhenNotHaveProduct()
         {
             //Arrange
             var shop = new Shop
@@ -811,7 +816,7 @@ namespace AdminService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetShopsForVisitAsync_ShouldReturnException_WhenNotHaveShop()
+        public async Task GetShopsForVisit_ShouldReturnException_WhenNotHaveShop()
         {
             //Arrange
             var shop = new List<Shop>();
@@ -851,7 +856,7 @@ namespace AdminService.Tests
             Assert.NotNull(realData.ErrorMessage);
         }
         [Fact]
-        public async Task GetShopsForVisitAsync_ShouldReturnException_WhenHaveException()
+        public async Task GetShopsForVisit_ShouldReturnException_WhenHaveException()
         {
             //Arrange
             var getShopsForVisitRequest = new GetShopsForVisitRequest
